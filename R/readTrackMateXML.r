@@ -1,12 +1,12 @@
 #' Read TrackMate XML output files.
 #'
-#' Produces a data frame of all spots from filtered tracks, ordered by track number.
+#' Produces a data frame of all spots from filtered tracks, ordered by track number. A warning is generated if the scaling is in pixels rather than real units.
 #'
 #' @param XMLpath path to the xml file
 #' @return data frame
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' df <- readTrackMateXML(XMLpath = xmlPath)
+#' data <- readTrackMateXML(XMLpath = xmlPath)
 #' @export
 
 readTrackMateXML<- function(XMLpath){
@@ -38,6 +38,14 @@ readTrackMateXML<- function(XMLpath){
   subdoc <- getNodeSet(e,"//AllSpots//SpotsInFrame//Spot")
   sublist <- getNodeSet(e,"//FeatureDeclarations//SpotFeatures//Feature/@feature")
   attrName <- c("name",unlist(sublist))
+  # what are the units?
+  spaceunit <- getNodeSet(e,"//Model/@spatialunits")
+  timeunit <- getNodeSet(e,"//Model/@timeunits")
+  unitvec <- c(unlist(spaceunit),unlist(timeunit))
+  cat("Units are: ",unitvec,"\n")
+  if(unitvec[1] == "pixel") {
+    cat("WARNING: Consider transforming to real units\n")
+  }
 
   # multicore processing
   chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
@@ -66,7 +74,7 @@ readTrackMateXML<- function(XMLpath){
   headerNames <- gsub("^position\\w","",headerNames,ignore.case = T)
   names(dtf) <- headerNames
 
-  cat("Matching to track data...\n")
+  cat("Matching track data...\n")
 
   # trace is an alternative name for track
   IDtrace <- data.frame(name = NA, trace = NA, displacement = NA, speed = NA)

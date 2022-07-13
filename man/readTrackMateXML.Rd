@@ -13,9 +13,9 @@ readTrackMateXML(XMLpath)
 data frame
 }
 \description{
-Produces a data frame of all spots from filtered tracks, ordered by track number.
+Produces a data frame of all spots from filtered tracks, ordered by track number. A warning is generated if the scaling is in pixels rather than real units.
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-df <- readTrackMateXML(XMLpath = xmlPath)
+data <- readTrackMateXML(XMLpath = xmlPath)
 }
