@@ -13,4 +13,6 @@ RoxygenNote: 7.2.0
 Imports:
   XML,
   doParallel,
-  foreach
+  foreach,
+  ggplot2,
+  dplyr
