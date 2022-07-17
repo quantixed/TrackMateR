@@ -4,10 +4,12 @@
 \alias{calculateMSD}
 \title{Calculate Mean Squared Displacement (MSD)}
 \usage{
-calculateMSD(df, N = 4, short = 0)
+calculateMSD(df, method = "timeaveraged", N = 4, short = 0)
 }
 \arguments{
 \item{df}{data frame must include at a minimum - trace (track ID), x, y and t (in real coords)}
+
+\item{method}{string. Either "ensemble" or "timeaveraged" (default)}
 
 \item{N}{numeric variable for MSD. dt should be up to 1/N of number of data points (4 recommended)}
 
@@ -17,11 +19,17 @@ calculateMSD(df, N = 4, short = 0)
 data frame
 }
 \description{
+Calculation of the MSD of multiple tracks.
+There are two methods for everaging MSD data from multiple tracks:
+ensemble = for each time lag average all squared displacements from all tracks
+time-averaged = find MSD for each track and then generate the average MSD from these curves
+The MSD curves will be identical if all tracks are the same length, and diverge if not.
+Standard deviation will be large for ensemble and smaller for time-averaged data.
 Input is a data frame of tracks imported using readTrackMateXML()
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
 data <- readTrackMateXML(XMLpath = xmlPath)
 data <- correctTrackMateData(data, xy = 0.04)
-msdDF <- calculateMSD(data, N = 3, short = 8)
+msdDF <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
 }

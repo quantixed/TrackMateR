@@ -11,6 +11,7 @@
 #' @importFrom graphics frame
 #' @importFrom stats quantile
 #' @importFrom stats sd
+#' @importFrom stats lm
 #' @importFrom utils data
 #' @import ggplot2
 #' @import dplyr
