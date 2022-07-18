@@ -1,6 +1,7 @@
 #' Read TrackMate XML output files.
 #'
-#' Produces a data frame of all spots from filtered tracks, ordered by track number. A warning is generated if the scaling is in pixels rather than real units.
+#' Produces a data frame of all spots from filtered tracks, ordered by track number.
+#' A warning is generated if the scaling is in pixels rather than real units.
 #'
 #' @param XMLpath path to the xml file
 #' @return data frame

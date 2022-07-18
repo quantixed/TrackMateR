@@ -4,7 +4,9 @@ Analysis of TrackMate XML outputs in R
 
 [TrackMate](https://imagej.net/plugins/trackmate/) is a single-particle tracking plugin for ImageJ/Fiji [[1]](#1)[[2]](#2). The standard output from a tracking session is in TrackMate XML format.
 
-The goal of this R package is to import all of the data associated with the final filtered tracks for further analaysis and visualization in R. This package builds on initial work by Julien Godet on [trackR](https://github.com/jgodet/trackR).
+The goal of this R package is to import all of the data associated with the final filtered tracks in TrackMate for further analaysis and visualization in R. This package builds on initial work by Julien Godet on [trackR](https://github.com/jgodet/trackR).
+
+**This package is under development and should not be considered stable until its first release.**
 
 ## References
 <a id="1">[1]</a> 

@@ -42,7 +42,7 @@ plotMSD <- function(df, units = "s", bars = TRUE, xlog = FALSE, ylog = FALSE) {
   }
 
   p <- p + geom_line(aes(x = t, y = pred, col = "red")) +
-    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = -Inf, y = Inf), hjust = 0, vjust = 1) +
+    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(df$t), y = Inf), hjust = 0, vjust = 1) +
     labs(x = xlab, y = "MSD") +
     theme_classic() +
     theme(legend.position = "none")

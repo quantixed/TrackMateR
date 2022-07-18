@@ -13,7 +13,9 @@
 #' @importFrom stats sd
 #' @importFrom stats lm
 #' @importFrom utils data
+#' @importFrom zoo rollmean
 #' @import ggplot2
 #' @import dplyr
+#' @import patchwork
 NULL
 #> NULL
