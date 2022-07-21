@@ -19,7 +19,7 @@
 #' @export
 
 
-plotMSD <- function(df, units = "s", bars = TRUE, xlog = FALSE, ylog = FALSE) {
+plotMSD <- function(df, units = "s", bars = FALSE, xlog = FALSE, ylog = FALSE) {
   xlab <- paste0("Time (",units,")")
   pred <- NULL
 

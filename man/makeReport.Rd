@@ -4,7 +4,7 @@
 \alias{makeReport}
 \title{Make Report}
 \usage{
-makeReport(df, msddf, titleStr)
+makeReport(df, msddf, titleStr, subStr)
 }
 \arguments{
 \item{df}{imported TrackMate data with correct units}
@@ -12,18 +12,22 @@ makeReport(df, msddf, titleStr)
 \item{msddf}{MSD summary = output from calculateMSD()}
 
 \item{titleStr}{string used as the title for the report}
+
+\item{subStr}{string used as the subtitle for the report}
 }
 \value{
 patchwork ggplot
 }
 \description{
 Generate several plots to visualise TrackMate data and generate a report.
+Note that the units are hard-coded as um and s.
+The use of um is because ggsave does not currently save unicode to PDF reliably.
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
 data <- readTrackMateXML(XMLpath = xmlPath)
 data <- correctTrackMateData(data, xy = 0.04)
 msdDF <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
-fileName <- tools::file_path_sans_ext(xmlPath)
-makeReport(data, msdDF, fileName)
+fileName <- tools::file_path_sans_ext(basename(xmlPath))
+makeReport(data, msdDF, "", fileName)
 }

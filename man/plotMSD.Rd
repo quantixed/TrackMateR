@@ -4,7 +4,7 @@
 \alias{plotMSD}
 \title{Make a plot of MSD data}
 \usage{
-plotMSD(df, units = "s", bars = TRUE, xlog = FALSE, ylog = FALSE)
+plotMSD(df, units = "s", bars = FALSE, xlog = FALSE, ylog = FALSE)
 }
 \arguments{
 \item{df}{MSD summary = output from calculateMSD()}

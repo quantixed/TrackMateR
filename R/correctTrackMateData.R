@@ -15,7 +15,10 @@
 # correcting dataframe - assumes that scaling is currently 1 pixel and/or 1 frame
 correctTrackMateData <- function(df, xysize = 1, tsize = 1) {
   if(xysize == 1 & tsize == 1) {
+    cat("No correction applied.\n")
     return(df)
+  } else {
+    msg <- ""
   }
   if(xysize != 1) {
     # change pixel size
@@ -23,11 +26,15 @@ correctTrackMateData <- function(df, xysize = 1, tsize = 1) {
     df$y <- df$y * xysize
     df$displacement <- df$displacement * xysize
     df$cumulative_distance <- df$cumulative_distance * xysize
+    msg <- paste0("Correcting XY scale. ",msg)
   }
   if(tsize != 1) {
     df$t <- df$t * tsize
     df$track_duration <- df$track_duration * tsize
+    msg <- paste0("Correcting timescale. ",msg)
   }
+  msg <- paste0(msg,"\n")
+  cat(msg)
   tstep <- df$t[match(1,df$frame)]
   df$speed <- df$displacement / tstep
 
