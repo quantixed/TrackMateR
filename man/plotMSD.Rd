@@ -29,6 +29,7 @@ A fit to the first four points is displayed to evaluate alpha. Diffusion coeffic
 xmlPath <- "~/Desktop/FakeTracks.xml"
 data <- readTrackMateXML(XMLpath = xmlPath)
 data <- correctTrackMateData(data, xy = 0.04)
-msdDF <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
-plotMSD(msdDF, bars = FALSE)
+msdobj <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+msddf <- msdobj[[1]]
+plotMSD(msddf, bars = FALSE)
 }

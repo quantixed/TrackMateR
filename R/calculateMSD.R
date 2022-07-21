@@ -1,5 +1,5 @@
 #' Calculate Mean Squared Displacement (MSD)
-#' 
+#'
 #' Calculation of the MSD of multiple tracks.
 #' There are two methods for everaging MSD data from multiple tracks:
 #' ensemble = for each time lag average all squared displacements from all tracks
@@ -7,13 +7,13 @@
 #' The MSD curves will be identical if all tracks are the same length, and diverge if not.
 #' Standard deviation will be large for ensemble and smaller for time-averaged data.
 #' Input is a data frame of tracks imported using readTrackMateXML()
-#' 
+#'
 #' @param df data frame must include at a minimum - trace (track ID), x, y and t (in real coords)
 #' @param method string. Either "ensemble" or "timeaveraged" (default)
 #' @param N numeric variable for MSD. dt should be up to 1/N of number of data points (4 recommended)
 #' @param short numeric variable for the shortest number of points we will analyse. Note, this uses the number of frames from start, not number of points in track, i.e. a track with <short points and many gaps will remain
-#' @return data frame 
-#' @examples 
+#' @return list of a data frame and a vector
+#' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
 #' data <- readTrackMateXML(XMLpath = xmlPath)
 #' data <- correctTrackMateData(data, xy = 0.04)
@@ -63,36 +63,47 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   tListmax2 <- quantile(unlist(lapply(tList, max)), probs=.9)
   # dt should be up to 1/4 of number of data points (default)
   numberOfdeltaT = floor(tListmax2/N)
-  # make matrix to store msd
+  # make matrix to store the averaged msd summary
   msd <- matrix(data = NA, nrow = numberOfdeltaT, ncol = 5 )
   colnames(msd) <- c("mean", "sd", "n", "size", "t")
   tstep <- df$t[match(1,df$frame)]
-  
+  # make matrix to store the msd curve for each track
+  trackmsd <- matrix(data = NA, nrow = numberOfdeltaT, ncol = length(traceList) )
+  colnames(trackmsd) <- traceList
+
   for(deltaT in 1 : numberOfdeltaT){
     # calculate displacement between points for x and y
     deltaXCoords <- displacementXMat[(1 + deltaT) : tListmax,] - displacementXMat[1 : (tListmax-deltaT),]
     deltaYCoords <- displacementYMat[(1 + deltaT) : tListmax,] - displacementYMat[1 : (tListmax-deltaT),]
     # calculate squared displacement
     squaredDisplacement <- deltaXCoords**2 + deltaYCoords**2
+    # we collect the MSD for each track (column)
+    eachSquaredDisplacement <- colMeans(squaredDisplacement, na.rm = TRUE)
     # summary statistics for each deltaT
     if(method == "ensemble") {
-      msd[deltaT,1] = mean(squaredDisplacement, na.rm = TRUE) # average
-      msd[deltaT,2] = sd(squaredDisplacement, na.rm = TRUE) # standard deviation
-      msd[deltaT,3] = sum(!is.na(squaredDisplacement)) # n
+      # store the ensemble data
+      msd[deltaT,1] <- mean(squaredDisplacement, na.rm = TRUE) # average
+      msd[deltaT,2] <- sd(squaredDisplacement, na.rm = TRUE) # standard deviation
+      msd[deltaT,3] <- sum(!is.na(squaredDisplacement)) # n
     } else {
-      # we will not make the msd curves for each track
-      # we collect the MSD for each track (column)
-      squaredDisplacement <- colMeans(squaredDisplacement, na.rm = TRUE)
       # store the time-averaged data
-      msd[deltaT,1] = mean(squaredDisplacement, na.rm = TRUE) # average
-      msd[deltaT,2] = sd(squaredDisplacement, na.rm = TRUE) # standard deviation
-      msd[deltaT,3] = sum(!is.na(squaredDisplacement)) # n
+      msd[deltaT,1] <- mean(eachSquaredDisplacement, na.rm = TRUE) # average
+      msd[deltaT,2] <- sd(eachSquaredDisplacement, na.rm = TRUE) # standard deviation
+      msd[deltaT,3] <- sum(!is.na(eachSquaredDisplacement)) # n
     }
+    # place the MSD for this deltaT and for every track into the matrix
+    trackmsd[deltaT,] <- eachSquaredDisplacement
   }
+  # send msd curves for each track to compute the diffusive behaviour
+  alphas <- calculateAlpha(trackmsd, tstep)
+
+  # format msd matrix into data frame
   msd <- as.data.frame(msd)
   msd$size <- c(1 : numberOfdeltaT)
   msd$t <- msd$size * tstep
-  
-  return(msd)
+
+  both <- list(msd,alphas)
+
+  return(both)
 }
 

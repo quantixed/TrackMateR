@@ -16,7 +16,7 @@ calculateMSD(df, method = "timeaveraged", N = 4, short = 0)
 \item{short}{numeric variable for the shortest number of points we will analyse. Note, this uses the number of frames from start, not number of points in track, i.e. a track with <short points and many gaps will remain}
 }
 \value{
-data frame
+list of a data frame and a vector
 }
 \description{
 Calculation of the MSD of multiple tracks.

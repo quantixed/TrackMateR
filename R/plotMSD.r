@@ -13,8 +13,9 @@
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
 #' data <- readTrackMateXML(XMLpath = xmlPath)
 #' data <- correctTrackMateData(data, xy = 0.04)
-#' msdDF <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
-#' plotMSD(msdDF, bars = FALSE)
+#' msdobj <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+#' msddf <- msdobj[[1]]
+#' plotMSD(msddf, bars = FALSE)
 #' @return S3 ggplot
 #' @export
 
@@ -37,8 +38,7 @@ plotMSD <- function(df, units = "s", bars = FALSE, xlog = FALSE, ylog = FALSE) {
       geom_point()
   } else {
     p <- ggplot(df, aes(x = t, y = mean)) +
-      geom_line() +
-      geom_point()
+      geom_line(linesize = 1)
   }
 
   p <- p + geom_line(aes(x = t, y = pred, col = "red")) +
