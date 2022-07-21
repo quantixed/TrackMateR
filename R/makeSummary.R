@@ -34,7 +34,7 @@ makeSummary <- function(df, msddf, titleStr, subStr) {
   # plot displacement over time
   p_displacementOverTime <- ggplot(data = df, aes(x = t, y = displacement)) +
     geom_path(aes(y = rollmean(displacement, 20, na.pad = TRUE), group = interaction(dataid, trace), alpha = 0.01)) +
-    geom_smooth(aes(x = t, y = displacement)) +
+    geom_smooth(method = "gam", formula = (y ~ s(x, bs = 'cs'))) +
     ylim(0,NA) +
     labs(x = "Time (s)", y = "Distance (um)") +
     theme_classic() +

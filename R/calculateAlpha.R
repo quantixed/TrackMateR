@@ -16,7 +16,7 @@ calculateAlpha <- function(alphaMat,tstep) {
   alphaVec[] <- NA
   # check that we have four contiguous points for each col
   check <-colSums(alphaMat[1:4,])
-  for(i in ncol(alphaMat)) {
+  for(i in 1 : ncol(alphaMat)) {
     if(is.na(check[i])) {
       next
     }

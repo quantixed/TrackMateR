@@ -12,6 +12,8 @@
 #' @importFrom stats quantile
 #' @importFrom stats sd
 #' @importFrom stats lm
+#' @importFrom stats median
+#' @importFrom stats na.omit
 #' @importFrom utils data
 #' @importFrom zoo rollmean
 #' @import ggplot2
