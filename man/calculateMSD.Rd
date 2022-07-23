@@ -29,7 +29,8 @@ Input is a data frame of tracks imported using readTrackMateXML()
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-data <- readTrackMateXML(XMLpath = xmlPath)
+datalist <- readTrackMateXML(XMLpath = xmlPath)
+data <-  datalist[[1]]
 data <- correctTrackMateData(data, xy = 0.04)
-msdDF <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+msdobj <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
 }

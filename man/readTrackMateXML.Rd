@@ -10,7 +10,7 @@ readTrackMateXML(XMLpath)
 \item{XMLpath}{path to the xml file}
 }
 \value{
-data frame
+list of two data frames
 }
 \description{
 Produces a data frame of all spots from filtered tracks, ordered by track number.
@@ -18,5 +18,9 @@ A warning is generated if the scaling is in pixels rather than real units.
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-data <- readTrackMateXML(XMLpath = xmlPath)
+datalist <- readTrackMateXML(XMLpath = xmlPath)
+# get the track data in a data frame
+data <-  datalist[[1]]
+# get the calibration data in a data frame
+calibration <- datalist[[2]]
 }

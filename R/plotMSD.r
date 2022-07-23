@@ -5,23 +5,24 @@
 #' A fit to the first four points is displayed to evaluate alpha. Diffusion coefficient from this fit is displayed top-left.
 #'
 #' @param df MSD summary = output from calculateMSD()
-#' @param units string to describe time units (default is s, seconds)
+#' @param units character vector to describe units (defaults are um, micrometres and  s, seconds)
 #' @param bars boolean to request error bars (1 x SD)
 #' @param xlog boolean to request log10 x axis
 #' @param ylog boolean to request log10 y axis
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' data <- readTrackMateXML(XMLpath = xmlPath)
-#' data <- correctTrackMateData(data, xy = 0.04)
-#' msdobj <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+#' datalist <- readTrackMateXML(XMLpath = xmlPath)
+#' data <-  datalist[[1]]
+#' # use the ensemble method and only look at tracks with more than 8 points
+#' msdobj <- calculateMSD(df = data, method = "ensemble", N = 3, short = 8)
 #' msddf <- msdobj[[1]]
 #' plotMSD(msddf, bars = FALSE)
 #' @return S3 ggplot
 #' @export
 
 
-plotMSD <- function(df, units = "s", bars = FALSE, xlog = FALSE, ylog = FALSE) {
-  xlab <- paste0("Time (",units,")")
+plotMSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylog = FALSE) {
+  xlab <- paste0("Time (",units[2],")")
   pred <- NULL
 
   # fit to first four data points
@@ -41,8 +42,8 @@ plotMSD <- function(df, units = "s", bars = FALSE, xlog = FALSE, ylog = FALSE) {
       geom_line(linesize = 1)
   }
 
-  p <- p + geom_line(aes(x = t, y = pred, col = "red")) +
-    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(df$t), y = Inf), hjust = 0, vjust = 1) +
+  p <- p + geom_line(aes(x = t, y = pred), colour = "red", linetype = 2) +
+    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(t), y = Inf), hjust = 0, vjust = 1) +
     labs(x = xlab, y = "MSD") +
     theme_classic() +
     theme(legend.position = "none")

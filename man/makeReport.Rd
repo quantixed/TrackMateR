@@ -4,12 +4,14 @@
 \alias{makeReport}
 \title{Make Report}
 \usage{
-makeReport(df, msdlist, titleStr, subStr)
+makeReport(df, msdlist, units = c("um", "s"), titleStr = "", subStr = "")
 }
 \arguments{
 \item{df}{imported TrackMate data with correct units}
 
 \item{msdlist}{MSD summary and alpha list = output from calculateMSD()}
+
+\item{units}{character vector to describe units (defaults are um, micrometres and  s, seconds)}
 
 \item{titleStr}{string used as the title for the report}
 
@@ -26,8 +28,9 @@ The use of um is because ggsave does not currently save unicode to PDF reliably.
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
 data <- readTrackMateXML(XMLpath = xmlPath)
-data <- correctTrackMateData(data, xy = 0.04)
-result <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+datalist <- readTrackMateXML(XMLpath = xmlPath)
+data <-  datalist[[1]]
+msdobj <- calculateMSD(df = data, method = "ensemble", N = 3, short = 8)
 fileName <- tools::file_path_sans_ext(basename(xmlPath))
-makeReport(data, result, "", fileName)
+makeReport(df = data, msdlist = msdobj, titleStr = "Report", subStr = fileName)
 }

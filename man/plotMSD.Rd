@@ -4,12 +4,12 @@
 \alias{plotMSD}
 \title{Make a plot of MSD data}
 \usage{
-plotMSD(df, units = "s", bars = FALSE, xlog = FALSE, ylog = FALSE)
+plotMSD(df, units = c("um", "s"), bars = FALSE, xlog = FALSE, ylog = FALSE)
 }
 \arguments{
 \item{df}{MSD summary = output from calculateMSD()}
 
-\item{units}{string to describe time units (default is s, seconds)}
+\item{units}{character vector to describe units (defaults are um, micrometres and  s, seconds)}
 
 \item{bars}{boolean to request error bars (1 x SD)}
 
@@ -27,9 +27,10 @@ A fit to the first four points is displayed to evaluate alpha. Diffusion coeffic
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-data <- readTrackMateXML(XMLpath = xmlPath)
-data <- correctTrackMateData(data, xy = 0.04)
-msdobj <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+datalist <- readTrackMateXML(XMLpath = xmlPath)
+data <-  datalist[[1]]
+# use the ensemble method and only look at tracks with more than 8 points
+msdobj <- calculateMSD(df = data, method = "ensemble", N = 3, short = 8)
 msddf <- msdobj[[1]]
 plotMSD(msddf, bars = FALSE)
 }

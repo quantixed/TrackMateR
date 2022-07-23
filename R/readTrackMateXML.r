@@ -4,10 +4,14 @@
 #' A warning is generated if the scaling is in pixels rather than real units.
 #'
 #' @param XMLpath path to the xml file
-#' @return data frame
+#' @return list of two data frames
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' data <- readTrackMateXML(XMLpath = xmlPath)
+#' datalist <- readTrackMateXML(XMLpath = xmlPath)
+#' # get the track data in a data frame
+#' data <-  datalist[[1]]
+#' # get the calibration data in a data frame
+#' calibration <- datalist[[2]]
 #' @export
 
 readTrackMateXML<- function(XMLpath){
@@ -40,12 +44,16 @@ readTrackMateXML<- function(XMLpath){
   sublist <- getNodeSet(e,"//FeatureDeclarations//SpotFeatures//Feature/@feature")
   attrName <- c("name",unlist(sublist))
   # what are the units?
-  spaceunit <- getNodeSet(e,"//Model/@spatialunits")
-  timeunit <- getNodeSet(e,"//Model/@timeunits")
-  unitvec <- c(unlist(spaceunit),unlist(timeunit))
-  cat("Units are: ",unitvec,"\n")
-  if(unitvec[1] == "pixel") {
-    cat("WARNING: Consider transforming to real units\n")
+  attrList <- c("spatialunits","timeunits")
+  unitVec <- sapply(attrList, function(x) xpathSApply(e, "//Model", xmlGetAttr, x))
+  attrList <- c("pixelwidth","timeinterval")
+  valueVec <- sapply(attrList, function(x) xpathSApply(e, "//ImageData", xmlGetAttr, x))
+  calibrationDF <- data.frame(value = as.numeric(valueVec),
+                              unit = unitVec)
+  calibrationDF[2,2] <- ifelse(calibrationDF[2,2] == "sec", "s", calibrationDF[2,2])
+  cat("Units are: ",calibrationDF[1,1],calibrationDF[1,2],"and",calibrationDF[2,1],calibrationDF[2,2],"\n")
+  if(unitVec[1] == "pixel") {
+    cat("Spatial units are in pixels - consider transforming to real units\n")
   }
 
   # multicore processing
@@ -128,5 +136,8 @@ readTrackMateXML<- function(XMLpath){
   daten$cumulative_distance <- cumdist
   daten$track_duration <- dur
 
-  return(daten)
+  # daten is our dataframe of all data, calibrationDF is the calibration data
+  dflist <- list(daten,calibrationDF)
+
+  return(dflist)
 }

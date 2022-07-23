@@ -1,6 +1,7 @@
 #' @importFrom utils install.packages
 #' @importFrom XML xmlParse
 #' @importFrom XML getNodeSet
+#' @importFrom XML xpathSApply
 #' @importFrom parallel detectCores
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach %dopar%

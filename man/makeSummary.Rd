@@ -4,12 +4,20 @@
 \alias{makeSummary}
 \title{Make Summary}
 \usage{
-makeSummary(df, msddf, titleStr, subStr)
+makeSummary(
+  df,
+  msddf,
+  units = c("um", "s"),
+  titleStr = "Summary",
+  subStr = NULL
+)
 }
 \arguments{
 \item{df}{imported TrackMate data with correct units}
 
 \item{msddf}{MSD summary = output from calculateMSD()}
+
+\item{units}{character vector to describe units (defaults are um, micrometres and  s, seconds)}
 
 \item{titleStr}{string used as the title for the summary}
 
