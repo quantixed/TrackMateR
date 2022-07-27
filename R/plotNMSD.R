@@ -7,13 +7,15 @@
 #' @export
 
 plotNMSD <- function(df) {
-  dataid <- pred <- NULL
+  dataid <- pred <- value <- NULL
   # generate a mean of the MSD curve over time (lag)
+  # rename mean to value so as not to upset ddplyr
+  colnames(df)[1] <- "value"
   msdmean <- df %>%
     group_by(t) %>%
-    summarise(mean = mean(mean), sd = sd(sd))
+    summarise(mean = mean(value), sd = sd(value))
 
-  p <- ggplot(data = df, aes(x = t, y = mean)) +
+  p <- ggplot(data = df, aes(x = t, y = value)) +
     geom_line(aes(group = dataid), colour = "blue", alpha = 0.5) +
     geom_ribbon(data = msdmean, aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.2) +
     geom_line(data = msdmean, aes(x = t, y = mean), size = 1) +
@@ -31,7 +33,7 @@ plotNMSD <- function(df) {
   dee <- msdmean$pred[1] / (4 * msdmean$t[1])
   # add line to show MSD with alpha = 1
   p <-  p + geom_line(data = msdmean, aes(x = t, y = pred), colour = "red", linetype = 2) +
-    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean), y = Inf), hjust = 0, vjust = 1)
+    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), hjust = 0, vjust = 1)
 
   return(p)
 }
