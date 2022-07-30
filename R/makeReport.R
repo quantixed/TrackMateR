@@ -6,21 +6,27 @@
 #'
 #' @param df imported TrackMate data with correct units
 #' @param msdlist MSD summary and alpha list = output from calculateMSD()
+#' @param jumpdata data frame of jump data
+#' @param jumptime variable to be passed to timeRes
 #' @param units character vector to describe units (defaults are um, micrometres and  s, seconds)
 #' @param titleStr string used as the title for the report
 #' @param subStr string used as the subtitle for the report
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' data <- readTrackMateXML(XMLpath = xmlPath)
 #' datalist <- readTrackMateXML(XMLpath = xmlPath)
 #' data <-  datalist[[1]]
+#' data <- correctTrackMateData(data, xy = 0.04)
+#' calibration <- datalist[[2]]
 #' msdobj <- calculateMSD(df = data, method = "ensemble", N = 3, short = 8)
+#' jdDF <- calculateJD(data, deltaT = 1)
+#' jdDF <- data.frame(jump = jdDF)
 #' fileName <- tools::file_path_sans_ext(basename(xmlPath))
-#' makeReport(df = data, msdlist = msdobj, titleStr = "Report", subStr = fileName)
+#' makeReport(df = data, msdlist = msdobj, jumpdata = jdDF, jumptime = 0.06,
+#' titleStr = "Report", subStr = fileName)
 #' @return patchwork ggplot
 #' @export
 
-makeReport <- function(df, msdlist, units = c("um","s"), titleStr = "", subStr = "") {
+makeReport <- function(df, msdlist, jumpdata, jumptime, units = c("um","s"), titleStr = "", subStr = "") {
   oldw <- getOption("warn")
   options(warn = -1)
 
@@ -85,7 +91,7 @@ makeReport <- function(df, msdlist, units = c("um","s"), titleStr = "", subStr =
   ystr <- "Frequency"
   p_alpha <- ggplot(data = alphas, aes(x = alpha)) +
     geom_histogram(binwidth = 0.1) +
-    geom_text(aes(label = paste0("median = ",format(round(median_alpha,3), nsmall = 3)), x = min(alpha, na.rm = TRUE), y = Inf), hjust = 0, vjust = 1) +
+    geom_text(aes(label = paste0("median = ",format(round(median_alpha,3), nsmall = 3)), x = min(alpha, na.rm = TRUE), y = Inf), hjust = 0, vjust = 1, check_overlap = TRUE) +
     labs(x = xstr, y = ystr) +
     theme_classic() +
     theme(legend.position = "none")
@@ -105,7 +111,10 @@ makeReport <- function(df, msdlist, units = c("um","s"), titleStr = "", subStr =
     theme_classic() +
     theme(legend.position = "none")
 
-  r_report <- (p_allTracks | ((p_displacementOverTime + p_displacementHist) / (p_cumdistOverTime + p_speed))) / (p_msd + p_alpha)
+  # make a plot of jump distance distribution
+  p_jump <- fittingJD(df = jumpdata, mode = "ECDF", nPop = 2, units = units, breaks = 100, timeRes = jumptime)
+
+  r_report <- (p_allTracks | ((p_displacementOverTime + p_displacementHist) / (p_cumdistOverTime + p_speed))) / (p_msd + p_alpha + p_jump)
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
   options(warn = oldw)

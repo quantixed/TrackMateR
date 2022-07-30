@@ -6,13 +6,15 @@
 #'
 #' @param df imported TrackMate data with correct units
 #' @param msdlist list of 2 data frames: MSD summary and alpha summary = collated outputs from calculateMSD()
+#' @param jumpdata data frame of jump data
+#' @param jumptime variable to be passed to timeRes
 #' @param units character vector to describe units (defaults are um, micrometres and  s, seconds)
 #' @param titleStr string used as the title for the summary
 #' @param subStr string used as the subtitle for the summary
 #' @return patchwork ggplot
 #' @export
 
-makeSummary <- function(df, msdlist, units = c("um","s"), titleStr = "Summary", subStr = NULL) {
+makeSummary <- function(df, msdlist, jumpdata, jumptime, units = c("um","s"), titleStr = "Summary", subStr = NULL) {
   oldw <- getOption("warn")
   options(warn = -1)
 
@@ -96,12 +98,15 @@ makeSummary <- function(df, msdlist, units = c("um","s"), titleStr = "Summary", 
   ystr <- "Frequency"
   p_alpha <- ggplot(data = alphas, aes(x = alphaValue)) +
     geom_histogram(binwidth = 0.1) +
-    geom_text(aes(label = paste0("median = ",format(round(median_alpha,3), nsmall = 3)), x = min(alphaValue, na.rm = TRUE), y = Inf), hjust = 0, vjust = 1) +
+    geom_text(aes(label = paste0("median = ",format(round(median_alpha,3), nsmall = 3)), x = min(alphaValue, na.rm = TRUE), y = Inf), hjust = 0, vjust = 1, check_overlap = TRUE) +
     labs(x = xstr, y = ystr) +
     theme_classic() +
     theme(legend.position = "none")
 
-  r_report <- (p_allTracks | ((p_displacementOverTime + p_displacementHist) / (p_cumdistOverTime + p_speed))) / (p_msd + p_alpha)
+  # make a plot of jump distance distribution
+  p_jump <- fittingJD(df = jumpdata, mode = "ECDF", nPop = 2, units = units, breaks = 100, timeRes = 0.06)
+
+  r_report <- (p_allTracks | ((p_displacementOverTime + p_displacementHist) / (p_cumdistOverTime + p_speed))) / (p_msd + p_alpha + p_jump)
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
   options(warn = oldw)

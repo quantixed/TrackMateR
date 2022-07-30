@@ -6,7 +6,9 @@
 \usage{
 makeSummary(
   df,
-  msddf,
+  msdlist,
+  jumpdata,
+  jumptime,
   units = c("um", "s"),
   titleStr = "Summary",
   subStr = NULL
@@ -15,7 +17,11 @@ makeSummary(
 \arguments{
 \item{df}{imported TrackMate data with correct units}
 
-\item{msddf}{MSD summary = output from calculateMSD()}
+\item{msdlist}{list of 2 data frames: MSD summary and alpha summary = collated outputs from calculateMSD()}
+
+\item{jumpdata}{data frame of jump data}
+
+\item{jumptime}{variable to be passed to timeRes}
 
 \item{units}{character vector to describe units (defaults are um, micrometres and  s, seconds)}
 
