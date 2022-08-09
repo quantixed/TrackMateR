@@ -4,10 +4,10 @@
 \alias{plot_tm_displacementOverTime}
 \title{Make a plot of displacement over time}
 \usage{
-plot_tm_displacementOverTime(df, summary = FALSE, xstr = NULL, ystr = NULL)
+plot_tm_displacementOverTime(input, summary = FALSE, xstr = NULL, ystr = NULL)
 }
 \arguments{
-\item{df}{data frame of TrackMate data}
+\item{input}{either a data frame of TrackMate data or list of TrackMate data frame and calibration data frame}
 
 \item{summary}{boolean to specify if plot is of one dataset or several related datasets}
 

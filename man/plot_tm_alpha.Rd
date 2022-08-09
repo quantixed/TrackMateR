@@ -4,10 +4,15 @@
 \alias{plot_tm_alpha}
 \title{Make a histogram of alpha values}
 \usage{
-plot_tm_alpha(df, median_alpha = NULL, xstr = NULL, ystr = NULL)
+plot_tm_alpha(
+  df,
+  median_alpha = NULL,
+  xstr = "alpha (log2)",
+  ystr = "Frequency"
+)
 }
 \arguments{
-\item{df}{data frame of TrackMate data}
+\item{df}{data frame of alpha values}
 
 \item{median_alpha}{variable for adding label to plot}
 

@@ -4,19 +4,27 @@
 \alias{plot_tm_displacementHist}
 \title{Make a histogram of displacements}
 \usage{
-plot_tm_displacementHist(df, summary = FALSE, xstr = NULL, ystr = NULL)
+plot_tm_displacementHist(
+  input,
+  summary = FALSE,
+  xstr = NULL,
+  ystr = NULL,
+  auto = FALSE
+)
 }
 \arguments{
-\item{df}{data frame of TrackMate data}
+\item{input}{either a data frame of TrackMate data or list of TrackMate data frame and calibration data frame}
 
 \item{summary}{boolean to specify if plot is of one dataset or several related datasets}
 
 \item{xstr}{string to label x-axis}
 
 \item{ystr}{string to label y-axis}
+
+\item{auto}{boolean to switch between returning a ggplot and a list of ggplot and variable}
 }
 \value{
-ggplot
+ggplot or list of ggplot and variable
 }
 \description{
 Make a histogram of displacements

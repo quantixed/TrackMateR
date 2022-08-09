@@ -4,13 +4,15 @@
 \alias{plot_tm_neighbours}
 \title{Make a histogram of track density (number of neighbours)}
 \usage{
-plot_tm_neighbours(df)
+plot_tm_neighbours(df, auto = FALSE)
 }
 \arguments{
 \item{df}{data frame of TrackMate data}
+
+\item{auto}{boolean to switch between returning a ggplot and a list of ggplot and variable}
 }
 \value{
-ggplot
+ggplot or list of ggplot and variable
 }
 \description{
 Make a histogram of track density (number of neighbours)

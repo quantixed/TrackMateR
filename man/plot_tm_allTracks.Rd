@@ -5,15 +5,15 @@
 \title{Make a plot of all tracks}
 \usage{
 plot_tm_allTracks(
-  df,
+  input,
   summary = FALSE,
-  xstr = "x",
-  ystr = "y",
+  xstr = "",
+  ystr = "",
   alphaLevel = 0.5
 )
 }
 \arguments{
-\item{df}{data frame of TrackMate data}
+\item{input}{either a data frame of TrackMate data or list of TrackMate data frame and calibration data frame}
 
 \item{summary}{boolean to specify if plot is of one dataset or several related datasets}
 

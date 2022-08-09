@@ -33,7 +33,7 @@ makeSummaryReport(
 \item{summary}{boolean which selects for summary}
 }
 \value{
-list of patchwork ggplot and data frame of summary data
+patchwork ggplot or a list of patchwork ggplot and data frame of summary data
 }
 \description{
 Generate several plots to visualise TrackMate data and generate a report.

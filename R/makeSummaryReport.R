@@ -24,7 +24,7 @@
 #' fileName <- tools::file_path_sans_ext(basename(xmlPath))
 #' reportObj <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF,
 #' titleStr = "Report", subStr = fileName, auto = TRUE)
-#' @return list of patchwork ggplot and data frame of summary data
+#' @return patchwork ggplot or a list of patchwork ggplot and data frame of summary data
 #' @export
 
 makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", subStr = "", auto = FALSE, summary = FALSE) {
@@ -54,22 +54,22 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
   }
 
   # plot all tracks colour coded by trace number (or by dataset)
-  p_allTracks <- plot_tm_allTracks(df = df, summary = summary, xstr = xstr, ystr = ystr, alphaLevel = alphaLevel)
+  p_allTracks <- plot_tm_allTracks(input = df, summary = summary, alphaLevel = alphaLevel)
 
   # plot displacement over time
-  xstr <- paste0("Time (",units[2],")")
-  ystr <- paste0("Displacement (",units[1],")")
-  p_displacementOverTime <- plot_tm_displacementOverTime(df = df, summary = summary, xstr = xstr, ystr = ystr)
+  p_displacementOverTime <- plot_tm_displacementOverTime(input = tmList, summary = summary)
 
   # plot cumulative distance over time
-  xstr <- paste0("Duration (",units[2],")")
-  ystr <- paste0("Cumulative Distance (",units[1],")")
-  p_cumdistOverTime <- plot_tm_cumdistOverTime(df = df, summary = summary, xstr = xstr, ystr = ystr, alphaLevel = alphaLevel)
+  p_cumdistOverTime <- plot_tm_cumdistOverTime(input = tmList, summary = summary, alphaLevel = alphaLevel)
 
   # ggplot histogram of displacements
-  xstr <- paste0("Displacement (",units[1],")")
-  ystr <- "Frequency"
-  p_displacementHist <- plot_tm_displacementHist(df = df, xstr = xstr, ystr = ystr)
+  if(auto == TRUE & summary == FALSE) {
+    dispObj <- plot_tm_displacementHist(input = tmList, auto = auto)
+    p_displacementHist <- dispObj[[1]]
+    median_disp <- dispObj[[2]]
+  } else {
+    p_displacementHist <- plot_tm_displacementHist(input = tmList, auto = auto)
+  }
 
   # alpha distribution of traces
   alphas <- msdList[[2]]
@@ -82,19 +82,15 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
   # convert back to real numbers
   median_alpha <- 2^(median(alphas$alpha, na.rm = TRUE))
 
-  xstr <- "alpha (log2)"
-  ystr <- "Frequency"
-  p_alpha <- plot_tm_alpha(df = alphas, median_alpha = median_alpha, xstr = xstr, ystr = ystr)
+  p_alpha <- plot_tm_alpha(df = alphas, median_alpha = median_alpha)
 
   # make a plot of average speed per track
-  xstr <- paste0("Speed (",units[1],"/",units[2],")")
-  ystr <- "Frequency"
   if(auto == TRUE & summary == FALSE) {
-    speedObj <- plot_tm_speed(df = df, summary = summary, xstr = xstr, ystr = ystr, auto = auto)
+    speedObj <- plot_tm_speed(input = tmList, summary = summary, auto = auto)
     p_speed <- speedObj[[1]]
     median_speed <- speedObj[[2]]
   } else {
-    p_speed <- plot_tm_speed(df = df, summary = summary, xstr = xstr, ystr = ystr, auto = auto)
+    p_speed <- plot_tm_speed(input = tmList, summary = summary, auto = auto)
   }
 
   # make a plot of jump distance distribution
@@ -103,10 +99,15 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
   p_jump <- fittingJD(df = jdDF, mode = "ECDF", nPop = 2, units = units, breaks = 100, timeRes = jumptime)
 
   # calculate neighbours within 1.5 units
-  p_neighbours <- plot_tm_neighbours(df = tddf)
+  if(auto == TRUE & summary == FALSE) {
+    neighbourObj <- plot_tm_neighbours(df = tddf, auto = auto)
+    p_neighbours <- neighbourObj[[1]]
+    median_density <- neighbourObj[[2]]
+  } else {
+    p_neighbours <- plot_tm_neighbours(df = tddf, auto = auto)
+  }
 
   # make the report (patchwork of ggplots)
-  # r_report <- (p_allTracks | ((p_displacementOverTime + p_displacementHist) / (p_cumdistOverTime + p_speed))) / (p_msd + p_alpha + p_jump)
   design <- "
     1123
     1145
@@ -120,7 +121,9 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
     # make a multi-column object and pass directly back
     df_report <- data.frame(alpha = median_alpha,
                             speed = median_speed,
-                            dee = dee)
+                            dee = dee,
+                            displacement = median_disp,
+                            neighbours = median_density)
     returnList <- list(r_report,df_report)
     return(returnList)
   } else {

@@ -4,10 +4,10 @@
 \alias{plot_tm_speed}
 \title{Make a histogram of average speed}
 \usage{
-plot_tm_speed(df, summary = FALSE, xstr = NULL, ystr = NULL, auto = FALSE)
+plot_tm_speed(input, summary = FALSE, xstr = NULL, ystr = NULL, auto = FALSE)
 }
 \arguments{
-\item{df}{data frame of TrackMate data}
+\item{input}{either a data frame of TrackMate data or list of TrackMate data frame and calibration data frame}
 
 \item{summary}{boolean to specify if plot is of one dataset or several related datasets}
 
