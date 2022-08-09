@@ -33,7 +33,7 @@ plotNMSD <- function(df) {
   dee <- msdmean$pred[1] / (4 * msdmean$t[1])
   # add line to show MSD with alpha = 1
   p <-  p + geom_line(data = msdmean, aes(x = t, y = pred), colour = "red", linetype = 2) +
-    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), hjust = 0, vjust = 1)
+    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
 
   return(p)
 }

@@ -19,11 +19,10 @@
 #' @return ggplot
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' datalist <- readTrackMateXML(XMLpath = xmlPath)
-#' data <-  datalist[[1]]
-#' data <- correctTrackMateData(data, xy = 0.04)
-#' jdvec <- calculateJD(data, deltaT = 2)
-#' jdDF <- data.frame(jump = jdvec)
+#' tmObj <- readTrackMateXML(XMLpath = xmlPath)
+#' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
+#' jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
+#' jdDF <- jdObj[[1]]
 #' fittingJD(df = jdDF, mode = "ECDF", nPop = 2, breaks = 100, timeRes = 0.06)
 #' @export
 
@@ -176,9 +175,9 @@ fittingJD <- function(df, mode = "ECDF", nPop = 1, init, units = c("um","s"), ti
   p <- p + geom_line(data = fitdf, aes(x = x, y = value, col = variable))
   # add fitting coefficients
   if(mode == "ECDF") {
-    p <- p + geom_text(aes(label = fitStr, x = 0, y = Inf), hjust = 0, vjust = 1, check_overlap = TRUE)
+    p <- p + geom_text(aes(label = fitStr, x = 0, y = Inf), size = 2, hjust = 0, vjust = 1, check_overlap = TRUE)
   } else {
-    p <- p + geom_text(aes(label = fitStr, x = 0, y = Inf), hjust = 0, vjust = 1, check_overlap = TRUE)
+    p <- p + geom_text(aes(label = fitStr, x = 0, y = Inf), size = 2, hjust = 0, vjust = 1, check_overlap = TRUE)
   }
 
   return(p)

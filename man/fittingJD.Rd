@@ -43,10 +43,9 @@ The bulk of this code is taken from trackR by JuG
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-datalist <- readTrackMateXML(XMLpath = xmlPath)
-data <-  datalist[[1]]
-data <- correctTrackMateData(data, xy = 0.04)
-jdvec <- calculateJD(data, deltaT = 2)
-jdDF <- data.frame(jump = jdvec)
+tmObj <- readTrackMateXML(XMLpath = xmlPath)
+tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
+jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
+jdDF <- jdObj[[1]]
 fittingJD(df = jdDF, mode = "ECDF", nPop = 2, breaks = 100, timeRes = 0.06)
 }

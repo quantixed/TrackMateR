@@ -5,19 +5,21 @@
 #' Input is a data frame of tracks imported using readTrackMateXML()
 #' The default time step is one frame - which is the equivalent to the plot generated to show displacement versus time.
 #'
-#' @param df data frame must include at a minimum - trace (track ID), x, y and t (in real coords)
+#' @param dataList list of data frame (must include at a minimum - trace (track ID), x, y and t (in real coords)) and calibration
 #' @param deltaT integer to represent the multiple of frames that are to be analysed
-#' @return vector of jump distances, NAs removed
+#' @return a list of data frame of jump distances, NAs removed; and a numeric variable (jumptime)
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' datalist <- readTrackMateXML(XMLpath = xmlPath)
-#' data <-  datalist[[1]]
-#' data <- correctTrackMateData(data, xy = 0.04)
-#' jdvec <- calculateJD(data, deltaT = 2)
+#' tmObj <- readTrackMateXML(XMLpath = xmlPath)
+#' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
+#' jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
 #' @export
 
-calculateJD <- function(df, deltaT = 1) {
+calculateJD <- function(dataList, deltaT = 1) {
   x <- y <- NULL
+
+  df <- dataList[[1]]
+  calibration <- dataList[[2]]
 
   if(deltaT < 1 | deltaT %% 1 != 0) {
     # check is an integer >= 1
@@ -66,7 +68,13 @@ calculateJD <- function(df, deltaT = 1) {
   # convert to vector
   jdVec <- c(jdMat)
   jdVec <- jdVec[!is.na(jdVec)]
+  # convert to dataframe with column called jump
+  jdDF <- data.frame(jump = jdVec)
+  # record jumptime which is deltaT * time resoltuion
+  jumptime <- deltaT * calibration[2,1]
+  # make list of these two and return
+  jumpList <- list(jdDF, jumptime)
 
-  return(jdVec)
+  return(jumpList)
 }
 

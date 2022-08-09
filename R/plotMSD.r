@@ -9,6 +9,7 @@
 #' @param bars boolean to request error bars (1 x SD)
 #' @param xlog boolean to request log10 x axis
 #' @param ylog boolean to request log10 y axis
+#' @param auto boolean to request plot only, TRUE gives plot and D as a list
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
 #' datalist <- readTrackMateXML(XMLpath = xmlPath)
@@ -17,11 +18,11 @@
 #' msdobj <- calculateMSD(df = data, method = "ensemble", N = 3, short = 8)
 #' msddf <- msdobj[[1]]
 #' plotMSD(msddf, bars = FALSE)
-#' @return S3 ggplot
+#' @return ggplot or ggplot and variable
 #' @export
 
 
-plotMSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylog = FALSE) {
+plotMSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylog = FALSE, auto = FALSE) {
   xlab <- paste0("Time (",units[2],")")
   pred <- NULL
 
@@ -43,7 +44,7 @@ plotMSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylog = 
   }
 
   p <- p + geom_line(aes(x = t, y = pred), colour = "red", linetype = 2) +
-    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(t), y = Inf), hjust = 0, vjust = 1, check_overlap = TRUE) +
+    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(t), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE) +
     labs(x = xlab, y = "MSD") +
     theme_classic() +
     theme(legend.position = "none")
@@ -54,6 +55,12 @@ plotMSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylog = 
     p <- p + scale_y_log10()
   }
 
-  return(p)
+  listReturn <- list(p, dee)
+
+  if(auto) {
+    return(listReturn)
+  } else {
+    return(p)
+  }
 }
 

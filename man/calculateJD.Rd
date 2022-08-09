@@ -4,15 +4,15 @@
 \alias{calculateJD}
 \title{Calculate Jump Distance (JD)}
 \usage{
-calculateJD(df, deltaT = 1)
+calculateJD(dataList, deltaT = 1)
 }
 \arguments{
-\item{df}{data frame must include at a minimum - trace (track ID), x, y and t (in real coords)}
+\item{dataList}{list of data frame (must include at a minimum - trace (track ID), x, y and t (in real coords)) and calibration}
 
 \item{deltaT}{integer to represent the multiple of frames that are to be analysed}
 }
 \value{
-vector of jump distances, NAs removed
+a list of data frame of jump distances, NAs removed; and a numeric variable (jumptime)
 }
 \description{
 Calculation of the JD of multiple tracks.
@@ -22,8 +22,7 @@ The default time step is one frame - which is the equivalent to the plot generat
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-datalist <- readTrackMateXML(XMLpath = xmlPath)
-data <-  datalist[[1]]
-data <- correctTrackMateData(data, xy = 0.04)
-jdvec <- calculateJD(data, deltaT = 2)
+tmObj <- readTrackMateXML(XMLpath = xmlPath)
+tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
+jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
 }

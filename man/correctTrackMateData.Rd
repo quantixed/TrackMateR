@@ -4,25 +4,34 @@
 \alias{correctTrackMateData}
 \title{Correct distance and time of imported TrackMate data.}
 \usage{
-correctTrackMateData(df, xyscalar = 1, tscalar = 1)
+correctTrackMateData(
+  dataList,
+  xyscalar = 1,
+  tscalar = 1,
+  xyunit = NULL,
+  tunit = NULL
+)
 }
 \arguments{
-\item{df}{data frame of imported track mate data}
+\item{dataList}{a list of a data frame (of track data) and a calibration data frame (from TrackMate XML)}
 
 \item{xyscalar}{numeric multiplier to correct pixel size of original movie. Assumes isotropic scaling, i.e. pixel height = pixel width}
 
 \item{tscalar}{numeric multiplier to correct frame interval of original movie. Frame interval of tracked data.}
+
+\item{xyunit}{string to describe spatial units}
+
+\item{tunit}{string to describe temporal unit}
 }
 \value{
-data frame
+list of two data frames
 }
 \description{
 If the TrackMate data is in pixels and/or frames, the data frame can be converted with this function.
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-datalist <- readTrackMateXML(XMLpath = xmlPath)
-data <-  datalist[[1]]
+tmObj <- readTrackMateXML(XMLpath = xmlPath)
 # in the case where pixel size is 0.03 um and original data is 1 pixel, xyscalar = 0.03
-data <- correctTrackMateData(df = data, xyscalar = 0.03)
+tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.03)
 }

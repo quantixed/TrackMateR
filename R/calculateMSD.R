@@ -15,10 +15,10 @@
 #' @return list of a data frame and a vector
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' datalist <- readTrackMateXML(XMLpath = xmlPath)
-#' data <-  datalist[[1]]
-#' data <- correctTrackMateData(data, xy = 0.04)
-#' msdobj <- calculateMSD(data, method = "ensemble", N = 3, short = 8)
+#' tmObj <- readTrackMateXML(XMLpath = xmlPath)
+#' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
+#' tmDF <-  tmObj[[1]]
+#' msdObj <- calculateMSD(df = tmDF, method = "ensemble", N = 3, short = 8)
 #' @export
 
 calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
@@ -96,14 +96,15 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   }
   # send msd curves for each track to compute the diffusive behaviour
   alphas <- calculateAlpha(trackmsd, tstep)
+  alphas <- data.frame(alpha = alphas)
 
   # format msd matrix into data frame
   msd <- as.data.frame(msd)
   msd$size <- c(1 : numberOfdeltaT)
   msd$t <- msd$size * tstep
 
-  both <- list(msd,alphas)
+  msdList <- list(msd,alphas)
 
-  return(both)
+  return(msdList)
 }
 

@@ -4,7 +4,14 @@
 \alias{plotMSD}
 \title{Make a plot of MSD data}
 \usage{
-plotMSD(df, units = c("um", "s"), bars = FALSE, xlog = FALSE, ylog = FALSE)
+plotMSD(
+  df,
+  units = c("um", "s"),
+  bars = FALSE,
+  xlog = FALSE,
+  ylog = FALSE,
+  auto = FALSE
+)
 }
 \arguments{
 \item{df}{MSD summary = output from calculateMSD()}
@@ -16,9 +23,11 @@ plotMSD(df, units = c("um", "s"), bars = FALSE, xlog = FALSE, ylog = FALSE)
 \item{xlog}{boolean to request log10 x axis}
 
 \item{ylog}{boolean to request log10 y axis}
+
+\item{auto}{boolean to request plot only, TRUE gives plot and D as a list}
 }
 \value{
-S3 ggplot
+ggplot or ggplot and variable
 }
 \description{
 Generate a plot of MSD over a series of increasing time lags.

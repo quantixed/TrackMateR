@@ -18,9 +18,9 @@ A warning is generated if the scaling is in pixels rather than real units.
 }
 \examples{
 xmlPath <- "~/Desktop/FakeTracks.xml"
-datalist <- readTrackMateXML(XMLpath = xmlPath)
+tmObj <- readTrackMateXML(XMLpath = xmlPath)
 # get the track data in a data frame
-data <-  datalist[[1]]
+tmDF <-  tmObj[[1]]
 # get the calibration data in a data frame
-calibration <- datalist[[2]]
+calibrationDF <- tmObj[[2]]
 }

@@ -7,11 +7,11 @@
 #' @return list of two data frames
 #' @examples
 #' xmlPath <- "~/Desktop/FakeTracks.xml"
-#' datalist <- readTrackMateXML(XMLpath = xmlPath)
+#' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' # get the track data in a data frame
-#' data <-  datalist[[1]]
+#' tmDF <-  tmObj[[1]]
 #' # get the calibration data in a data frame
-#' calibration <- datalist[[2]]
+#' calibrationDF <- tmObj[[2]]
 #' @export
 
 readTrackMateXML<- function(XMLpath){
@@ -46,11 +46,16 @@ readTrackMateXML<- function(XMLpath){
   # what are the units?
   attrList <- c("spatialunits","timeunits")
   unitVec <- sapply(attrList, function(x) xpathSApply(e, "//Model", xmlGetAttr, x))
-  attrList <- c("pixelwidth","timeinterval")
+  unitVec <- c(unitVec,"widthpixels","heightpixels")
+  attrList <- c("pixelwidth","timeinterval","width","height")
   valueVec <- sapply(attrList, function(x) xpathSApply(e, "//ImageData", xmlGetAttr, x))
   calibrationDF <- data.frame(value = as.numeric(valueVec),
                               unit = unitVec)
+  # convert the width and height of the image from pixels (0-based so minus 1 from wdth/height) to whatever units the TrackMate file uses
+  calibrationDF[3:4,1] <- (calibrationDF[3:4,1] - 1) * calibrationDF[1,1]
+  # use s for seconds
   calibrationDF[2,2] <- ifelse(calibrationDF[2,2] == "sec", "s", calibrationDF[2,2])
+  # readout what the units were and warn if spatial units are pixels
   cat("Units are: ",calibrationDF[1,1],calibrationDF[1,2],"and",calibrationDF[2,1],calibrationDF[2,2],"\n")
   if(unitVec[1] == "pixel") {
     cat("Spatial units are in pixels - consider transforming to real units\n")
@@ -137,7 +142,7 @@ readTrackMateXML<- function(XMLpath){
   daten$track_duration <- dur
 
   # daten is our dataframe of all data, calibrationDF is the calibration data
-  dflist <- list(daten,calibrationDF)
+  dfList <- list(daten,calibrationDF)
 
-  return(dflist)
+  return(dfList)
 }
