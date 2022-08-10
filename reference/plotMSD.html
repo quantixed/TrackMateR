@@ -93,18 +93,19 @@ A fit to the first four points is displayed to evaluate alpha. Diffusion coeffic
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">xmlPath</span> <span class="op">&lt;-</span> <span class="st">"~/Desktop/FakeTracks.xml"</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">xmlPath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ExampleTrackMateData.xml"</span>, package<span class="op">=</span><span class="st">"TrackMateR"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">datalist</span> <span class="op">&lt;-</span> <span class="fu"><a href="readTrackMateXML.html">readTrackMateXML</a></span><span class="op">(</span>XMLpath <span class="op">=</span> <span class="va">xmlPath</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> XML content does not seem to be XML: ''</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Units are:  1 pixel and 0.07002736 s </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Spatial units are in pixels - consider transforming to real units</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Collecting spot data...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Matching track data...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculating distances...</span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span>  <span class="va">datalist</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'datalist' not found</span>
 <span class="r-in"><span><span class="co"># use the ensemble method and only look at tracks with more than 8 points</span></span></span>
 <span class="r-in"><span><span class="va">msdobj</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateMSD.html">calculateMSD</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">data</span>, method <span class="op">=</span> <span class="st">"ensemble"</span>, N <span class="op">=</span> <span class="fl">3</span>, short <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df$trace:</span> object of type 'closure' is not subsettable</span>
 <span class="r-in"><span><span class="va">msddf</span> <span class="op">&lt;-</span> <span class="va">msdobj</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'msdobj' not found</span>
 <span class="r-in"><span><span class="fu">plotMSD</span><span class="op">(</span><span class="va">msddf</span>, bars <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is.data.frame(data):</span> object 'msddf' not found</span>
+<span class="r-plt img"><img src="plotMSD-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
