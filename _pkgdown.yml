@@ -1,4 +1,4 @@
 url: https://quantixed.github.io/TrackMateR/
 template:
   bootstrap: 5
-
+  bootswatch: cerulean
