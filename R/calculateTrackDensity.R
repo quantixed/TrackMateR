@@ -10,7 +10,7 @@
 #' @param radius numeric variable for search radius (in spatial units of the data)
 #' @return data frame
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04)
 #' tdDF <- calculateTrackDensity(dataList = tmObj, radius = 2)

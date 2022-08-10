@@ -11,7 +11,7 @@
 #' @param ylog boolean to request log10 y axis
 #' @param auto boolean to request plot only, TRUE gives plot and D as a list
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' datalist <- readTrackMateXML(XMLpath = xmlPath)
 #' data <-  datalist[[1]]
 #' # use the ensemble method and only look at tracks with more than 8 points

@@ -9,7 +9,7 @@
 #' @param tunit string to describe temporal unit
 #' @return list of two data frames
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' # in the case where pixel size is 0.03 um and original data is 1 pixel, xyscalar = 0.03
 #' tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.03)

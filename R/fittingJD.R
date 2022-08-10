@@ -18,7 +18,7 @@
 #' @param breaks number of bins for histogram. With ECDF breaks can be high e.g. 100, for mode = "hist" they should be low, perhaps 30.
 #' @return ggplot
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 #' jdObj <- calculateJD(dataList = tmObj, deltaT = 2)

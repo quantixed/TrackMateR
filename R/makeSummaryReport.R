@@ -13,7 +13,7 @@
 #' @param auto boolean which selects for returning the patchwork report or a list of the patchwork report and a data frame of summary
 #' @param summary boolean which selects for summary
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 #' tmDF <- tmObj[[1]]

@@ -9,7 +9,7 @@
 #' @param deltaT integer to represent the multiple of frames that are to be analysed
 #' @return a list of data frame of jump distances, NAs removed; and a numeric variable (jumptime)
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 #' jdObj <- calculateJD(dataList = tmObj, deltaT = 2)

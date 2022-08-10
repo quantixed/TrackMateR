@@ -6,7 +6,7 @@
 #' @param XMLpath path to the xml file
 #' @return list of two data frames
 #' @examples
-#' xmlPath <- "~/Desktop/FakeTracks.xml"
+#' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' # get the track data in a data frame
 #' tmDF <-  tmObj[[1]]
