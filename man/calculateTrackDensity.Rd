@@ -22,7 +22,7 @@ Code for calculating search area (intersection between search circle and the ima
 https://petrelharp.github.io/circle_rectangle_intersection/circle_rectangle_intersection.html
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04)
 tdDF <- calculateTrackDensity(dataList = tmObj, radius = 2)

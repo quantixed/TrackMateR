@@ -28,7 +28,7 @@ Standard deviation will be large for ensemble and smaller for time-averaged data
 Input is a data frame of tracks imported using readTrackMateXML()
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 tmDF <-  tmObj[[1]]

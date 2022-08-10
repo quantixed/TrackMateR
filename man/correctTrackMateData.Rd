@@ -30,7 +30,7 @@ list of two data frames
 If the TrackMate data is in pixels and/or frames, the data frame can be converted with this function.
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 # in the case where pixel size is 0.03 um and original data is 1 pixel, xyscalar = 0.03
 tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.03)

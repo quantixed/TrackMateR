@@ -17,7 +17,7 @@ Produces a data frame of all spots from filtered tracks, ordered by track number
 A warning is generated if the scaling is in pixels rather than real units.
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 # get the track data in a data frame
 tmDF <-  tmObj[[1]]

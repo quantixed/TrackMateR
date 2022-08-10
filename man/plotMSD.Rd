@@ -35,7 +35,7 @@ Input is the output from CalculateMSD(), so the plot will display the ensemble o
 A fit to the first four points is displayed to evaluate alpha. Diffusion coefficient from this fit is displayed top-left.
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 datalist <- readTrackMateXML(XMLpath = xmlPath)
 data <-  datalist[[1]]
 # use the ensemble method and only look at tracks with more than 8 points

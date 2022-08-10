@@ -21,7 +21,7 @@ Input is a data frame of tracks imported using readTrackMateXML()
 The default time step is one frame - which is the equivalent to the plot generated to show displacement versus time.
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 jdObj <- calculateJD(dataList = tmObj, deltaT = 2)

@@ -41,7 +41,7 @@ The use of um is because ggsave does not currently save unicode to PDF reliably.
 The code is switchable to accommodate making a "report" (one dataset) or a "summary" (several related datasets combined)
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 tmDF <- tmObj[[1]]

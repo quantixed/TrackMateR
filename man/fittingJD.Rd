@@ -42,7 +42,7 @@ The idea behind this analysis is given in:
 The bulk of this code is taken from trackR by JuG
 }
 \examples{
-xmlPath <- "~/Desktop/FakeTracks.xml"
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
