@@ -1,5 +1,9 @@
 # TrackMateR
 
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
+
 Analysis of TrackMate XML outputs in R
 
 [TrackMate](https://imagej.net/plugins/trackmate/) is a single-particle tracking plugin for ImageJ/Fiji [[1]](#1)[[2]](#2). The standard output from a tracking session is in TrackMate XML format.
