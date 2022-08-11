@@ -1,11 +1,16 @@
 Package: TrackMateR
 Type: Package
 Title: Working with TrackMate outputs in R
-Version: 0.1.0
-Author: Stephen Royle
-Maintainer: quantixed <admin@quantixed.org>
+Version: 0.2.0
+Authors@R:
+    person(given = "Stephen J",
+           family = "Royle",
+           role = c("cre", "aut"),
+           email = "admin@quantixed.org",
+           comment = c(ORCID = "0000-0001-8927-6967"))
+Maintainer: Stephen Royle <admin@quantixed.org>
 Description: TrackMate, a plugin for ImageJ/Fiji, is a popular single-particle tracking solution.
-    Building on the trackR package by Julien Godet, the aim is to import TrackMate data into R for further analysis and visualization.
+    The aim of TrackMateR is to import TrackMate data into R for further analysis and visualization.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

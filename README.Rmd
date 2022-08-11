@@ -1,31 +1,38 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  message = FALSE
+)
+```
 
 # TrackMateR <a href='https://quantixed.github.io/TrackMateR/'><img src='man/figures/logo.png' align="right" height="131.5" /></a>
 
 <!-- badges: start -->
-
 [![R-CMD-check](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Analysis of TrackMate XML outputs in R.
 
-[TrackMate](https://imagej.net/plugins/trackmate/) is a single-particle
-tracking plugin for ImageJ/Fiji. The standard output from a tracking
-session is in TrackMate XML format.
+[TrackMate](https://imagej.net/plugins/trackmate/) is a single-particle tracking plugin for ImageJ/Fiji.
+The standard output from a tracking session is in TrackMate XML format.
 
-The goal of this R package is to import all of the data associated with
-the final filtered tracks in TrackMate for further analysis and
-visualization in R.
+The goal of this R package is to import all of the data associated with the final filtered tracks in TrackMate for further analysis and visualization in R.
 
-**This package is under development and should not be considered stable
-until its first release.**
+**This package is under development and should not be considered stable until its first release.**
 
 ## Installation
 
 Install TrackMateR using devtools
 
-``` r
+```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("quantixed/TrackMateR")
 ```
@@ -34,34 +41,25 @@ devtools::install_github("quantixed/TrackMateR")
 
 A basic example is to load one XML file and analyse it.
 
-``` r
+```{r example}
 library(ggplot2)
 library(TrackMateR)
 # an example file is provided, otherwise use file.choose()
 xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 # read the TrackMate XML file into R using
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
-#> Units are:  1 pixel and 0.07002736 s 
-#> Spatial units are in pixels - consider transforming to real units
-#> Collecting spot data...
-#> Matching track data...
-#> Calculating distances...
 # have a look at the tracks
 plot_tm_allTracks(tmObj)
 ```
 
-![](man/figures/README-example-1.png)<!-- -->
+Let's go a bit further.
 
-Let’s go a bit further.
+TrackMateR can generate several different types of plot individually using commands. An alternative is to make a report.
 
-TrackMateR can generate several different types of plot individually
-using commands. An alternative is to make a report.
-
-``` r
+```{r, message = FALSE}
 # perhaps the data we loaded in was not scaled properly
 # Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04
 tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
-#> Correcting XY scale.
 # we can get a data frame of the correct TrackMate data 
 tmDF <- tmObj[[1]]
 # and a data frame of calibration information
@@ -79,9 +77,6 @@ makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdD
 titleStr = "Report", subStr = fileName, auto = FALSE)
 ```
 
-![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
-
 ## Credits
 
-This package builds on initial work by Julien Godet on
-[trackR](https://github.com/jgodet/trackR).
+This package builds on initial work by Julien Godet on [trackR](https://github.com/jgodet/trackR).
