@@ -87,7 +87,7 @@ plot_tm_cumdistOverTime <- function(input, summary = FALSE, xstr = NULL, ystr = 
     calibration <- input[[2]]
     units <- calibration$unit[1:2]
     xstr <- paste0("Time (",units[2],")")
-    ystr <- paste0("Displacement (",units[1],")")
+    ystr <- paste0("Cumulative distance (",units[1],")")
   } else {
     df <- input
   }
@@ -239,7 +239,7 @@ plot_tm_neighbours <- function(df, auto = FALSE) {
   p <- ggplot(data = df, aes(x = density)) +
     geom_histogram(bins = nBin) +
     geom_text(aes(label = paste0("median = ",format(round(median_density,3), nsmall = 3)), x = max(density, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
-    labs(x = "Density", y = "Frequency") +
+    labs(x = "Track density", y = "Frequency") +
     theme_classic() +
     theme(legend.position = "none")
 

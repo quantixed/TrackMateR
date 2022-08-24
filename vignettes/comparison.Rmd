@@ -1,0 +1,98 @@
+---
+title: "Comparison of multiple datasets"
+description: >
+  Learn how to get compare multiple datasets and conditions using TrackMateR.
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Comparison of multiple datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  message = FALSE
+)
+```
+
+In the first vignette `vignette("TrackMateR")` we saw how to analyse one TrackMate XML file.
+This is one _dataset_, the result of a TrackMate tracking session on a single movie.
+A more likely scenario is that you have several datasets, from different conditions.
+
+In this scenario we would like to see:
+
+- a report for each dataset
+- a compiled report for all datasets in that condition
+- a comparison between conditions of key parameters
+
+## Organising your data
+
+**Recommended**
+Start a new RStudio session in a new directory using Create Project.
+We find it useful to follow [this convention](https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner's-guide/) for RStudio projects.
+This [gist](https://gist.github.com/quantixed/42625f988a7b5da25b7e333c4a660b97) can be run in the console to quickly set up the folder structure for your new project.
+Now place your data in a folder called `Data/` in this directory.
+
+**Required**
+Place all your TrackMate XML files into subfolders according to condition.
+For example you might have:
+
+* Data/
+  + Control/
+    - cell1.xml
+    - cell2.xml
+  + Drug/
+    - cell1.xml
+    - cell2.xml
+    - cell3.xml
+
+Only one level of folders is allowed.
+
+## Analysing multiple datasets
+
+Once the data is in place, a single command will generate a series of reports, summaries and a comparison
+
+```{r, eval = FALSE}
+library(TrackMateR)
+compareDatasets()
+```
+
+Currently, the outputs are generated using standard parameters equivalent to `reportDataset()` and there is no possibility to change these parameters.
+
+## Outputs
+
+In the example above, the code will produce the following in a directory called `Output/`
+
+* Plots/
+  + comparison.pdf
+  + Control/
+    - combined.pdf
+    - report_1.pdf
+    - report_2.pdf
+  + Drug/
+    - combined.pdf
+    - report_1.pdf
+    - report_2.pdf
+    - report_3.pdf
+
+That is, the individual reports are saved with a new name (regardless of the original XML filename), all datasets are combined (per condition) in `combined.pdf` and a comparison of a summary of all conditions is saved in the top level folder (`comparison.pdf`).
+
+## Recalibrating TrackMate files
+
+It is possible to recalibrate TrackMate files _en masse_ by using a CSV file in the condition subfolder containing the XML files.
+A separate CSV file is needed for each condition.
+Any conditions that do not need recalibrating simply do not need a CSV file present.
+The CSV file can have any name but must follow this format.
+
+```{text}
+value,unit
+0.04,um
+0.07,s
+
+```
+
+Using this file, all XML files in the folder will be recalibrated if they are not already at 0.04 micron pixel size and 0.07 s per frame.
+Adjustments smaller than 10% are ignored.

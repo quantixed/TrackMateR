@@ -1,0 +1,158 @@
+#' Compare datasets
+#'
+#' Requires TrackMate XML files to be organised into subfolders named according to the condition.
+#' If these condition folders are in `Data/` within the working directory, the code will run automatically.
+#' Otherwise, the user is asked to locate the top level folder which contains the condition subfolders.
+#' The code will process all the datasets individually, compile them according to condition and compare across conditions.
+#' Outputs are seved to `Output/Plots/` in the working directory.
+#'
+#' If TrackMate XML files require recalibration, this is possible by placing a csv file into each subfolder.
+#' All xml files in that folder whose calibration does not match the calibration csv file will be altered.
+#'
+#' @return multiple pdf reports
+#' @importFrom ggforce geom_sina
+#' @importFrom utils read.csv
+#' @export
+compareDatasets <- function() {
+
+  condition <- value <- NULL
+
+  if(!dir.exists("Data")) {
+    datadir <- choose.dir()
+  } else {
+    datadir <- "Data"
+  }
+
+  # loop through condition folders within data folder
+  condFolderNames <- list.dirs(path = datadir, recursive = FALSE)
+  # break if there were no folders in Data directory
+  if(identical(condFolderNames, character(0)) == TRUE) {
+    return(-1)
+  }
+
+  for(i in 1:length(condFolderNames)) {
+    condFolderPath <- condFolderNames[i]
+    condFolderName <- basename(condFolderPath)
+    allTrackMateFiles <- list.files(condFolderPath, pattern = "*.xml")
+    # skip if there were no XML files in this folder
+    if(identical(allTrackMateFiles, character(0)) == TRUE) {
+      next
+    }
+    # check to see if a calibration file is present
+    calibrationFiles <- list.files(condFolderPath, pattern = "*.csv")
+    calibrationFile <- paste0(condFolderPath,"/",calibrationFiles[1])
+    if(identical(calibrationFiles, character(0)) == TRUE) {
+      calibrationXY <- 1
+      calibrationT <- 1
+      calibrate <- FALSE
+    } else {
+      # load calibration file and store calibrations
+      calibDF <- read.csv(calibrationFile)
+      calibrate <- TRUE
+    }
+    cat(paste0("Processing ",condFolderName,"\n"))
+    for(j in 1:length(allTrackMateFiles)) {
+      fileName <- allTrackMateFiles[j]
+      thisFilePath <- paste0(condFolderPath, "/", fileName)
+      # read dataset
+      tmObj <- readTrackMateXML(XMLpath = thisFilePath)
+      # scale dataset if required
+      if(calibrate) {
+        calibrationDF <- tmObj[[2]]
+        # scalar for conversion is new / old (units not relevant)
+        calibrationXY <- calibDF[1,1] / calibrationDF[1,1]
+        calibrationT <- calibDF[2,1] / calibrationDF[2,1]
+        # ignore an error of 2.5%
+        calibrationXY <- ifelse(calibrationXY < 1.025 & calibrationXY > 0.975, 1, calibrationXY)
+        calibrationT <- ifelse(calibrationT < 1.025 & calibrationT > 0.975, 1, calibrationT)
+        if(calibrationXY != 1 & calibrationT != 1) {
+          tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = calibrationXY, tscalar = calibrationT, xyunit = calibDF[1,2], tunit = calibDF[2,2])
+        } else if(calibrationXY != 1 & calibrationT == 1) {
+          tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = calibrationXY, xyunit = calibDF[1,2])
+        } else if(calibrationXY == 1 & calibrationT != 1) {
+          tmObj <- correctTrackMateData(dataList = tmObj, tscalar = calibrationT, tunit = calibDF[2,2])
+        }
+      }
+      tmDF <- tmObj[[1]]
+      calibrationDF <- tmObj[[2]]
+      # take the units
+      units <- calibrationDF$unit[1:2]
+      # we need to combine data frames
+      # first add a column to id the data
+      thisdataid <- paste0(condFolderName,"_",as.character(j))
+      tmDF$dataid <- thisdataid
+      # calculate MSD
+      msdObj <- calculateMSD(tmDF, N = 3, short = 8)
+      msdDF <- msdObj[[1]]
+      alphaDF <- msdObj[[2]]
+      # same here, combine msd summary and alpha summary
+      msdDF$dataid <- thisdataid
+      alphaDF$dataid <- thisdataid
+      # jump distance calc with deltaT of 1
+      deltaT <- 1
+      jdObj <- calculateJD(dataList = tmObj, deltaT = deltaT)
+      jdDF <- jdObj[[1]]
+      jdDF$dataid <- thisdataid
+      timeRes <- jdObj[[2]]
+      jdObj <- list(jdDF,timeRes)
+      # track density with a radius of 1.5 units
+      tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+
+      # now if it's the first one make the big dataframe, otherwise add df to bigdf
+      if(j == 1) {
+        bigtm <- tmDF
+        bigmsd <- msdDF
+        bigalpha <- alphaDF
+        bigjd <- jdDF
+        bigtd <- tdDF
+      } else {
+        bigtm <- rbind(bigtm,tmDF)
+        bigmsd <- rbind(bigmsd,msdDF)
+        bigalpha <- rbind(bigalpha,alphaDF)
+        bigjd <- rbind(bigjd,jdDF)
+        bigtd <- rbind(bigtd,tdDF)
+      }
+
+      # create the report for this dataset
+      fileName <- tools::file_path_sans_ext(basename(thisFilePath))
+      both <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, titleStr = condFolderName, subStr = fileName, auto = TRUE, summary = FALSE)
+      p <- both[[1]]
+      destinationDir <- paste0("Output/Plots/", condFolderName)
+      setupOutputPath(destinationDir)
+      filePath <- paste0(destinationDir, "/report_",as.character(j),".pdf")
+      ggsave(filePath, plot = p, width = 25, height = 19, units = "cm")
+      # retrieve other data
+      df_report <- both[[2]]
+      df_report$condition <- condFolderName
+      df_report$dataid <- thisdataid
+      if(i == 1 & j == 1) {
+        bigreport <- df_report
+      } else {
+        bigreport <- rbind(bigreport,df_report)
+      }
+    }
+    bigtmObj <- list(bigtm,calibrationDF)
+    bigmsdObj <- list(bigmsd,bigalpha)
+    bigjdObj <- list(bigjd,timeRes)
+    # now we have our combined dataset we can make a summary
+    # note we use the timeRes of the final dataset; so it is suitable for only when all files have the same calibration
+    p <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, titleStr = condFolderName, subStr = "Summary", auto = FALSE, summary = TRUE)
+    destinationDir <- paste0("Output/Plots/", condFolderName)
+    filePath <- paste0(destinationDir, "/combined.pdf")
+    ggsave(filePath, plot = p, width = 25, height = 19, units = "cm")
+  }
+
+  # comparison of pooled data to other conditions
+  melted_df <- melt(bigreport)
+
+  p <- ggplot(melted_df, aes(condition, value, colour = condition)) +
+    geom_sina(alpha = 0.5) +
+    facet_wrap(. ~ variable, scales = "free_y") +
+    labs(x = "", y = "") +
+    lims(y = c(0,NA)) +
+    theme_bw() +
+    theme(legend.position = "none")
+  destinationDir <- "Output/Plots/"
+  filePath <- paste0(destinationDir, "/comparison.pdf")
+  ggsave(filePath, plot = p, width = 19, height = 14, units = "cm")
+}
