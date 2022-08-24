@@ -1,10 +1,13 @@
 ---
-title: "Introduction to TrackMateR"
+title: "Getting Started"
 description: >
   Learn how to get started with the basics of TrackMateR.
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 4
 vignette: >
-  %\VignetteIndexEntry{Introduction to TrackMateR}
+  %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,9 +15,7 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  message = FALSE
+  comment = "#>"
 )
 ```
 
@@ -47,14 +48,23 @@ library(TrackMateR)
 xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 # read the TrackMate XML file into R using
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
-# perhaps the data we loaded in was not scaled properly
+```
+
+With the example data, we got a warning telling us that the data is scaled as pixels.
+If your TrackMate data is correctly calibrated you can skip this step but if you need to recalibrate it:
+
+```{r}
 # Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04
 tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
-# now we can have a look at the tracks
+```
+
+With this done, we can have a look at the data.
+
+```{r}
 plot_tm_allTracks(tmObj)
 ```
 
-After reading in the TrackMate file with `readTrackMateXML()` we have an object which we can visualise using `plot_tm_allTracks()`.
+So, after reading in the TrackMate file with `readTrackMateXML()` we have an object which we can visualise using `plot_tm_allTracks()`.
 
 TrackMateR can generate several different types of plot individually using commands like `plot_tm_allTracks()` or it can make them all automatically and create a report for you.
 

@@ -23,7 +23,9 @@ until its first release.**
 
 ## Installation
 
-Install TrackMateR using devtools
+Once you have installed [R](https://cran.rstudio.com) and [RStudio
+Desktop](https://www.rstudio.com/products/rstudio/download/), you can
+install TrackMateR using devtools
 
 ``` r
 # install.packages("devtools")
@@ -32,7 +34,7 @@ devtools::install_github("quantixed/TrackMateR")
 
 ## An Example
 
-A basic example is to load one XML file and analyse it.
+A basic example is to load one TrackMate XML file and analyse it.
 
 ``` r
 library(ggplot2)
@@ -55,7 +57,8 @@ plot_tm_allTracks(tmObj)
 Let’s go a bit further.
 
 TrackMateR can generate several different types of plot individually
-using commands. An alternative is to make a report.
+using commands or it can make them all automatically and create a report
+for you.
 
 ``` r
 # perhaps the data we loaded in was not scaled properly
@@ -83,5 +86,6 @@ titleStr = "Report", subStr = fileName, auto = FALSE)
 
 ## Credits
 
-This package builds on initial work by Julien Godet on
-[trackR](https://github.com/jgodet/trackR).
+TrackMateR builds on initial work by Julien Godet on
+[trackR](https://github.com/jgodet/trackR). Méghane Sittewelle provided
+example TrackMate data and helped with testing TrackMateR.

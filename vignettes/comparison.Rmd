@@ -2,7 +2,10 @@
 title: "Comparison of multiple datasets"
 description: >
   Learn how to get compare multiple datasets and conditions using TrackMateR.
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 4
 vignette: >
   %\VignetteIndexEntry{Comparison of multiple datasets}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,9 +15,7 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  message = FALSE
+  comment = "#>"
 )
 ```
 
