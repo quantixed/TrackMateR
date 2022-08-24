@@ -7,6 +7,15 @@
     <loc>https://quantixed.github.io/TrackMateR/LICENSE-text.html</loc>
   </url>
   <url>
+    <loc>https://quantixed.github.io/TrackMateR/articles/TrackMateR.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/articles/comparison.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/articles/index.html</loc>
+  </url>
+  <url>
     <loc>https://quantixed.github.io/TrackMateR/authors.html</loc>
   </url>
   <url>
@@ -23,6 +32,9 @@
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/calculateTrackDensity.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/compareDatasets.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/correctTrackMateData.html</loc>
@@ -77,5 +89,11 @@
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/reportDataset.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/setupOutputPath.html</loc>
   </url>
 </urlset>

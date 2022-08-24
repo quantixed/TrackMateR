@@ -1,8 +1,10 @@
 pandoc: 2.14.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
-articles: {}
-last_built: 2022-08-11T15:47Z
+articles:
+  TrackMateR: TrackMateR.html
+  comparison: comparison.html
+last_built: 2022-08-24T14:21Z
 urls:
   reference: https://quantixed.github.io/TrackMateR/reference
   article: https://quantixed.github.io/TrackMateR/articles
