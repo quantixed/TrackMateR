@@ -82,7 +82,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install TrackMateR using devtools</p>
+<p>Once you have installed <a href="https://cran.rstudio.com" class="external-link">R</a> and <a href="https://www.rstudio.com/products/rstudio/download/" class="external-link">RStudio Desktop</a>, you can install TrackMateR using devtools</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"quantixed/TrackMateR"</span><span class="op">)</span></span></code></pre></div>
@@ -90,7 +90,7 @@
 <div class="section level2">
 <h2 id="an-example">An Example<a class="anchor" aria-label="anchor" href="#an-example"></a>
 </h2>
-<p>A basic example is to load one XML file and analyse it.</p>
+<p>A basic example is to load one TrackMate XML file and analyse it.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://quantixed.github.io/TrackMateR/">TrackMateR</a></span><span class="op">)</span></span>
@@ -107,7 +107,7 @@
 <span><span class="fu"><a href="reference/plot_tm_allTracks.html">plot_tm_allTracks</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png"><!-- --></p>
 <p>Let’s go a bit further.</p>
-<p>TrackMateR can generate several different types of plot individually using commands. An alternative is to make a report.</p>
+<p>TrackMateR can generate several different types of plot individually using commands or it can make them all automatically and create a report for you.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># perhaps the data we loaded in was not scaled properly</span></span>
 <span><span class="co"># Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04</span></span>
@@ -133,7 +133,7 @@
 <div class="section level2">
 <h2 id="credits">Credits<a class="anchor" aria-label="anchor" href="#credits"></a>
 </h2>
-<p>This package builds on initial work by Julien Godet on <a href="https://github.com/jgodet/trackR" class="external-link">trackR</a>.</p>
+<p>TrackMateR builds on initial work by Julien Godet on <a href="https://github.com/jgodet/trackR" class="external-link">trackR</a>. Méghane Sittewelle provided example TrackMate data and helped with testing TrackMateR.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
