@@ -4,7 +4,7 @@
 #' If these condition folders are in `Data/` within the working directory, the code will run automatically.
 #' Otherwise, the user is asked to locate the top level folder which contains the condition subfolders.
 #' The code will process all the datasets individually, compile them according to condition and compare across conditions.
-#' Outputs are seved to `Output/Plots/` in the working directory.
+#' Outputs are saved to `Output/Plots/` in the working directory.
 #'
 #' If TrackMate XML files require recalibration, this is possible by placing a csv file into each subfolder.
 #' All xml files in that folder whose calibration does not match the calibration csv file will be altered.
@@ -50,7 +50,7 @@ compareDatasets <- function() {
       calibDF <- read.csv(calibrationFile)
       calibrate <- TRUE
     }
-    cat(paste0("Processing ",condFolderName,"\n"))
+    cat(paste0("\n","Processing ",condFolderName,"\n"))
     for(j in 1:length(allTrackMateFiles)) {
       fileName <- allTrackMateFiles[j]
       thisFilePath <- paste0(condFolderPath, "/", fileName)
@@ -62,6 +62,9 @@ compareDatasets <- function() {
         # scalar for conversion is new / old (units not relevant)
         calibrationXY <- calibDF[1,1] / calibrationDF[1,1]
         calibrationT <- calibDF[2,1] / calibrationDF[2,1]
+        # 0 in calibDF indicates no scaling is to be done
+        calibrationXY <- ifelse(calibrationXY == 0, 1, calibrationXY)
+        calibrationT <- ifelse(calibrationT == 0, 1, calibrationT)
         # ignore an error of 2.5%
         calibrationXY <- ifelse(calibrationXY < 1.025 & calibrationXY > 0.975, 1, calibrationXY)
         calibrationT <- ifelse(calibrationT < 1.025 & calibrationT > 0.975, 1, calibrationT)
@@ -71,6 +74,10 @@ compareDatasets <- function() {
           tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = calibrationXY, xyunit = calibDF[1,2])
         } else if(calibrationXY == 1 & calibrationT != 1) {
           tmObj <- correctTrackMateData(dataList = tmObj, tscalar = calibrationT, tunit = calibDF[2,2])
+        } else {
+          # the final possibility is nothing needs scaling but units need to change.
+          # do not test if they are the same just flush the units with the values in the csv file
+          tmObj <- correctTrackMateData(dataList = tmObj, xyunit = calibDF[1,2], tunit = calibDF[2,2])
         }
       }
       tmDF <- tmObj[[1]]
@@ -148,6 +155,7 @@ compareDatasets <- function() {
   p <- ggplot(melted_df, aes(condition, value, colour = condition)) +
     geom_sina(alpha = 0.5) +
     facet_wrap(. ~ variable, scales = "free_y") +
+    guides(x =  guide_axis(angle = 90)) +
     labs(x = "", y = "") +
     lims(y = c(0,NA)) +
     theme_bw() +

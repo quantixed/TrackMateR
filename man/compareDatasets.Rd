@@ -14,7 +14,7 @@ Requires TrackMate XML files to be organised into subfolders named according to 
 If these condition folders are in `Data/` within the working directory, the code will run automatically.
 Otherwise, the user is asked to locate the top level folder which contains the condition subfolders.
 The code will process all the datasets individually, compile them according to condition and compare across conditions.
-Outputs are seved to `Output/Plots/` in the working directory.
+Outputs are saved to `Output/Plots/` in the working directory.
 }
 \details{
 If TrackMate XML files require recalibration, this is possible by placing a csv file into each subfolder.

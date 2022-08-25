@@ -46,9 +46,9 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
   # make msd plot
   msddf <- msdList[[1]]
   if(summary){
-    p_msd <- plotNMSD(msddf)
+    p_msd <- plot_tm_NMSD(msddf)
   } else {
-    msdreturn <- plotMSD(msddf, units, auto = TRUE)
+    msdreturn <- plot_tm_MSD(msddf, units, auto = TRUE)
     p_msd <- msdreturn[[1]]
     dee <- msdreturn[[2]]
   }

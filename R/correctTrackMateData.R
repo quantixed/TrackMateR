@@ -34,9 +34,6 @@ correctTrackMateData <- function(dataList, xyscalar = 1, tscalar = 1, xyunit = N
     df$cumulative_distance <- df$cumulative_distance * xyscalar
     # correct calibration data
     calib[1,1] <- calib[1,1] * xyscalar
-    if(!is.null(xyunit)) {
-      calib[1,2] <- xyunit
-    }
     calib[3:4,1] <- calib[3:4,1] * xyscalar # border of image
   }
   if(tscalar != 1) {
@@ -46,9 +43,12 @@ correctTrackMateData <- function(dataList, xyscalar = 1, tscalar = 1, xyunit = N
     df$track_duration <- df$track_duration * tscalar
     # correct calibration data
     calib[2,1] <- calib[2,1] * tscalar
-    if(!is.null(tunit)) {
-      calib[1,2] <- tunit
-    }
+  }
+  # will change units even if no scaling is done
+  if(!is.null(xyunit)) {
+    calib[1,2] <- xyunit
+  }
+  if(!is.null(tunit)) {
     calib[2,2] <- tunit
   }
   msg <- paste0(msg,"\n")

@@ -83,7 +83,7 @@ That is, the individual reports are saved with a new name (regardless of the ori
 
 ## Recalibrating TrackMate files
 
-It is possible to recalibrate TrackMate files _en masse_ by using a CSV file in the condition subfolder containing the XML files.
+It is possible to recalibrate TrackMate XML files _en masse_ by using a CSV file in the condition subfolder containing the XML files.
 A separate CSV file is needed for each condition.
 Any conditions that do not need recalibrating simply do not need a CSV file present.
 The CSV file can have any name but must follow this format.
@@ -96,4 +96,9 @@ value,unit
 ```
 
 Using this file, all XML files in the folder will be recalibrated if they are not already at 0.04 micron pixel size and 0.07 s per frame.
-Adjustments smaller than 10% are ignored.
+Adjustments smaller than 2.5% are ignored.
+
+In the situation where you have datasets with differing (but correct) timescales and spatial units need to be corrected, use 0 for the value corresponding to time (time rescaling will be ignored) and spatial rescaling will go ahead.
+Similarly, if you have different spatial scaling between datasets you can rescale time only by using 0 for the spatial value.
+If you have datasets that need calibrating differently, you will need to group them into condition-level subfolders with a single csv file to specify the correct parameters.
+Alternatively, consider going back and retracking in TrackMate and specifying the correct parameters.
