@@ -155,12 +155,13 @@
 <div class="section level2">
 <h2 id="recalibrating-trackmate-files">Recalibrating TrackMate files<a class="anchor" aria-label="anchor" href="#recalibrating-trackmate-files"></a>
 </h2>
-<p>It is possible to recalibrate TrackMate files <em>en masse</em> by using a CSV file in the condition subfolder containing the XML files. A separate CSV file is needed for each condition. Any conditions that do not need recalibrating simply do not need a CSV file present. The CSV file can have any name but must follow this format.</p>
+<p>It is possible to recalibrate TrackMate XML files <em>en masse</em> by using a CSV file in the condition subfolder containing the XML files. A separate CSV file is needed for each condition. Any conditions that do not need recalibrating simply do not need a CSV file present. The CSV file can have any name but must follow this format.</p>
 <pre class="text"><code>value,unit
 0.04,um
 0.07,s
 </code></pre>
-<p>Using this file, all XML files in the folder will be recalibrated if they are not already at 0.04 micron pixel size and 0.07 s per frame. Adjustments smaller than 10% are ignored.</p>
+<p>Using this file, all XML files in the folder will be recalibrated if they are not already at 0.04 micron pixel size and 0.07 s per frame. Adjustments smaller than 2.5% are ignored.</p>
+<p>In the situation where you have datasets with differing (but correct) timescales and spatial units need to be corrected, use 0 for the value corresponding to time (time rescaling will be ignored) and spatial rescaling will go ahead. Similarly, if you have different spatial scaling between datasets you can rescale time only by using 0 for the spatial value. If you have datasets that need calibrating differently, you will need to group them into condition-level subfolders with a single csv file to specify the correct parameters. Alternatively, consider going back and retracking in TrackMate and specifying the correct parameters.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
