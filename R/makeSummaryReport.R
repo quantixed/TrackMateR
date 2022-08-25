@@ -46,7 +46,9 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
   # make msd plot
   msddf <- msdList[[1]]
   if(summary){
-    p_msd <- plot_tm_NMSD(msddf)
+    msdreturn <- plot_tm_NMSD(msddf, auto = TRUE)
+    p_msd <- msdreturn[[1]]
+    msdSummary <- msdreturn[[2]]
   } else {
     msdreturn <- plot_tm_MSD(msddf, units, auto = TRUE)
     p_msd <- msdreturn[[1]]
@@ -68,7 +70,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
     p_displacementHist <- dispObj[[1]]
     median_disp <- dispObj[[2]]
   } else {
-    p_displacementHist <- plot_tm_displacementHist(input = tmList, auto = auto)
+    p_displacementHist <- plot_tm_displacementHist(input = tmList, auto = FALSE)
   }
 
   # alpha distribution of traces
@@ -90,7 +92,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
     p_speed <- speedObj[[1]]
     median_speed <- speedObj[[2]]
   } else {
-    p_speed <- plot_tm_speed(input = tmList, summary = summary, auto = auto)
+    p_speed <- plot_tm_speed(input = tmList, summary = summary, auto = FALSE)
   }
 
   # make a plot of jump distance distribution
@@ -104,7 +106,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
     p_neighbours <- neighbourObj[[1]]
     median_density <- neighbourObj[[2]]
   } else {
-    p_neighbours <- plot_tm_neighbours(df = tddf, auto = auto)
+    p_neighbours <- plot_tm_neighbours(df = tddf, auto = FALSE)
   }
 
   # make the report (patchwork of ggplots)
@@ -117,7 +119,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
   r_report <- toprow / bottomrow + plot_layout(nrow = 2, heights = c(2,1))
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
-  if(auto) {
+  if(auto == TRUE & summary == FALSE) {
     # make a multi-column object and pass directly back
     df_report <- data.frame(alpha = median_alpha,
                             speed = median_speed,
@@ -125,6 +127,9 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
                             displacement = median_disp,
                             neighbours = median_density)
     returnList <- list(r_report,df_report)
+    return(returnList)
+  } else if(auto == TRUE & summary == TRUE) {
+    returnList <- list(r_report,msdSummary)
     return(returnList)
   } else {
     return(r_report)

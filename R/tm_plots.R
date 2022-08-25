@@ -324,23 +324,55 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
 #' This function is used to compile multiple datasets from the same condition.
 #'
 #' @param df dataframe of MSD summary data from multiple datasets (labelled by dataid)
-#' @return ggplot
+#' @param auto boolean to request plot only, TRUE gives plot and summary dataframe as a list
+#' @return ggplot or list of ggplot and dataframe of summary data
 #' @export
-plot_tm_NMSD <- function(df) {
-  dataid <- pred <- value <- NULL
+plot_tm_NMSD <- function(df, auto = FALSE) {
+  dataid <- pred <- value <- size <- NULL
   # generate a mean of the MSD curve over time (lag)
   # rename mean to value so as not to upset ddplyr
   colnames(df)[1] <- "value"
-  msdmean <- df %>%
+
+  # find the parameters for interpolation
+  t1 <- df %>%
+    subset(size == 1)
+  minT <- min(t1$t)
+  maxT <- max(df$t)
+  steps <- ceiling(maxT / minT)
+
+  # need to work per dataset
+  datasets <- unique(df$dataid)
+
+  for (i in datasets) {
+    temp <- df %>%
+      subset(dataid == i)
+    newdf <- data.frame(approx(x = temp$t, y = temp$value, xout = seq(from = minT, to = steps * minT, by = minT)))
+    newdf$dataid <- i
+    if(i == datasets[1]) {
+      alldf <- newdf
+    } else {
+      alldf <- rbind(alldf,newdf)
+    }
+  }
+  # rename header
+  names(alldf) <- c("t", "value", "dataid")
+
+  msdmean <- alldf %>%
     group_by(t) %>%
-    summarise(mean = mean(value), sd = sd(value))
+    summarise(mean = mean(value, na.rm = TRUE), sd = sd(value, na.rm = TRUE), n = sum(!is.na(value)))
+
+  minN <- ceiling(max(msdmean$n) / 3)
+  tmp <- msdmean[-1,]
+  tmp <- tmp %>%
+    filter(n < minN)
+  maxX <- min(tmp$t)
 
   p <- ggplot(data = df, aes(x = t, y = value)) +
     geom_line(aes(group = dataid), colour = "blue", alpha = 0.5) +
     geom_ribbon(data = msdmean, aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.2) +
     geom_line(data = msdmean, aes(x = t, y = mean), size = 1) +
     ylim(0,NA) +
-    xlim(0,NA) +
+    xlim(0,maxX) +
     labs(x = "Time (s)", y = "MSD") +
     theme_classic() +
     theme(legend.position = "none")
@@ -355,6 +387,11 @@ plot_tm_NMSD <- function(df) {
   p <-  p + geom_line(data = msdmean, aes(x = t, y = pred), colour = "red", linetype = 2) +
     geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
 
-  return(p)
+  if(auto) {
+    listReturn <- list(p, msdmean)
+    return(listReturn)
+  } else {
+    return(p)
+  }
 }
 

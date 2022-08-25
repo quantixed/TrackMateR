@@ -10,8 +10,6 @@
 #' All xml files in that folder whose calibration does not match the calibration csv file will be altered.
 #'
 #' @return multiple pdf reports
-#' @importFrom ggforce geom_sina
-#' @importFrom utils read.csv
 #' @export
 compareDatasets <- function() {
 
@@ -143,11 +141,24 @@ compareDatasets <- function() {
     bigjdObj <- list(bigjd,timeRes)
     # now we have our combined dataset we can make a summary
     # note we use the timeRes of the final dataset; so it is suitable for only when all files have the same calibration
-    p <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, titleStr = condFolderName, subStr = "Summary", auto = FALSE, summary = TRUE)
+    summaryObj <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, titleStr = condFolderName, subStr = "Summary", auto = TRUE, summary = TRUE)
+    p <- summaryObj[[1]]
     destinationDir <- paste0("Output/Plots/", condFolderName)
     filePath <- paste0(destinationDir, "/combined.pdf")
     ggsave(filePath, plot = p, width = 25, height = 19, units = "cm")
+    # save data as csv
+    destinationDir <- paste0("Output/Data/", condFolderName)
+    setupOutputPath(destinationDir)
+    msdSummary <- summaryObj[[2]]
+    write.csv(msdSummary, paste0(destinationDir, "/msdSummary.csv"), row.names = FALSE)
+    write.csv(bigtm, paste0(destinationDir, "/allTM.csv"), row.names = FALSE)
+    write.csv(bigmsd, paste0(destinationDir, "/allMSD.csv"), row.names = FALSE)
+    write.csv(bigjd, paste0(destinationDir, "/allJD.csv"), row.names = FALSE)
   }
+
+  # save summary data as csv
+  destinationDir <- "Output/Data"
+  write.csv(bigreport, paste0(destinationDir, "/msdSummary.csv"), row.names = FALSE)
 
   # comparison of pooled data to other conditions
   melted_df <- melt(bigreport)
