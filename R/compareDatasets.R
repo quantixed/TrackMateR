@@ -8,6 +8,9 @@
 #'
 #' If TrackMate XML files require recalibration, this is possible by placing a csv file into each subfolder.
 #' All xml files in that folder whose calibration does not match the calibration csv file will be altered.
+#' Ideally, all conditions should have the same scaling, and within a condition they should be similar.
+#' The code will run if this is not the case, but beware that these discrepancies are not detected.
+#' For example, comparing two datasets in um/s with one in mm/min.
 #'
 #' @return multiple pdf reports
 #' @export
@@ -131,9 +134,9 @@ compareDatasets <- function() {
       df_report$condition <- condFolderName
       df_report$dataid <- thisdataid
       if(i == 1 & j == 1) {
-        bigreport <- df_report
+        megareport <- df_report
       } else {
-        bigreport <- rbind(bigreport,df_report)
+        megareport <- rbind(megareport,df_report)
       }
     }
     bigtmObj <- list(bigtm,calibrationDF)
@@ -149,28 +152,27 @@ compareDatasets <- function() {
     # save data as csv
     destinationDir <- paste0("Output/Data/", condFolderName)
     setupOutputPath(destinationDir)
-    msdSummary <- summaryObj[[2]]
-    write.csv(msdSummary, paste0(destinationDir, "/msdSummary.csv"), row.names = FALSE)
+    # save each dataset-level data
     write.csv(bigtm, paste0(destinationDir, "/allTM.csv"), row.names = FALSE)
     write.csv(bigmsd, paste0(destinationDir, "/allMSD.csv"), row.names = FALSE)
     write.csv(bigjd, paste0(destinationDir, "/allJD.csv"), row.names = FALSE)
+    # mega data frame of msd averages per dataset
+    msdSummary <- summaryObj[[2]]
+    msdSummary$condition <- condFolderName
+    if(i == 1) {
+      megamsd <- msdSummary
+    } else {
+      megamsd <- rbind(megamsd,msdSummary)
+    }
   }
 
   # save summary data as csv
   destinationDir <- "Output/Data"
-  write.csv(bigreport, paste0(destinationDir, "/msdSummary.csv"), row.names = FALSE)
+  write.csv(megamsd, paste0(destinationDir, "/allMSDCurves.csv"), row.names = FALSE)
+  write.csv(megareport, paste0(destinationDir, "/allComparison.csv"), row.names = FALSE)
 
-  # comparison of pooled data to other conditions
-  melted_df <- melt(bigreport)
-
-  p <- ggplot(melted_df, aes(condition, value, colour = condition)) +
-    geom_sina(alpha = 0.5) +
-    facet_wrap(. ~ variable, scales = "free_y") +
-    guides(x =  guide_axis(angle = 90)) +
-    labs(x = "", y = "") +
-    lims(y = c(0,NA)) +
-    theme_bw() +
-    theme(legend.position = "none")
+  # generate the comparison plots and save
+  p <- makeComparison(df = megareport, msddf = megamsd, units = units)
   destinationDir <- "Output/Plots/"
   filePath <- paste0(destinationDir, "/comparison.pdf")
   ggsave(filePath, plot = p, width = 19, height = 14, units = "cm")

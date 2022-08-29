@@ -19,4 +19,7 @@ Outputs are saved to `Output/Plots/` in the working directory.
 \details{
 If TrackMate XML files require recalibration, this is possible by placing a csv file into each subfolder.
 All xml files in that folder whose calibration does not match the calibration csv file will be altered.
+Ideally, all conditions should have the same scaling, and within a condition they should be similar.
+The code will run if this is not the case, but beware that these discrepancies are not detected.
+For example, comparing two datasets in um/s with one in mm/min.
 }

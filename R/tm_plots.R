@@ -365,7 +365,11 @@ plot_tm_NMSD <- function(df, auto = FALSE) {
   tmp <- msdmean[-1,]
   tmp <- tmp %>%
     filter(n < minN)
-  maxX <- min(tmp$t)
+  if(nrow(tmp) > 0) {
+    maxX <- min(tmp$t)
+  } else {
+    maxX <- NA
+  }
 
   p <- ggplot(data = df, aes(x = t, y = value)) +
     geom_line(aes(group = dataid), colour = "blue", alpha = 0.5) +
@@ -386,6 +390,14 @@ plot_tm_NMSD <- function(df, auto = FALSE) {
   # add line to show MSD with alpha = 1
   p <-  p + geom_line(data = msdmean, aes(x = t, y = pred), colour = "red", linetype = 2) +
     geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
+
+  # for export we only want the summary data that is plotted i.e. cut off appropriately
+  if(!is.na(maxX)) {
+    cutrow <- which(msdmean$t == maxX)
+    if(!is.null(cutrow) & cutrow > 3) {
+      msdmean <- msdmean[1:cutrow - 1,]
+    }
+  }
 
   if(auto) {
     listReturn <- list(p, msdmean)
