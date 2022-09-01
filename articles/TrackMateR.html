@@ -124,12 +124,12 @@
 <p>With this done, we can have a look at the data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TrackMateR_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="TrackMateR_files/figure-html/unnamed-chunk-3-1.png" width="384"></p>
 <p>So, after reading in the TrackMate file with <code><a href="../reference/readTrackMateXML.html">readTrackMateXML()</a></code> we have an object which we can visualise using <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code>.</p>
 <p>TrackMateR can generate several different types of plot individually using commands like <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code> or it can make them all automatically and create a report for you.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/reportDataset.html">reportDataset</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TrackMateR_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="TrackMateR_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="a-more-advanced-example">A more advanced example<a class="anchor" aria-label="anchor" href="#a-more-advanced-example"></a>
@@ -148,12 +148,14 @@
 <span><span class="va">jdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculateJD.html">calculateJD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, deltaT <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># and look at the density of tracks</span></span>
 <span><span class="va">tdDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculateTrackDensity.html">calculateTrackDensity</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, radius <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="co"># and calculate fractal dimension</span></span>
+<span><span class="va">fdDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculateFD.html">calculateFD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span><span class="op">)</span></span>
 <span><span class="co"># if we extract the name of the file</span></span>
 <span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_path_sans_ext</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">xmlPath</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># we can send all these things to makeSummaryReport() to get a nice report of our dataset</span></span>
-<span><span class="fu"><a href="../reference/makeSummaryReport.html">makeSummaryReport</a></span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>, tddf <span class="op">=</span> <span class="va">tdDF</span>,</span>
+<span><span class="fu"><a href="../reference/makeSummaryReport.html">makeSummaryReport</a></span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>, tddf <span class="op">=</span> <span class="va">tdDF</span>, fddf <span class="op">=</span> <span class="va">fdDF</span>,</span>
 <span>titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TrackMateR_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="TrackMateR_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p>This vignette described the analysis of a single dataset. For analysis of more than one dataset, see <code><a href="../articles/comparison.html">vignette("comparison")</a></code></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

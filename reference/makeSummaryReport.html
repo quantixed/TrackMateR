@@ -68,6 +68,7 @@ The code is switchable to accommodate making a "report" (one dataset) or a "summ
 <span>  <span class="va">msdList</span>,</span>
 <span>  <span class="va">jumpList</span>,</span>
 <span>  <span class="va">tddf</span>,</span>
+<span>  <span class="va">fddf</span>,</span>
 <span>  titleStr <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  subStr <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  auto <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -91,6 +92,10 @@ The code is switchable to accommodate making a "report" (one dataset) or a "summ
 
 <dt>tddf</dt>
 <dd><p>data frame of track density data</p></dd>
+
+
+<dt>fddf</dt>
+<dd><p>data frame of fractal dimension data</p></dd>
 
 
 <dt>titleStr</dt>
@@ -132,9 +137,10 @@ The code is switchable to accommodate making a "report" (one dataset) or a "summ
 <span class="r-in"><span><span class="va">msdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateMSD.html">calculateMSD</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">tmDF</span>, method <span class="op">=</span> <span class="st">"ensemble"</span>, N <span class="op">=</span> <span class="fl">3</span>, short <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">jdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateJD.html">calculateJD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, deltaT <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tdDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateTrackDensity.html">calculateTrackDensity</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, radius <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fdDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateFD.html">calculateFD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_path_sans_ext</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">xmlPath</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">reportObj</span> <span class="op">&lt;-</span> <span class="fu">makeSummaryReport</span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>, tddf <span class="op">=</span> <span class="va">tdDF</span>,</span></span>
-<span class="r-in"><span>titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reportObj</span> <span class="op">&lt;-</span> <span class="fu">makeSummaryReport</span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>,</span></span>
+<span class="r-in"><span>tddf <span class="op">=</span> <span class="va">tdDF</span>, fddf <span class="op">=</span> <span class="va">fdDF</span>, titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

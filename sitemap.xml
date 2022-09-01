@@ -91,10 +91,16 @@
     <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementOverTime.html</loc>
   </url>
   <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_fd.html</loc>
+  </url>
+  <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_neighbours.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_speed.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_width.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.html</loc>
