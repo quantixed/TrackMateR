@@ -12,7 +12,7 @@ calculateAlpha(alphaMat, tstep)
 \item{tstep}{variable. Time step in seconds}
 }
 \value{
-numeric vector
+data frame
 }
 \description{
 Normal diffusion is alpha = 1. Subdiffusion is alpha < 1 and superdiffusion is alpha > 1.

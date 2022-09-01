@@ -13,6 +13,7 @@
 #' @importFrom stats median
 #' @importFrom stats na.omit
 #' @importFrom stats coef
+#' @importFrom stats dist
 #' @importFrom stats nls
 #' @importFrom utils data
 #' @importFrom utils install.packages

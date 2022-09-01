@@ -29,10 +29,7 @@ calculateTrackDensity <- function(dataList, radius = 1) {
     a <- df %>%
       filter(trace == i) %>%
       select(frame, x, y)
-    # a <- subset(df, trace == i, select = c(x,y,frame))
     frame0 <- a$frame[1]
-    # a <- a[-1,]
-    # tList[[i]] <-  a$frame - frame0
     x0 <- a$x[1]
     y0 <- a$y[1]
     # select first frame for this track
@@ -45,7 +42,7 @@ calculateTrackDensity <- function(dataList, radius = 1) {
     neighbours <- sum(distances <= radius, na.rm = TRUE) - 1
     # calculate how much of the search circle was inside the frame
     search_fraction <- find_td_area(r = radius, xy = c(x0,y0), a= c(0,calibration[3,1]), b = c(0,calibration[4,1])) / (pi * radius^2)
-    subdf <- data.frame(id = i,
+    subdf <- data.frame(trace = i,
                         neighbours = neighbours,
                         fraction = search_fraction)
     if(i == traceList[1]) {
@@ -66,6 +63,7 @@ calculateTrackDensity <- function(dataList, radius = 1) {
 #' @param yy y coord of point for comparison
 #' @param df data frame containing x and y columns for other points
 #' @return numeric vector of distances
+#' @keywords internal
 find_distances <- function(xx, yy, df) {
   df$x <- (df$x - xx)^2
   df$y <- (df$y - yy)^2
@@ -79,6 +77,7 @@ find_distances <- function(xx, yy, df) {
 #' @param x value
 #' @param r radius
 #' @return numeric variable
+#' @keywords internal
 find_td_A1 <- function (x, r) {
   out <- 0
   if (x < r) {
@@ -93,6 +92,7 @@ find_td_A1 <- function (x, r) {
 #' @param y value
 #' @param r radius
 #' @return numeric variable
+#' @keywords internal
 find_td_A2 <- function (x, y, r) {
   out <- 0
   if (x^2 + y^2 < r^2) {
@@ -120,6 +120,7 @@ find_td_A2 <- function (x, y, r) {
 #' @examples
 #' find_td_area(r=2, xy=c(4, 4), a=c(0, 8), b=c(0, 5))
 #' @export
+#' @keywords internal
 find_td_area <- function(r, xy, a, b) {
   stopifnot(length(xy) == 2 && length(a) == 2 && length(b) == 2)
   x1 <- xy[1] - a[1]

@@ -13,3 +13,4 @@ setupOutputPath(fpath)
 In the working directory, we need to check if a path to a directory exists, and if not create it.
 Ensures smooth running of the automated functions in TestTrackMateR.
 }
+\keyword{internal}

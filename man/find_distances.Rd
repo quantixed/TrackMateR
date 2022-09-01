@@ -19,3 +19,4 @@ numeric vector of distances
 \description{
 Find distance between xy coordinate and a series of other xy coordinates
 }
+\keyword{internal}

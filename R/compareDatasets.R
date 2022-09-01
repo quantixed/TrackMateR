@@ -16,7 +16,7 @@
 #' @export
 compareDatasets <- function() {
 
-  condition <- value <- NULL
+  condition <- value <- dataid <- cumulative_distance <- track_duration <- NULL
 
   if(!dir.exists("Data")) {
     datadir <- choose.dir()
@@ -105,6 +105,7 @@ compareDatasets <- function() {
       jdObj <- list(jdDF,timeRes)
       # track density with a radius of 1.5 units
       tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+      tdDF$dataid <- thisdataid
 
       # now if it's the first one make the big dataframe, otherwise add df to bigdf
       if(j == 1) {
@@ -156,13 +157,26 @@ compareDatasets <- function() {
     write.csv(bigtm, paste0(destinationDir, "/allTM.csv"), row.names = FALSE)
     write.csv(bigmsd, paste0(destinationDir, "/allMSD.csv"), row.names = FALSE)
     write.csv(bigjd, paste0(destinationDir, "/allJD.csv"), row.names = FALSE)
-    # mega data frame of msd averages per dataset
+    # mega data frame of msd averages per dataset; alpha values, track density, speed by trace/dataid/condition
     msdSummary <- summaryObj[[2]]
     msdSummary$condition <- condFolderName
+    # bigalpha$condition <- condFolderName
+    # bigtd$condition <- condFolderName
+    bigspeed <- bigtm %>%
+      group_by(dataid, trace) %>%
+      summarise(cumdist = max(cumulative_distance), cumtime = max(track_duration))
+    bigspeed$speed <- bigspeed$cumdist / bigspeed$cumtime
+    bigspeed$condition <- condFolderName
     if(i == 1) {
       megamsd <- msdSummary
+      megaalpha <- bigalpha
+      megatd <- bigtd
+      megaspeed <- bigspeed
     } else {
       megamsd <- rbind(megamsd,msdSummary)
+      megaalpha <- rbind(megaalpha,bigalpha)
+      megatd <- rbind(megatd,bigtd)
+      megaspeed <- rbind(megaspeed,bigspeed)
     }
   }
 
@@ -170,6 +184,10 @@ compareDatasets <- function() {
   destinationDir <- "Output/Data"
   write.csv(megamsd, paste0(destinationDir, "/allMSDCurves.csv"), row.names = FALSE)
   write.csv(megareport, paste0(destinationDir, "/allComparison.csv"), row.names = FALSE)
+
+  # for alpha values, track density, speed by trace/dataid/condition we must combine into one
+  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megatd, megaspeed))
+  write.csv(megatrace, paste0(destinationDir, "/allTraceData.csv"), row.names = FALSE)
 
   # generate the comparison plots and save
   p <- makeComparison(df = megareport, msddf = megamsd, units = units)

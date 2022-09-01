@@ -19,3 +19,4 @@ numeric variable
 \description{
 Track Density - Find area A2
 }
+\keyword{internal}

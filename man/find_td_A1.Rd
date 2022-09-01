@@ -17,3 +17,4 @@ numeric variable
 \description{
 Track Density - Find area A1
 }
+\keyword{internal}

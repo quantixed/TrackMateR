@@ -26,3 +26,4 @@ xy, a, and b must be vectors of length 2, and xy must lie within the rectangle.
 \examples{
 find_td_area(r=2, xy=c(4, 4), a=c(0, 8), b=c(0, 5))
 }
+\keyword{internal}

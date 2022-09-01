@@ -1,4 +1,16 @@
 url: https://quantixed.github.io/TrackMateR/
+
+authors:
+  Stephen J. Royle:
+    href: https://quantixed.org
+
 template:
   bootstrap: 5
   bootswatch: flatly
+
+repo:
+  url:
+    home: https://github.com/quantixed/TrackMateR/
+    source: https://github.com/quantixed/TrackMateR/blob/master/
+    issue: https://github.com/quantixed/TrackMateR/issues/
+    user: https://github.com/quantixed/
