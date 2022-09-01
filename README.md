@@ -75,10 +75,12 @@ msdObj <- calculateMSD(df = tmDF, method = "ensemble", N = 3, short = 8)
 jdObj <- calculateJD(dataList = tmObj, deltaT = 1)
 # and look at the density of tracks
 tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+# and calculate fractal dimension
+fdDF <- calculateFD(dataList = tmObj)
 # if we extract the name of the file
 fileName <- tools::file_path_sans_ext(basename(xmlPath))
 # we can send all these things to makeSummaryReport() to get a nice report of our dataset
-makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF,
+makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, fddf = fdDF,
 titleStr = "Report", subStr = fileName, auto = FALSE)
 ```
 

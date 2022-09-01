@@ -8,6 +8,7 @@
 #' @param msdList MSD summary and alpha list = output from calculateMSD()
 #' @param jumpList list of a data frame of jump data and a variable to be passed to timeRes
 #' @param tddf data frame of track density data
+#' @param fddf data frame of fractal dimension data
 #' @param titleStr string used as the title for the report
 #' @param subStr string used as the subtitle for the report
 #' @param auto boolean which selects for returning the patchwork report or a list of the patchwork report and a data frame of summary
@@ -21,13 +22,14 @@
 #' msdObj <- calculateMSD(df = tmDF, method = "ensemble", N = 3, short = 8)
 #' jdObj <- calculateJD(dataList = tmObj, deltaT = 1)
 #' tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+#' fdDF <- calculateFD(dataList = tmObj)
 #' fileName <- tools::file_path_sans_ext(basename(xmlPath))
-#' reportObj <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF,
-#' titleStr = "Report", subStr = fileName, auto = TRUE)
+#' reportObj <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj,
+#' tddf = tdDF, fddf = fdDF, titleStr = "Report", subStr = fileName, auto = TRUE)
 #' @return patchwork ggplot or a list of patchwork ggplot and data frame of summary data
 #' @export
 
-makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", subStr = "", auto = FALSE, summary = FALSE) {
+makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = "", subStr = "", auto = FALSE, summary = FALSE) {
   oldw <- getOption("warn")
   options(warn = -1)
 
@@ -109,14 +111,27 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
     p_neighbours <- plot_tm_neighbours(df = tddf, auto = FALSE)
   }
 
+  # fractal dimension and width plots
+  if(auto == TRUE & summary == FALSE) {
+    fdObj <- plot_tm_fd(df = fddf, auto = auto)
+    p_fd <- fdObj[[1]]
+    median_fd <- fdObj[[2]]
+    widthObj <- plot_tm_width(df = fddf, units = units, auto = auto)
+    p_width <- widthObj[[1]]
+    median_width <- widthObj[[2]]
+  } else {
+    p_fd <- plot_tm_fd(df = fddf, auto = FALSE)
+    p_width <- plot_tm_width(df = fddf, units = units, auto = FALSE)
+  }
+
   # make the report (patchwork of ggplots)
   design <- "
     1123
     1145
   "
   toprow <- p_allTracks + p_displacementOverTime + p_displacementHist + p_cumdistOverTime + p_speed + plot_layout(design = design)
-  bottomrow <- p_msd + p_alpha + p_jump + p_neighbours + plot_layout(ncol = 4)
-  r_report <- toprow / bottomrow + plot_layout(nrow = 2, heights = c(2,1))
+  bottomrow <- p_msd + p_alpha + p_jump + p_neighbours + p_fd + p_width + plot_layout(ncol = 3, nrow = 2)
+  r_report <- toprow / bottomrow
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
   if(auto == TRUE & summary == FALSE) {
@@ -125,7 +140,9 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, titleStr = "", su
                             speed = median_speed,
                             dee = dee,
                             displacement = median_disp,
-                            neighbours = median_density)
+                            neighbours = median_density,
+                            fd = median_fd,
+                            width = median_width)
     returnList <- list(r_report,df_report)
     return(returnList)
   } else if(auto == TRUE & summary == TRUE) {

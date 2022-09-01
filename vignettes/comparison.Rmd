@@ -4,8 +4,8 @@ description: >
   Learn how to get compare multiple datasets and conditions using TrackMateR.
 output:
   rmarkdown::html_vignette:
-    fig_width: 6
-    fig_height: 4
+    fig_width: 8
+    fig_height: 8
 vignette: >
   %\VignetteIndexEntry{Comparison of multiple datasets}
   %\VignetteEngine{knitr::rmarkdown}

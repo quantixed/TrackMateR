@@ -251,6 +251,58 @@ plot_tm_neighbours <- function(df, auto = FALSE) {
   }
 }
 
+#' Make a histogram of fractal dimension
+#'
+#' @param df data frame of fractal dimension data
+#' @param auto boolean to switch between returning a ggplot and a list of ggplot and variable
+#' @return ggplot or list of ggplot and variable
+#' @export
+plot_tm_fd <- function(df, auto = FALSE) {
+  fd <- NULL
+  median_fd <- median(df$fd, na.rm = TRUE)
+  nBin <- max(floor(1 + log2(nrow(df))),30)
+
+  p <- ggplot(data = df, aes(x = fd)) +
+    geom_histogram(bins = nBin) +
+    geom_text(aes(label = paste0("median = ",format(round(median_fd,3), nsmall = 3)), x = max(fd, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    labs(x = "Fractal dimension", y = "Frequency") +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  if(auto) {
+    returnList <- list(p, median_fd)
+    return(returnList)
+  } else {
+    return(p)
+  }
+}
+
+#' Make a histogram of the largest point-to-point distance in each track
+#'
+#' @param df data frame of fractal dimension data
+#' @param units character vector of space and time units (default is um and s)
+#' @param auto boolean to switch between returning a ggplot and a list of ggplot and variable
+#' @return ggplot or list of ggplot and variable
+#' @export
+plot_tm_width <- function(df, units = c("um","s"), auto = FALSE) {
+  wide <- NULL
+  median_width <- median(df$wide, na.rm = TRUE)
+  nBin <- max(floor(1 + log2(nrow(df))),30)
+
+  p <- ggplot(data = df, aes(x = wide)) +
+    geom_histogram(bins = nBin) +
+    geom_text(aes(label = paste0("median = ",format(round(median_width,3), nsmall = 3)), x = max(wide, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    labs(x = paste0("Maximum width (",units[1],")"), y = "Frequency") +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  if(auto) {
+    returnList <- list(p, median_width)
+    return(returnList)
+  } else {
+    return(p)
+  }
+}
 
 #' Make a plot of MSD data
 #'

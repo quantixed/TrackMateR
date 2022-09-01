@@ -11,7 +11,7 @@
 #' @return patchwork ggplot
 #' @export
 makeComparison <- function (df, msddf, units = c("um","s"), titleStr = "Comparison", subStr = NULL) {
-  condition <- dee <- neighbours <- speed <- NULL
+  condition <- dee <- neighbours <- speed <- fd <- width <- NULL
 
   oldw <- getOption("warn")
   options(warn = -1)
@@ -57,6 +57,27 @@ makeComparison <- function (df, msddf, units = c("um","s"), titleStr = "Comparis
     theme_classic() +
     theme(legend.position = "none")
 
+  # plot fractal dimension
+  p_fd <- ggplot(data = df, aes(x = condition, y = fd, colour = condition)) +
+    geom_boxplot(colour = "grey", outlier.shape = NA) +
+    geom_sina(alpha = 0.5, stroke = 0) +
+    ylim(c(0,NA)) +
+    guides(x =  guide_axis(angle = 90)) +
+    labs(x = "", y = paste0("Median fractal dimension")) +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  # plot width of track summary
+  p_width <- ggplot(data = df, aes(x = condition, y = width, colour = condition)) +
+    geom_boxplot(colour = "grey", outlier.shape = NA) +
+    geom_sina(alpha = 0.5, stroke = 0) +
+    ylim(c(0,NA)) +
+    guides(x =  guide_axis(angle = 90)) +
+    labs(x = "", y = paste0("Median track width")) +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  # plot msd summary curves altogether
   p_msd <- ggplot(data = msddf, aes(x = t, y = mean, fill = condition)) +
     geom_ribbon(aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.2) +
     geom_line(aes(colour = condition), size = 1) +
@@ -66,7 +87,7 @@ makeComparison <- function (df, msddf, units = c("um","s"), titleStr = "Comparis
     theme_classic() +
     theme(legend.position = "none")
 
-  r_report <- (p_alpha + p_speed + p_dee) / (p_density + p_msd)
+  r_report <- (p_alpha + p_speed + p_dee + p_fd) / (p_width + p_density + p_msd)
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
   options(warn = oldw)

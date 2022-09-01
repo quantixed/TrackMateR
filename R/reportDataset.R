@@ -22,9 +22,10 @@ reportDataset <- function(tmList) {
   jdObj <- calculateJD(dataList = tmList, deltaT = deltaT)
   # track density with a radius of 1.5 units
   tdDF <- calculateTrackDensity(dataList = tmList, radius = 1.5)
-
+  # fractal dimension
+  fdDF <- calculateFD(dataList = tmList)
   # create the report for this dataset
-  p <- makeSummaryReport(tmList = tmList, msdList = msdObj, jumpList = jdObj, tddf = tdDF, titleStr = "Report", subStr = "", auto = FALSE, summary = FALSE)
+  p <- makeSummaryReport(tmList = tmList, msdList = msdObj, jumpList = jdObj, tddf = tdDF, fddf = fdDF, titleStr = "Report", subStr = "", auto = FALSE, summary = FALSE)
 
   return(p)
 }

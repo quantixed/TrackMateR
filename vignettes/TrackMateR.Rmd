@@ -4,8 +4,7 @@ description: >
   Learn how to get started with the basics of TrackMateR.
 output:
   rmarkdown::html_vignette:
-    fig_width: 6
-    fig_height: 4
+
 vignette: >
   %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
@@ -60,7 +59,7 @@ tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
 
 With this done, we can have a look at the data.
 
-```{r}
+```{r, fig.height = 4, fig.width = 4}
 plot_tm_allTracks(tmObj)
 ```
 
@@ -68,7 +67,7 @@ So, after reading in the TrackMate file with `readTrackMateXML()` we have an obj
 
 TrackMateR can generate several different types of plot individually using commands like `plot_tm_allTracks()` or it can make them all automatically and create a report for you.
 
-```{r, message = FALSE}
+```{r, message = FALSE, fig.height = 8, fig.width = 8}
 reportDataset(tmObj)
 ```
 
@@ -86,7 +85,7 @@ This allows you to have some control over the analysis, for example setting the 
 Finally, these items can be fed into `makeSummaryReport()` as shown below, and the report is created.
 
 
-```{r, message = FALSE}
+```{r, message = FALSE, fig.height = 8, fig.width = 8}
 # we can get a data frame of the correct TrackMate data 
 tmDF <- tmObj[[1]]
 # and a data frame of calibration information
@@ -97,10 +96,12 @@ msdObj <- calculateMSD(df = tmDF, method = "ensemble", N = 3, short = 8)
 jdObj <- calculateJD(dataList = tmObj, deltaT = 1)
 # and look at the density of tracks
 tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+# and calculate fractal dimension
+fdDF <- calculateFD(dataList = tmObj)
 # if we extract the name of the file
 fileName <- tools::file_path_sans_ext(basename(xmlPath))
 # we can send all these things to makeSummaryReport() to get a nice report of our dataset
-makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF,
+makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, fddf = fdDF,
 titleStr = "Report", subStr = fileName, auto = FALSE)
 ```
 

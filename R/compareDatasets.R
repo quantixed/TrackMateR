@@ -106,7 +106,9 @@ compareDatasets <- function() {
       # track density with a radius of 1.5 units
       tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
       tdDF$dataid <- thisdataid
-
+      # fractal dimension
+      fdDF <- calculateFD(dataList = tmObj)
+      fdDF$dataid <- thisdataid
       # now if it's the first one make the big dataframe, otherwise add df to bigdf
       if(j == 1) {
         bigtm <- tmDF
@@ -114,17 +116,19 @@ compareDatasets <- function() {
         bigalpha <- alphaDF
         bigjd <- jdDF
         bigtd <- tdDF
+        bigfd <- fdDF
       } else {
         bigtm <- rbind(bigtm,tmDF)
         bigmsd <- rbind(bigmsd,msdDF)
         bigalpha <- rbind(bigalpha,alphaDF)
         bigjd <- rbind(bigjd,jdDF)
         bigtd <- rbind(bigtd,tdDF)
+        bigfd <- rbind(bigfd,fdDF)
       }
 
       # create the report for this dataset
       fileName <- tools::file_path_sans_ext(basename(thisFilePath))
-      both <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, titleStr = condFolderName, subStr = fileName, auto = TRUE, summary = FALSE)
+      both <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, fddf = fdDF, titleStr = condFolderName, subStr = fileName, auto = TRUE, summary = FALSE)
       p <- both[[1]]
       destinationDir <- paste0("Output/Plots/", condFolderName)
       setupOutputPath(destinationDir)
@@ -145,7 +149,7 @@ compareDatasets <- function() {
     bigjdObj <- list(bigjd,timeRes)
     # now we have our combined dataset we can make a summary
     # note we use the timeRes of the final dataset; so it is suitable for only when all files have the same calibration
-    summaryObj <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, titleStr = condFolderName, subStr = "Summary", auto = TRUE, summary = TRUE)
+    summaryObj <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, fddf = bigfd, titleStr = condFolderName, subStr = "Summary", auto = TRUE, summary = TRUE)
     p <- summaryObj[[1]]
     destinationDir <- paste0("Output/Plots/", condFolderName)
     filePath <- paste0(destinationDir, "/combined.pdf")
@@ -157,6 +161,7 @@ compareDatasets <- function() {
     write.csv(bigtm, paste0(destinationDir, "/allTM.csv"), row.names = FALSE)
     write.csv(bigmsd, paste0(destinationDir, "/allMSD.csv"), row.names = FALSE)
     write.csv(bigjd, paste0(destinationDir, "/allJD.csv"), row.names = FALSE)
+    write.csv(bigfd, paste0(destinationDir, "/allFD.csv"), row.names = FALSE)
     # mega data frame of msd averages per dataset; alpha values, track density, speed by trace/dataid/condition
     msdSummary <- summaryObj[[2]]
     msdSummary$condition <- condFolderName
@@ -172,11 +177,13 @@ compareDatasets <- function() {
       megaalpha <- bigalpha
       megatd <- bigtd
       megaspeed <- bigspeed
+      megafd <- bigfd
     } else {
       megamsd <- rbind(megamsd,msdSummary)
       megaalpha <- rbind(megaalpha,bigalpha)
       megatd <- rbind(megatd,bigtd)
       megaspeed <- rbind(megaspeed,bigspeed)
+      megafd <- rbind(megafd,bigfd)
     }
   }
 
@@ -186,12 +193,12 @@ compareDatasets <- function() {
   write.csv(megareport, paste0(destinationDir, "/allComparison.csv"), row.names = FALSE)
 
   # for alpha values, track density, speed by trace/dataid/condition we must combine into one
-  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megatd, megaspeed))
+  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megatd, megaspeed, megafd))
   write.csv(megatrace, paste0(destinationDir, "/allTraceData.csv"), row.names = FALSE)
 
   # generate the comparison plots and save
   p <- makeComparison(df = megareport, msddf = megamsd, units = units)
   destinationDir <- "Output/Plots/"
   filePath <- paste0(destinationDir, "/comparison.pdf")
-  ggsave(filePath, plot = p, width = 19, height = 14, units = "cm")
+  ggsave(filePath, plot = p, width = 19, height = 19, units = "cm")
 }

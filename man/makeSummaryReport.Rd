@@ -9,6 +9,7 @@ makeSummaryReport(
   msdList,
   jumpList,
   tddf,
+  fddf,
   titleStr = "",
   subStr = "",
   auto = FALSE,
@@ -23,6 +24,8 @@ makeSummaryReport(
 \item{jumpList}{list of a data frame of jump data and a variable to be passed to timeRes}
 
 \item{tddf}{data frame of track density data}
+
+\item{fddf}{data frame of fractal dimension data}
 
 \item{titleStr}{string used as the title for the report}
 
@@ -49,7 +52,8 @@ calibrationDF <- tmObj[[2]]
 msdObj <- calculateMSD(df = tmDF, method = "ensemble", N = 3, short = 8)
 jdObj <- calculateJD(dataList = tmObj, deltaT = 1)
 tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+fdDF <- calculateFD(dataList = tmObj)
 fileName <- tools::file_path_sans_ext(basename(xmlPath))
-reportObj <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF,
-titleStr = "Report", subStr = fileName, auto = TRUE)
+reportObj <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj,
+tddf = tdDF, fddf = fdDF, titleStr = "Report", subStr = fileName, auto = TRUE)
 }
