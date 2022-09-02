@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml)
+[![DOI](https://zenodo.org/badge/453722113.svg)](https://zenodo.org/badge/latestdoi/453722113)
 <!-- badges: end -->
 
 Analysis of TrackMate XML outputs in R.

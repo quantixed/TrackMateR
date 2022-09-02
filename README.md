@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/quantixed/TrackMateR/actions/workflows/R-CMD-check.yaml)
+[![DOI](https://zenodo.org/badge/453722113.svg)](https://zenodo.org/badge/latestdoi/453722113)
 <!-- badges: end -->
 
 Analysis of TrackMate XML outputs in R.
@@ -17,9 +18,6 @@ session is in TrackMate XML format.
 The goal of this R package is to import all of the data associated with
 the final filtered tracks in TrackMate for further analysis and
 visualization in R.
-
-**This package is under development and should not be considered stable
-until its first release.**
 
 ## Installation
 
