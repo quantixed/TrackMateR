@@ -5,8 +5,8 @@ authors:
     href: https://quantixed.org
 
 template:
-  bootstrap: 5
-  bootswatch: flatly
+  params:
+    bootswatch: flatly
 
 repo:
   url:
@@ -14,3 +14,72 @@ repo:
     source: https://github.com/quantixed/TrackMateR/blob/master/
     issue: https://github.com/quantixed/TrackMateR/issues/
     user: https://github.com/quantixed/
+
+navbar:
+  left:
+    - icon: fa-home fa-lg
+      href: index.html
+    - text: Getting Started
+      href: articles/TrackMateR.html
+    - text: Guides
+      menu:
+      - text: Comparison of multiple datasets
+        href: articles/guides/comparison.html
+    - text: Reference
+      href: reference/index.html
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/quantixed/TrackMateR
+
+reference:
+- title: Loading and correcting TrackMate data
+  desc: >
+    To start, TrackMate XML data needs to be read into R. It may need recalibrating
+    if the data were captured with incorrect parameters.
+  contents:
+  - readTrackMateXML
+  - correctTrackMateData
+- title: Automated reports
+  desc: >
+    TrackMateR can be used manually to have fine control over your analysis, however
+    if you just want to analyse your data with default parameters, these two functions will
+    process one dataset, or many
+  contents:
+  - reportDataset
+  - compareDatasets
+- title: Analysing track dynamics
+  desc: >
+    To analyse track dynamics, there are several functions to calculate them.
+    These functions are called (with set parameters) in the automated workflows
+    and all of them must be called to make a report.
+  contents:
+  - calculateAlpha
+  - calculateFD
+  - calculateJD
+  - calculateMSD
+  - calculateTrackDensity
+  - fittingJD
+- title: Generating reports and summaries
+  desc: >
+    Reports and summaries are collections of plots. They can be generated automatically
+    using the automated workflows, or they can be made manually after fine-tuning the analysis
+    of track dynamics.
+  contents:
+  - makeSummaryReport
+  - makeComparison
+- title: Plotting functions
+  desc: >
+    The autoimated workflows and the reports that can be generated with TrackMateR
+    use several different plotting functions.
+  contents:
+  - plot_tm_MSD
+  - plot_tm_NMSD
+  - plot_tm_allTracks
+  - plot_tm_alpha
+  - plot_tm_cumdistOverTime
+  - plot_tm_displacementHist
+  - plot_tm_displacementOverTime
+  - plot_tm_fd
+  - plot_tm_neighbours
+  - plot_tm_speed
+  - plot_tm_width

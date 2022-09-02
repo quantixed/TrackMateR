@@ -81,6 +81,18 @@ In the example above, the code will produce the following in a directory called 
 
 That is, the individual reports are saved with a new name (regardless of the original XML filename), all datasets are combined (per condition) in `combined.pdf` and a comparison of a summary of all conditions is saved in the top level folder (`comparison.pdf`).
 
+As well as graphical outputs, `compareDatasets()` saves several csv files of data (to `Outputs/Data/`).
+In each condition folder, the data frames are collated and saved.
+This includes: TrackMate data, MSD, jump distance and fractal dimension data.
+There is also a csv file of the data frame used to plot the average msd for this condition.
+
+Above the condition folders, three csv files are saved.
+A collation of the msd summary data `allMSCurves.csv` for all conditions; summary data per dataset `allComparison.csv` which is the data frame used for making the comparison plots; and `allTraceData.csv` which is a data frame of properties per trace per dataset for all conditions.
+
+The idea with these files is that a user can load them back into R and process the data in new ways and go beyond TrackMateR.
+An advanced user can make their own data frames by running TrackMateR functions.
+A good place to start is to peruse the code for `compareDatasets()` and modify from there.
+
 ## Recalibrating TrackMate files
 
 It is possible to recalibrate TrackMate XML files _en masse_ by using a CSV file in the condition subfolder containing the XML files.

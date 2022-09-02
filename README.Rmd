@@ -26,8 +26,6 @@ The standard output from a tracking session is in TrackMate XML format.
 
 The goal of this R package is to import all of the data associated with the final filtered tracks in TrackMate for further analysis and visualization in R.
 
-**This package is under development and should not be considered stable until its first release.**
-
 ## Installation
 
 Once you have installed [R](https://cran.rstudio.com) and [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/), you can install TrackMateR using devtools
