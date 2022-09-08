@@ -19,8 +19,13 @@
 calculateTrackDensity <- function(dataList, radius = 1) {
   x <- y <- trace <- NULL
 
-  df <- dataList[[1]]
-  calibration <- dataList[[2]]
+  if(inherits(dataList, "list")) {
+    df <- dataList[[1]]
+    calibration <- dataList[[2]]
+  } else {
+    cat("Function requires a list of TrackMate data and calibration data\n")
+    return(NULL)
+  }
   # make a list of all traces (this is the filtered list of traces from TrackMate XML)
   traceList <- unique(df$trace)
 

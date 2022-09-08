@@ -23,6 +23,10 @@ correctTrackMateData <- function(dataList, xyscalar = 1, tscalar = 1, xyunit = N
   } else {
     msg <- ""
   }
+  if(!inherits(dataList, "list")) {
+    cat("Requires TrackMate data frame and calibration data frame, as a list.\n")
+    return(dataList)
+  }
   df <- dataList[[1]]
   calib <- dataList[[2]]
   if(xyscalar != 1) {

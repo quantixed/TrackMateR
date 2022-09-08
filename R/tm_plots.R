@@ -158,7 +158,9 @@ plot_tm_displacementHist <- function(input, summary = FALSE, xstr = NULL, ystr =
 #' @return ggplot
 #' @export
 plot_tm_alpha <- function(df, median_alpha = NULL, xstr = "alpha (log2)", ystr = "Frequency") {
-
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
   p <- ggplot(data = df, aes(x = alpha)) +
     geom_histogram(binwidth = 0.1)
 
@@ -233,6 +235,11 @@ plot_tm_speed <- function(input, summary = FALSE, xstr = NULL, ystr = NULL, auto
 #' @export
 plot_tm_neighbours <- function(df, auto = FALSE) {
   density <- NULL
+
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
+
   median_density <- median(df$density, na.rm = TRUE)
   nBin <- max(floor(1 + log2(nrow(df))),30)
 
@@ -259,6 +266,9 @@ plot_tm_neighbours <- function(df, auto = FALSE) {
 #' @export
 plot_tm_fd <- function(df, auto = FALSE) {
   fd <- NULL
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
   median_fd <- median(df$fd, na.rm = TRUE)
   nBin <- max(floor(1 + log2(nrow(df))),30)
 
@@ -286,6 +296,9 @@ plot_tm_fd <- function(df, auto = FALSE) {
 #' @export
 plot_tm_width <- function(df, units = c("um","s"), auto = FALSE) {
   wide <- NULL
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
   median_width <- median(df$wide, na.rm = TRUE)
   nBin <- max(floor(1 + log2(nrow(df))),30)
 
@@ -330,6 +343,10 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
   xlab <- paste0("Time (",units[2],")")
   pred <- NULL
 
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
+
   # fit to first four data points
   mod <- lm(mean ~ t, weights = c(n), data = df[1:4,])
   # make a column containing model y points for each t
@@ -369,7 +386,6 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
 }
 
 
-
 #' Plot several (n) MSD curves
 #'
 #' Generate a plot of several MSD curves together with a summary curve.
@@ -381,6 +397,9 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
 #' @export
 plot_tm_NMSD <- function(df, auto = FALSE) {
   dataid <- pred <- value <- size <- NULL
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
   # generate a mean of the MSD curve over time (lag)
   # rename mean to value so as not to upset ddplyr
   colnames(df)[1] <- "value"

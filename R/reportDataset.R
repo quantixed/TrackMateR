@@ -9,8 +9,13 @@
 #' @export
 reportDataset <- function(tmList) {
 
-  tmDF <- tmList[[1]]
-  calibrationDF <- tmList[[2]]
+  if(inherits(tmList, "list")) {
+    tmDF <- tmList[[1]]
+    calibrationDF <- tmList[[2]]
+  } else {
+    cat("Function requires a list of TrackMate data and calibration data\n")
+    return(NULL)
+  }
   # take the units
   units <- calibrationDF$unit[1:2]
   # calculate MSD

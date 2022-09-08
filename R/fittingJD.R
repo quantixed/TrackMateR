@@ -29,7 +29,11 @@
 fittingJD <- function(df, mode = "ECDF", nPop = 1, init, units = c("um","s"), timeRes = 1, breaks = 100) {
   coef <- counts <- countsCum <- hist <- mid <- nls <- value <- variable <- NULL
   if(nPop < 1 | nPop > 3) {
-    return()
+    return(NULL)
+  }
+  if(!inherits(df, "data.frame")) {
+    cat("Function requires a data frame.\n")
+    return(NULL)
   }
   if(missing(init)) {
     if(mode == "ECDF") {

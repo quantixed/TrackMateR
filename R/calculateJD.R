@@ -18,8 +18,13 @@
 calculateJD <- function(dataList, deltaT = 1) {
   x <- y <- NULL
 
-  df <- dataList[[1]]
-  calibration <- dataList[[2]]
+  if(inherits(dataList, "list")) {
+    df <- dataList[[1]]
+    calibration <- dataList[[2]]
+  } else {
+    cat("Function requires a list of TrackMate data and calibration data\n")
+    return(NULL)
+  }
 
   if(deltaT < 1 | deltaT %% 1 != 0) {
     # check is an integer >= 1

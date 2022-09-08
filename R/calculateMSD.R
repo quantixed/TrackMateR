@@ -23,7 +23,12 @@
 
 calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   x <- y <- NULL
-  # require(tidyverse)
+
+  if(!inherits(df, "data.frame")) {
+    cat("Function requires a data frame.\n")
+    return(NULL)
+  }
+
   # make a list of all traces (this is the filtered list of traces from TrackMate XML)
   traceList <- unique(df$trace)
   tList <- list()
