@@ -1,4 +1,4 @@
-#' @importFrom doParallel registerDoParallel
+#' @importFrom foreach %do%
 #' @importFrom foreach %dopar%
 #' @importFrom foreach foreach
 #' @importFrom ggforce geom_sina
@@ -29,5 +29,6 @@
 #' @import ggplot2
 #' @import dplyr
 #' @import patchwork
+#' @import doParallel
 NULL
 #> NULL

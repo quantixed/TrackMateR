@@ -15,23 +15,6 @@
 #' @export
 
 readTrackMateXML<- function(XMLpath){
-  # load required libraries
-  # if(!require("xml2")) {
-  #   install.packages("xml2")
-  #   library("xml2")
-  # }
-  # if(!require("XML")) {
-  #   install.packages("XML")
-  #   library("XML")
-  # }
-  # if(!require("foreach")) {
-  #   install.packages("foreach")
-  #   library("foreach")
-  # }
-  # if(!require("doParallel")) {
-  #   install.packages("doParallel")
-  #   library("doParallel")
-  # }
 
   # get necessary XMLNodeSet
   e <- xmlParse(XMLpath)
@@ -72,11 +55,18 @@ readTrackMateXML<- function(XMLpath){
   }
   registerDoParallel(numCores)
 
-  cat("Collecting spot data...\n")
-
-  dtf <- as.data.frame(foreach(i = 1:length(attrName), .combine = cbind) %dopar% {
-    sapply(subdoc, xmlGetAttr, attrName[i])
-  })
+  # test if we are running on windows
+  if (.Platform$OS.type == "windows") {
+    cat("Collecting spot data...\n")
+    dtf <- as.data.frame(foreach(i = 1:length(attrName), .packages = c("foreach","XML"), .combine = cbind) %do% {
+      sapply(subdoc, xmlGetAttr, attrName[i])
+    })
+  } else {
+    cat(paste0("Collecting spot data. Using ",numCores," cores\n"))
+    dtf <- as.data.frame(foreach(i = 1:length(attrName), .combine = cbind) %dopar% {
+      sapply(subdoc, xmlGetAttr, attrName[i])
+    })
+  }
   for (i in 2:length(attrName)){
     suppressWarnings(dtf[,i] <- as.numeric(as.character(dtf[,i])))
   }

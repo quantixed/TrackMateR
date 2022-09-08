@@ -1,7 +1,7 @@
 Package: TrackMateR
 Type: Package
 Title: Working with TrackMate outputs in R
-Version: 0.3.0
+Version: 0.3.1
 Authors@R:
     person(given = "Stephen J",
            family = "Royle",
