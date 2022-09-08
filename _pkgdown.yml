@@ -24,7 +24,7 @@ navbar:
     - text: Guides
       menu:
       - text: Comparison of multiple datasets
-        href: articles/guides/comparison.html
+        href: articles/comparison.html
     - text: Reference
       href: reference/index.html
   right:
