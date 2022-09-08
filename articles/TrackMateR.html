@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1</span>
       </span>
     </div>
 
@@ -126,7 +126,7 @@
 <span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readTrackMateXML.html">readTrackMateXML</a></span><span class="op">(</span>XMLpath <span class="op">=</span> <span class="va">xmlPath</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Units are:  1 pixel and 0.07002736 s </span></span>
 <span><span class="co">#&gt; Spatial units are in pixels - consider transforming to real units</span></span>
-<span><span class="co">#&gt; Collecting spot data...</span></span>
+<span><span class="co">#&gt; Collecting spot data. Using 2 cores</span></span>
 <span><span class="co">#&gt; Matching track data...</span></span>
 <span><span class="co">#&gt; Calculating distances...</span></span></code></pre></div>
 <p>With the example data, we got a warning telling us that the data is scaled as pixels. If your TrackMate data is correctly calibrated you can skip this step but if you need to recalibrate it:</p>
