@@ -64,7 +64,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/guides/comparison.html">Comparison of multiple datasets</a>
+      <a href="articles/comparison.html">Comparison of multiple datasets</a>
     </li>
   </ul>
 </li>
@@ -110,7 +110,7 @@
 <div class="section level2">
 <h2 id="an-example">An Example<a class="anchor" aria-label="anchor" href="#an-example"></a>
 </h2>
-<p>A basic example is to load one TrackMate XML file and analyse it.</p>
+<p>A basic example is to load one TrackMate XML file, calibrate it (if needed) and analyse it.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://quantixed.github.io/TrackMateR/">TrackMateR</a></span><span class="op">)</span></span>
@@ -120,37 +120,22 @@
 <span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readTrackMateXML.html">readTrackMateXML</a></span><span class="op">(</span>XMLpath <span class="op">=</span> <span class="va">xmlPath</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Units are:  1 pixel and 0.07002736 s </span></span>
 <span><span class="co">#&gt; Spatial units are in pixels - consider transforming to real units</span></span>
-<span><span class="co">#&gt; Collecting spot data...</span></span>
+<span><span class="co">#&gt; Collecting spot data. Using 12 cores</span></span>
 <span><span class="co">#&gt; Matching track data...</span></span>
 <span><span class="co">#&gt; Calculating distances...</span></span>
-<span><span class="co"># have a look at the tracks</span></span>
-<span><span class="fu"><a href="reference/plot_tm_allTracks.html">plot_tm_allTracks</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png"><!-- --></p>
-<p>Let’s go a bit further.</p>
-<p>TrackMateR can generate several different types of plot individually using commands or it can make them all automatically and create a report for you.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># perhaps the data we loaded in was not scaled properly</span></span>
-<span><span class="co"># Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04</span></span>
+<span><span class="co"># Pixel size is actually 0.04 um and original data was 1 pixel, xyscalar = 0.04</span></span>
 <span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/correctTrackMateData.html">correctTrackMateData</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, xyscalar <span class="op">=</span> <span class="fl">0.04</span>, xyunit <span class="op">=</span> <span class="st">"um"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Correcting XY scale.</span></span>
-<span><span class="co"># we can get a data frame of the correct TrackMate data </span></span>
-<span><span class="va">tmDF</span> <span class="op">&lt;-</span> <span class="va">tmObj</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co"># and a data frame of calibration information</span></span>
-<span><span class="va">calibrationDF</span> <span class="op">&lt;-</span> <span class="va">tmObj</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co"># we can calculate mean squared displacement</span></span>
-<span><span class="va">msdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculateMSD.html">calculateMSD</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">tmDF</span>, method <span class="op">=</span> <span class="st">"ensemble"</span>, N <span class="op">=</span> <span class="fl">3</span>, short <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="co"># and jump distance</span></span>
-<span><span class="va">jdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculateJD.html">calculateJD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, deltaT <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co"># and look at the density of tracks</span></span>
-<span><span class="va">tdDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculateTrackDensity.html">calculateTrackDensity</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, radius <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
-<span><span class="co"># and calculate fractal dimension</span></span>
-<span><span class="va">fdDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculateFD.html">calculateFD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span><span class="op">)</span></span>
-<span><span class="co"># if we extract the name of the file</span></span>
-<span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_path_sans_ext</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">xmlPath</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># we can send all these things to makeSummaryReport() to get a nice report of our dataset</span></span>
-<span><span class="fu"><a href="reference/makeSummaryReport.html">makeSummaryReport</a></span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>, tddf <span class="op">=</span> <span class="va">tdDF</span>, fddf <span class="op">=</span> <span class="va">fdDF</span>,</span>
-<span>titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png"><!-- --></p>
+<span><span class="co"># generate a report</span></span>
+<span><span class="fu"><a href="reference/reportDataset.html">reportDataset</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-example-1.png"><!-- --></p>
+<p>TrackMateR can generate several different types of plot individually using commands or it can make them all automatically and create a report for you.</p>
+<ul>
+<li>For details of how to make individual plots and/or tweak the default parameters, see <code><a href="articles/TrackMateR.html">vignette("TrackMateR")</a></code>
+</li>
+<li>To see how to compare different datasets, see <code><a href="articles/comparison.html">vignette("comparison")</a></code>
+</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="credits">Credits<a class="anchor" aria-label="anchor" href="#credits"></a>
