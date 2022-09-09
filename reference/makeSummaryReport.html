@@ -82,7 +82,8 @@ The code is switchable to accommodate making a "report" (one dataset) or a "summ
 <span>  titleStr <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  subStr <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  auto <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  summary <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -117,11 +118,15 @@ The code is switchable to accommodate making a "report" (one dataset) or a "summ
 
 
 <dt>auto</dt>
-<dd><p>boolean which selects for returning the patchwork report or a list of the patchwork report and a data frame of summary</p></dd>
+<dd><p>boolean which selects for returning the patchwork report (FALSE) or a list of the patchwork report and a data frame of summary (TRUE)</p></dd>
 
 
 <dt>summary</dt>
-<dd><p>boolean which selects for summary</p></dd>
+<dd><p>boolean which selects for report (FALSE) or summary (TRUE)</p></dd>
+
+
+<dt>...</dt>
+<dd><p>additional arguments passed to methods</p></dd>
 
 </dl></div>
     <div id="value">

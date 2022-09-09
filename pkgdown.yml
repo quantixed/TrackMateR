@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   TrackMateR: TrackMateR.html
   comparison: comparison.html
-last_built: 2022-09-09T08:49Z
+last_built: 2022-09-09T09:06Z
 urls:
   reference: https://quantixed.github.io/TrackMateR/reference
   article: https://quantixed.github.io/TrackMateR/articles
