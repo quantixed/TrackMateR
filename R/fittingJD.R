@@ -6,11 +6,8 @@
 #' The idea behind this analysis is given in:
 #' - Weimann et al. (2013) A quantitative comparison of single-dye tracking analysis tools using Monte Carlo simulations. PloS One 8, e64287.
 #' - Menssen & Mani (2019) A Jump-Distance-Based Parameter Inference Scheme for Particulate Trajectories, Biophysical Journal, 117: 1, 143-156.
-#' This function is called from inside `makeSummaryReport()`, using the defaults.
-#' However, you can pass additional arguments for `nPop`, `init` and `breaks` via the ellipsis.
-#' Fitting is tricky and two populations (default) is written to catch errors and retry.
-#' In the case of failure, try passing better guesses via `init`.
-#' To fit 3 populations, you must pass `nPop = 3` as an additional argument, you are advised to also pass guesses via `init`.
+#' The bulk of this code is taken from trackR by JuG
+
 #'
 #' @param df data frame with a column named jump of jump distances
 #' @param mode string indicated ECDF (default) or hist (histogram)
@@ -29,7 +26,7 @@
 #' fittingJD(df = jdDF, mode = "ECDF", nPop = 2, breaks = 100, timeRes = 0.06)
 #' @export
 
-fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","s"), timeRes = 1, breaks = 100) {
+fittingJD <- function(df, mode = "ECDF", nPop = 1, init, units = c("um","s"), timeRes = 1, breaks = 100) {
   coef <- counts <- countsCum <- hist <- mid <- nls <- value <- variable <- NULL
   if(nPop < 1 | nPop > 3) {
     return(NULL)
@@ -40,17 +37,13 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
   }
   if(missing(init)) {
     if(mode == "ECDF") {
-      guess <- ((mean(jdDF$jump, na.rm = T) / timeRes) / 4) / breaks
-      # if(nPop == 1) {init <- list(D1 = 0.05)}
-      if(nPop == 1) {init <- list(D1 = guess)}
-      # if(nPop == 2) {init <- list(D1 = 0.001, D2 = 0.4, D3 = 0.1)}
-      if(nPop == 2) {init <- list(D1 = guess, D2 = 0.4, D3 = guess*10)}
-      # if(nPop == 3) {init <- list(D1 = 0.1, D2 = 0.8, D3 = 0.01, D4 = 0.2, D6 = 0.2)}
-      if(nPop == 3) {init <- list(D1 = guess, D2 = guess*10, D3 = guess*100, D4 = 0.2, D6 = 0.2)}
+      if(nPop == 1) {init = list(D1 = 0.05)}
+      if(nPop == 2) {init = list(D1 = 0.001, D2 = 0.4, D3 = 0.1)}
+      if(nPop == 3) {init = list(D1 = 0.1, D2 = 0.8, D3 = 0.01, D4 = 0.2, D6 = 0.2)}
     } else {
-      if(nPop == 1) {init <- list(D2 = 100,  D1 = 0.1)}
-      if(nPop == 2) {init <- list(D2 = 0.01,  D1 = 0.1, D3 = 10, D4 = 100)}
-      if(nPop == 3) {init <- list(D2 = 1,  D1 = 0.1, D3 = 0.01, D4 = 10, D5 = 100, D6 = 30)}
+      if(nPop == 1) {init = list(D2 = 100,  D1 = 0.1)}
+      if(nPop == 2) {init = list(D2 = 0.01,  D1 = 0.1, D3 = 10, D4 = 100)}
+      if(nPop == 3) {init = list(D2 = 1,  D1 = 0.1, D3 = 0.01, D4 = 10, D5 = 100, D6 = 30)}
     }
   }
   # make histogram
@@ -67,6 +60,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                   theme_classic() +
                   theme(legend.position = "none")
   } else {
+    # hist(df$jump, breaks = breaks, xlim = c(0, 1.1 * max(hdata$mid)), ylim = c(0, 1.5 * max(hdata$counts)),
+    #      xlab = xStr, panel.first=grid())
     p <- ggplot(data = hdata, aes(x = mid, y = counts)) +
       geom_col(fill = "light grey", colour = "dark grey") +
       lims(x = c(0, 1.1 * max(hdata$mid)), y = c(0, 1.4 * max(hdata$counts))) +
@@ -85,6 +80,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                     1 - exp(-hdata$mid^2 / (4 * D1 * timeRes)),
                   data = hdata,
                   start = init)
+      # print(fitc)
+      # print(confint(fitc))
       y <- 1 - exp(-x^2 / (4 * coef(fitc)[1] * timeRes))
       fitStr <- paste0("D = ",format(round(coef(fitc)[1],4), nsmall = 4))
     } else {
@@ -92,6 +89,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                    D2 * hdata$mid/(2 * D1 * timeRes) * exp(-hdata$mid^2 / (4 * D1 * timeRes)),
                  data = hdata,
                  start = init)
+      # print(fit)
+      # print(suppressMessages(confint(fit)))
       y <-(coef(fit)[[1]]) * x / (2 * (coef(fit)[[2]]) * timeRes) * exp(-x^2 / (4 * (coef(fit)[[2]]) * timeRes))
       fitStr <- paste0("D = ",format(round(coef(fit)[2],4), nsmall = 4),"\n","A = ", format(round(coef(fit)[1],4), nsmall = 4))
     }
@@ -101,22 +100,12 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
   if(nPop == 2) {
 
     if(mode == "ECDF") {
-      # fitc2 <- nls(hdata$countsCum ~
-      #                (1 - D2 * exp(-hdata$mid^2 / (4 * D1 * timeRes)) -
-      #                   (1 - D2) * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
-      #             data = hdata,
-      #             start = init)
-      fitc2 <- NULL
-      try(fitc2 <- nls(hdata$countsCum ~
+      fitc2 <- nls(hdata$countsCum ~
                      (1 - D2 * exp(-hdata$mid^2 / (4 * D1 * timeRes)) -
                         (1 - D2) * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
                   data = hdata,
                   start = init)
-          );
-      if(is.null(fitc2)) {
-        cat("There was an error in fitting jump distance with 2 populations. Try again using different parameters for `init` and/or `nPop`.\n")
-        return(NULL)
-        }
+      # print(fitc2)
       y1 <- coef(fitc2)[2] - (coef(fitc2)[2] * exp(-x^2 / (4 * coef(fitc2)[1] * timeRes)))
       y2 <- (1 - coef(fitc2)[2]) - (1 - coef(fitc2)[2]) * exp(-x^2 / (4 * coef(fitc2)[3] * timeRes))
       fitStr <- paste0("D1 = ",format(round(coef(fitc2)[1],4), nsmall = 4),"\n",
@@ -129,6 +118,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                    D4 * hdata$mid / (2 * D2 * timeRes) * exp(-hdata$mid^2 / (4 * D2 * timeRes)),
                  data = hdata,
                  start = init)
+      # print(fit2)
+      # print(suppressMessages(confint(fit2)))
       y1 <- (coef(fit2)[[4]]) * x / (2 * (coef(fit2)[[1]]) * timeRes) * exp(-x^2 / (4 * (coef(fit2)[[1]]) * timeRes))
       y2 <- (coef(fit2)[[3]]) * x / (2 * (coef(fit2)[[2]]) * timeRes) * exp(-x^2 / (4 * (coef(fit2)[[2]]) * timeRes))
       fitStr <- paste0("D1 = ",format(round(coef(fit2)[1],4), nsmall = 4),"\n",
@@ -149,6 +140,7 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                         D6 * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
                    data = hdata,
                    start = init)
+      # print(fitc3)
       d5 <- 1 - (coef(fitc3)[4] + coef(fitc3)[5])
       y1 <- coef(fitc3)[4] - coef(fitc3)[4] * exp(-x^2 / (4 * coef(fitc3)[1] * timeRes))
       y2 <- d5 - d5 * exp(-x^2 / (4 * coef(fitc3)[2] * timeRes))
@@ -166,6 +158,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                    D6 * hdata$mid / (2 * D3 * timeRes) * exp(-hdata$mid^2 / (4 * D3 * timeRes)),
                  data = hdata,
                  start = init)
+      # print(fit3)
+      # print(suppressMessages(confint(fit3)))
       y1 <- (coef(fit3)[[4]]) * x / (2 * (coef(fit3)[[1]]) * timeRes) * exp(-x^2 / (4 * (coef(fit3)[[1]]) * timeRes))
       y2 <- (coef(fit3)[[5]]) * x / (2 * (coef(fit3)[[2]]) * timeRes) * exp(-x^2 / (4 * (coef(fit3)[[2]]) * timeRes))
       y3 <- (coef(fit3)[[6]]) * x / (2 * (coef(fit3)[[3]]) * timeRes) * exp(-x^2 / (4 * (coef(fit3)[[3]]) * timeRes))
@@ -186,10 +180,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
   # add fitting coefficients
   if(mode == "ECDF") {
     p <- p + geom_text(aes(label = fitStr, x = 0, y = Inf), size = 2, hjust = 0, vjust = 1, check_overlap = TRUE)
-    p <- p + geom_text(aes(label = paste(timeRes,units[2]), x = 0, y = Inf), size = 2, hjust = 1, vjust = 0, check_overlap = TRUE)
   } else {
     p <- p + geom_text(aes(label = fitStr, x = 0, y = Inf), size = 2, hjust = 0, vjust = 1, check_overlap = TRUE)
-    p <- p + geom_text(aes(label = paste(timeRes,units[2]), x = Inf, y = 0), size = 2, hjust = 1, vjust = 1, check_overlap = TRUE)
   }
 
   return(p)

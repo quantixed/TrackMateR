@@ -105,8 +105,5 @@ makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdD
 titleStr = "Report", subStr = fileName, auto = FALSE)
 ```
 
-Note that `makeSummaryReport` can take additional arguments to give teh user some control over fitting to jump distance.
-For example, `nPop = 1` will fit one population instead of two (the dafault), and `init = list()` can be a list of guesses for the initial fit.
-
 This vignette described the analysis of a single dataset.
 For analysis of more than one dataset, see `vignette("comparison")`
