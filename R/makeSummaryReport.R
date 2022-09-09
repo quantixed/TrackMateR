@@ -11,8 +11,9 @@
 #' @param fddf data frame of fractal dimension data
 #' @param titleStr string used as the title for the report
 #' @param subStr string used as the subtitle for the report
-#' @param auto boolean which selects for returning the patchwork report or a list of the patchwork report and a data frame of summary
-#' @param summary boolean which selects for summary
+#' @param auto boolean which selects for returning the patchwork report (FALSE) or a list of the patchwork report and a data frame of summary (TRUE)
+#' @param summary boolean which selects for report (FALSE) or summary (TRUE)
+#' @param ... additional arguments passed to methods
 #' @examples
 #' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
@@ -29,7 +30,7 @@
 #' @return patchwork ggplot or a list of patchwork ggplot and data frame of summary data
 #' @export
 
-makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = "", subStr = "", auto = FALSE, summary = FALSE) {
+makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = "", subStr = "", auto = FALSE, summary = FALSE, ...) {
   oldw <- getOption("warn")
   options(warn = -1)
 
@@ -100,7 +101,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
   # make a plot of jump distance distribution
   jdDF <- jumpList[[1]]
   jumptime <- jumpList[[2]]
-  p_jump <- fittingJD(df = jdDF, mode = "ECDF", nPop = 2, units = units, breaks = 100, timeRes = jumptime)
+  p_jump <- fittingJD(df = jdDF, units = units, timeRes = jumptime, ...)
 
   # calculate neighbours within 1.5 units
   if(auto == TRUE & summary == FALSE) {

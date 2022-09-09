@@ -7,8 +7,8 @@
 fittingJD(
   df,
   mode = "ECDF",
-  nPop = 1,
-  init,
+  nPop = 2,
+  init = NULL,
   units = c("um", "s"),
   timeRes = 1,
   breaks = 100
@@ -39,7 +39,11 @@ Firtting to a histogram is sensitive to binning parameters and ECDF performs bet
 The idea behind this analysis is given in:
 - Weimann et al. (2013) A quantitative comparison of single-dye tracking analysis tools using Monte Carlo simulations. PloS One 8, e64287.
 - Menssen & Mani (2019) A Jump-Distance-Based Parameter Inference Scheme for Particulate Trajectories, Biophysical Journal, 117: 1, 143-156.
-The bulk of this code is taken from trackR by JuG
+This function is called from inside `makeSummaryReport()`, using the defaults.
+However, you can pass additional arguments for `nPop`, `init` and `breaks` via the ellipsis.
+Fitting is tricky and two populations (default) is written to catch errors and retry.
+In the case of failure, try passing better guesses via `init`.
+To fit 3 populations, you must pass `nPop = 3` as an additional argument, you are advised to also pass guesses via `init`.
 }
 \examples{
 xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")

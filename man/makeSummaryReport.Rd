@@ -13,7 +13,8 @@ makeSummaryReport(
   titleStr = "",
   subStr = "",
   auto = FALSE,
-  summary = FALSE
+  summary = FALSE,
+  ...
 )
 }
 \arguments{
@@ -31,9 +32,11 @@ makeSummaryReport(
 
 \item{subStr}{string used as the subtitle for the report}
 
-\item{auto}{boolean which selects for returning the patchwork report or a list of the patchwork report and a data frame of summary}
+\item{auto}{boolean which selects for returning the patchwork report (FALSE) or a list of the patchwork report and a data frame of summary (TRUE)}
 
-\item{summary}{boolean which selects for summary}
+\item{summary}{boolean which selects for report (FALSE) or summary (TRUE)}
+
+\item{...}{additional arguments passed to methods}
 }
 \value{
 patchwork ggplot or a list of patchwork ggplot and data frame of summary data
