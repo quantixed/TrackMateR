@@ -2,7 +2,8 @@
 #'
 #' Requires TrackMate XML files to be organised into subfolders named according to the condition.
 #' If these condition folders are in `Data/` within the working directory, the code will run automatically.
-#' Otherwise, the user is asked to locate the top level folder which contains the condition subfolders.
+#' Since there is no easy cross-platform way for the user to interactively pick a directory, the organisation of files in `Data/` is a requirement.
+#' The `Data/` folder can be elsewhere on your computer, just change the `wd` prior to running `compareDatasets()` and the routine will run.
 #' The code will process all the datasets individually, compile them according to condition and compare across conditions.
 #' Outputs are saved to `Output/Plots/` in the working directory.
 #'
@@ -19,7 +20,9 @@ compareDatasets <- function() {
   condition <- value <- dataid <- cumulative_distance <- track_duration <- NULL
 
   if(!dir.exists("Data")) {
-    datadir <- choose.dir()
+    # there is no cross-platform way to safely choose directory
+    cat("Please organise your XML files in a folder called Data in the working directory\r")
+    return(-1)
   } else {
     datadir <- "Data"
   }
@@ -140,6 +143,8 @@ compareDatasets <- function() {
       df_report$dataid <- thisdataid
       if(i == 1 & j == 1) {
         megareport <- df_report
+      } else if(!exists("megareport")) {
+        megareport <- df_report
       } else {
         megareport <- rbind(megareport,df_report)
       }
@@ -172,7 +177,7 @@ compareDatasets <- function() {
       summarise(cumdist = max(cumulative_distance), cumtime = max(track_duration))
     bigspeed$speed <- bigspeed$cumdist / bigspeed$cumtime
     bigspeed$condition <- condFolderName
-    if(i == 1) {
+    if(i == 1 | !exists("megamsd")) {
       megamsd <- msdSummary
       megaalpha <- bigalpha
       megatd <- bigtd
