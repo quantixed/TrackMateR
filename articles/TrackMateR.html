@@ -103,12 +103,18 @@
     
     
 <p>TrackMateR is an R package to analyse TrackMate XML outputs.</p>
-<p><a href="https://imagej.net/plugins/trackmate/" class="external-link">TrackMate</a> is a single-particle tracking plugin for ImageJ/Fiji. The standard output from a tracking session is in TrackMate XML format.</p>
-<p>The goal of this R package is to import all of the data associated with the final filtered tracks in TrackMate for further analysis and visualization in R.</p>
+<p><a href="https://imagej.net/plugins/trackmate/" class="external-link">TrackMate</a> is a
+single-particle tracking plugin for ImageJ/Fiji. The standard output
+from a tracking session is in TrackMate XML format.</p>
+<p>The goal of this R package is to import all of the data associated
+with the final filtered tracks in TrackMate for further analysis and
+visualization in R.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Once you have installed <a href="https://cran.rstudio.com" class="external-link">R</a> and <a href="https://www.rstudio.com/products/rstudio/download/" class="external-link">RStudio Desktop</a>, you can install TrackMateR using devtools</p>
+<p>Once you have installed <a href="https://cran.rstudio.com" class="external-link">R</a> and
+<a href="https://www.rstudio.com/products/rstudio/download/" class="external-link">RStudio
+Desktop</a>, you can install TrackMateR using devtools</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"quantixed/TrackMateR"</span><span class="op">)</span></span></code></pre></div>
@@ -116,7 +122,9 @@
 <div class="section level2">
 <h2 id="an-example">An Example<a class="anchor" aria-label="anchor" href="#an-example"></a>
 </h2>
-<p>A basic example is to load one TrackMate XML file and analyse it. This would typically be a tracking session associated with a single movie (referred to here as a single dataset).</p>
+<p>A basic example is to load one TrackMate XML file and analyse it.
+This would typically be a tracking session associated with a single
+movie (referred to here as a single dataset).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://quantixed.github.io/TrackMateR/">TrackMateR</a></span><span class="op">)</span></span>
@@ -129,7 +137,9 @@
 <span><span class="co">#&gt; Collecting spot data. Using 2 cores</span></span>
 <span><span class="co">#&gt; Matching track data...</span></span>
 <span><span class="co">#&gt; Calculating distances...</span></span></code></pre></div>
-<p>With the example data, we got a warning telling us that the data is scaled as pixels. If your TrackMate data is correctly calibrated you can skip this step but if you need to recalibrate it:</p>
+<p>With the example data, we got a warning telling us that the data is
+scaled as pixels. If your TrackMate data is correctly calibrated you can
+skip this step but if you need to recalibrate it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04</span></span>
 <span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/correctTrackMateData.html">correctTrackMateData</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, xyscalar <span class="op">=</span> <span class="fl">0.04</span>, xyunit <span class="op">=</span> <span class="st">"um"</span><span class="op">)</span></span>
@@ -138,8 +148,12 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TrackMateR_files/figure-html/unnamed-chunk-3-1.png" width="384"></p>
-<p>So, after reading in the TrackMate file with <code><a href="../reference/readTrackMateXML.html">readTrackMateXML()</a></code> we have an object which we can visualise using <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code>.</p>
-<p>TrackMateR can generate several different types of plot individually using commands like <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code> or it can make them all automatically and create a report for you.</p>
+<p>So, after reading in the TrackMate file with
+<code><a href="../reference/readTrackMateXML.html">readTrackMateXML()</a></code> we have an object which we can visualise
+using <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code>.</p>
+<p>TrackMateR can generate several different types of plot individually
+using commands like <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code> or it can make them
+all automatically and create a report for you.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/reportDataset.html">reportDataset</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TrackMateR_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
@@ -147,9 +161,20 @@
 <div class="section level2">
 <h2 id="a-more-advanced-example">A more advanced example<a class="anchor" aria-label="anchor" href="#a-more-advanced-example"></a>
 </h2>
-<p>Perhaps the default options do not suit your needs. With just a few more lines of code, you can tweak the report to do the analysis you want.</p>
-<p>Below you will see that the dataset we read in was not scaled correctly. After reading in, we rescale it and then we start to generate the report.</p>
-<p>The report shows analysis of mean squared displacement, jump distance and track density, among other plots. These three things must be calculated first using <code><a href="../reference/calculateMSD.html">calculateMSD()</a></code>, <code><a href="../reference/calculateJD.html">calculateJD()</a></code> and <code>calculateTrackDensity</code>. This allows you to have some control over the analysis, for example setting the search radius for Track Density. Finally, these items can be fed into <code><a href="../reference/makeSummaryReport.html">makeSummaryReport()</a></code> as shown below, and the report is created.</p>
+<p>Perhaps the default options do not suit your needs. With just a few
+more lines of code, you can tweak the report to do the analysis you
+want.</p>
+<p>Below you will see that the dataset we read in was not scaled
+correctly. After reading in, we rescale it and then we start to generate
+the report.</p>
+<p>The report shows analysis of mean squared displacement, jump distance
+and track density, among other plots. These three things must be
+calculated first using <code><a href="../reference/calculateMSD.html">calculateMSD()</a></code>,
+<code><a href="../reference/calculateJD.html">calculateJD()</a></code> and <code>calculateTrackDensity</code>. This
+allows you to have some control over the analysis, for example setting
+the search radius for Track Density. Finally, these items can be fed
+into <code><a href="../reference/makeSummaryReport.html">makeSummaryReport()</a></code> as shown below, and the report is
+created.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we can get a data frame of the correct TrackMate data </span></span>
 <span><span class="va">tmDF</span> <span class="op">&lt;-</span> <span class="va">tmObj</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
@@ -169,8 +194,14 @@
 <span><span class="fu"><a href="../reference/makeSummaryReport.html">makeSummaryReport</a></span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>, tddf <span class="op">=</span> <span class="va">tdDF</span>, fddf <span class="op">=</span> <span class="va">fdDF</span>,</span>
 <span>titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TrackMateR_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
-<p>Note that <code>makeSummaryReport</code> can take additional arguments to give teh user some control over fitting to jump distance. For example, <code>nPop = 1</code> will fit one population instead of two (the dafault), and <code>init = list()</code> can be a list of guesses for the initial fit.</p>
-<p>This vignette described the analysis of a single dataset. For analysis of more than one dataset, see <code><a href="../articles/comparison.html">vignette("comparison")</a></code></p>
+<p>Note that <code>makeSummaryReport</code> can take additional
+arguments to give teh user some control over fitting to jump distance.
+For example, <code>nPop = 1</code> will fit one population instead of
+two (the dafault), and <code>init = list()</code> can be a list of
+guesses for the initial fit.</p>
+<p>This vignette described the analysis of a single dataset. For
+analysis of more than one dataset, see
+<code><a href="../articles/comparison.html">vignette("comparison")</a></code></p>
 </div>
   </div>
 

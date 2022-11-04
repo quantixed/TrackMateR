@@ -102,7 +102,11 @@
 
     
     
-<p>In the first vignette <code><a href="../articles/TrackMateR.html">vignette("TrackMateR")</a></code> we saw how to analyse one TrackMate XML file. This is one <em>dataset</em>, the result of a TrackMate tracking session on a single movie. A more likely scenario is that you have several datasets, from different conditions.</p>
+<p>In the first vignette <code><a href="../articles/TrackMateR.html">vignette("TrackMateR")</a></code> we saw how
+to analyse one TrackMate XML file. This is one <em>dataset</em>, the
+result of a TrackMate tracking session on a single movie. A more likely
+scenario is that you have several datasets, from different
+conditions.</p>
 <p>In this scenario we would like to see:</p>
 <ul>
 <li>a report for each dataset</li>
@@ -112,8 +116,14 @@
 <div class="section level2">
 <h2 id="organising-your-data">Organising your data<a class="anchor" aria-label="anchor" href="#organising-your-data"></a>
 </h2>
-<p><strong>Recommended</strong> Start a new RStudio session in a new directory using Create Project. We find it useful to follow <a href="https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner's-guide/" class="external-link">this convention</a> for RStudio projects. This <a href="https://gist.github.com/quantixed/42625f988a7b5da25b7e333c4a660b97" class="external-link">gist</a> can be run in the console to quickly set up the folder structure for your new project. Now place your data in a folder called <code>Data/</code> in this directory.</p>
-<p><strong>Required</strong> Place all your TrackMate XML files into subfolders according to condition. For example you might have:</p>
+<p><strong>Recommended</strong> Start a new RStudio session in a new
+directory using Create Project. We find it useful to follow <a href="https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner's-guide/" class="external-link">this
+convention</a> for RStudio projects. This <a href="https://gist.github.com/quantixed/42625f988a7b5da25b7e333c4a660b97" class="external-link">gist</a>
+can be run in the console to quickly set up the folder structure for
+your new project. Now place your data in a folder called
+<code>Data/</code> in this directory.</p>
+<p><strong>Required</strong> Place all your TrackMate XML files into
+subfolders according to condition. For example you might have:</p>
 <ul>
 <li>Data/
 <ul>
@@ -138,16 +148,20 @@
 <div class="section level2">
 <h2 id="analysing-multiple-datasets">Analysing multiple datasets<a class="anchor" aria-label="anchor" href="#analysing-multiple-datasets"></a>
 </h2>
-<p>Once the data is in place, a single command will generate a series of reports, summaries and a comparison</p>
+<p>Once the data is in place, a single command will generate a series of
+reports, summaries and a comparison</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://quantixed.github.io/TrackMateR/">TrackMateR</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compareDatasets.html">compareDatasets</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Currently, the outputs are generated using standard parameters equivalent to <code><a href="../reference/reportDataset.html">reportDataset()</a></code> and there is no possibility to change these parameters.</p>
+<p>Currently, the outputs are generated using standard parameters
+equivalent to <code><a href="../reference/reportDataset.html">reportDataset()</a></code> and there is no possibility
+to change these parameters.</p>
 </div>
 <div class="section level2">
 <h2 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
 </h2>
-<p>In the example above, the code will produce the following in a directory called <code>Output/</code></p>
+<p>In the example above, the code will produce the following in a
+directory called <code>Output/</code></p>
 <ul>
 <li>Plots/
 <ul>
@@ -170,21 +184,54 @@
 </ul>
 </li>
 </ul>
-<p>That is, the individual reports are saved with a new name (regardless of the original XML filename), all datasets are combined (per condition) in <code>combined.pdf</code> and a comparison of a summary of all conditions is saved in the top level folder (<code>comparison.pdf</code>).</p>
-<p>As well as graphical outputs, <code><a href="../reference/compareDatasets.html">compareDatasets()</a></code> saves several csv files of data (to <code>Outputs/Data/</code>). In each condition folder, the data frames are collated and saved. This includes: TrackMate data, MSD, jump distance and fractal dimension data. There is also a csv file of the data frame used to plot the average msd for this condition.</p>
-<p>Above the condition folders, three csv files are saved. A collation of the msd summary data <code>allMSCurves.csv</code> for all conditions; summary data per dataset <code>allComparison.csv</code> which is the data frame used for making the comparison plots; and <code>allTraceData.csv</code> which is a data frame of properties per trace per dataset for all conditions.</p>
-<p>The idea with these files is that a user can load them back into R and process the data in new ways and go beyond TrackMateR. An advanced user can make their own data frames by running TrackMateR functions. A good place to start is to peruse the code for <code><a href="../reference/compareDatasets.html">compareDatasets()</a></code> and modify from there.</p>
+<p>That is, the individual reports are saved with a new name (regardless
+of the original XML filename), all datasets are combined (per condition)
+in <code>combined.pdf</code> and a comparison of a summary of all
+conditions is saved in the top level folder
+(<code>comparison.pdf</code>).</p>
+<p>As well as graphical outputs, <code><a href="../reference/compareDatasets.html">compareDatasets()</a></code> saves
+several csv files of data (to <code>Outputs/Data/</code>). In each
+condition folder, the data frames are collated and saved. This includes:
+TrackMate data, MSD, jump distance and fractal dimension data. There is
+also a csv file of the data frame used to plot the average msd for this
+condition.</p>
+<p>Above the condition folders, three csv files are saved. A collation
+of the msd summary data <code>allMSCurves.csv</code> for all conditions;
+summary data per dataset <code>allComparison.csv</code> which is the
+data frame used for making the comparison plots; and
+<code>allTraceData.csv</code> which is a data frame of properties per
+trace per dataset for all conditions.</p>
+<p>The idea with these files is that a user can load them back into R
+and process the data in new ways and go beyond TrackMateR. An advanced
+user can make their own data frames by running TrackMateR functions. A
+good place to start is to peruse the code for
+<code><a href="../reference/compareDatasets.html">compareDatasets()</a></code> and modify from there.</p>
 </div>
 <div class="section level2">
 <h2 id="recalibrating-trackmate-files">Recalibrating TrackMate files<a class="anchor" aria-label="anchor" href="#recalibrating-trackmate-files"></a>
 </h2>
-<p>It is possible to recalibrate TrackMate XML files <em>en masse</em> by using a CSV file in the condition subfolder containing the XML files. A separate CSV file is needed for each condition. Any conditions that do not need recalibrating simply do not need a CSV file present. The CSV file can have any name but must follow this format.</p>
+<p>It is possible to recalibrate TrackMate XML files <em>en masse</em>
+by using a CSV file in the condition subfolder containing the XML files.
+A separate CSV file is needed for each condition. Any conditions that do
+not need recalibrating simply do not need a CSV file present. The CSV
+file can have any name but must follow this format.</p>
 <pre class="text"><code>value,unit
 0.04,um
 0.07,s
 </code></pre>
-<p>Using this file, all XML files in the folder will be recalibrated if they are not already at 0.04 micron pixel size and 0.07 s per frame. Adjustments smaller than 2.5% are ignored.</p>
-<p>In the situation where you have datasets with differing (but correct) timescales and spatial units need to be corrected, use 0 for the value corresponding to time (time rescaling will be ignored) and spatial rescaling will go ahead. Similarly, if you have different spatial scaling between datasets you can rescale time only by using 0 for the spatial value. If you have datasets that need calibrating differently, you will need to group them into condition-level subfolders with a single csv file to specify the correct parameters. Alternatively, consider going back and retracking in TrackMate and specifying the correct parameters.</p>
+<p>Using this file, all XML files in the folder will be recalibrated if
+they are not already at 0.04 micron pixel size and 0.07 s per frame.
+Adjustments smaller than 2.5% are ignored.</p>
+<p>In the situation where you have datasets with differing (but correct)
+timescales and spatial units need to be corrected, use 0 for the value
+corresponding to time (time rescaling will be ignored) and spatial
+rescaling will go ahead. Similarly, if you have different spatial
+scaling between datasets you can rescale time only by using 0 for the
+spatial value. If you have datasets that need calibrating differently,
+you will need to group them into condition-level subfolders with a
+single csv file to specify the correct parameters. Alternatively,
+consider going back and retracking in TrackMate and specifying the
+correct parameters.</p>
 </div>
   </div>
 
