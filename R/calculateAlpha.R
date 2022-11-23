@@ -11,6 +11,12 @@
 
 
 calculateAlpha <- function(alphaMat,tstep) {
+  # check that alphaMat is at least four rows by two columns
+  if(nrow(alphaMat) < 4 | ncol(alphaMat) < 2) {
+    alphaDF <- data.frame(trace = character("1"),
+                          alpha = numeric(1))
+    return(alphaDF)
+  }
   # make time vector
   tee <- (1 : nrow(alphaMat)) * tstep
   # make a vector for the results
@@ -25,6 +31,9 @@ calculateAlpha <- function(alphaMat,tstep) {
     tempdf <- data.frame(mean = alphaMat[,i],
                          t = tee)
     # fit to first four data points
+    if(all(is.na(tempdf$mean)) | all(is.na(tempdf$t))) {
+      next
+    }
     mod <- lm(mean ~ t, data = tempdf[1:4,])
     # make a column containing model y points for each t
     tempdf$pred <- (mod$coefficients[2] * tempdf$t) + mod$coefficients[1]

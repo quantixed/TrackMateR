@@ -346,13 +346,17 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
   if(!inherits(df, "data.frame")) {
     return(NULL)
   }
-
-  # fit to first four data points
-  mod <- lm(mean ~ t, weights = c(n), data = df[1:4,])
-  # make a column containing model y points for each t
-  df$pred <- (mod$coefficients[2] * df$t) + mod$coefficients[1]
-  # calculate diffusion constant (D)
-  dee <- df$pred[1] / (4 * df$t[1])
+  if(all(is.na(df$mean)) | all(is.na(df$t))) {
+    dee <- NA
+    df$pred <- 0
+  } else {
+    # fit to first four data points
+    mod <- lm(mean ~ t, weights = c(n), data = df[1:4,])
+    # make a column containing model y points for each t
+    df$pred <- (mod$coefficients[2] * df$t) + mod$coefficients[1]
+    # calculate diffusion constant (D)
+    dee <- df$pred[1] / (4 * df$t[1])
+  }
   # make ggplot
   if(bars) {
     p <- ggplot(df, aes(x = t, y = mean)) +
@@ -361,7 +365,7 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
       geom_point()
   } else {
     p <- ggplot(df, aes(x = t, y = mean)) +
-      geom_line(linesize = 1)
+      geom_line()
   }
 
   p <- p + geom_line(aes(x = t, y = pred), colour = "red", linetype = 2) +
@@ -453,14 +457,21 @@ plot_tm_NMSD <- function(df, auto = FALSE) {
     theme(legend.position = "none")
 
   # fit to first four data points
-  mod <- lm(mean ~ t, data = msdmean[1:4,])
-  # make a column containing model y points for each t
-  msdmean$pred <- (mod$coefficients[2] * msdmean$t) + mod$coefficients[1]
-  # calculate diffusion constant (D)
-  dee <- msdmean$pred[1] / (4 * msdmean$t[1])
-  # add line to show MSD with alpha = 1
-  p <-  p + geom_line(data = msdmean, aes(x = t, y = pred), colour = "red", linetype = 2) +
-    geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
+  if(all(is.na(msdmean$mean)) | all(is.na(msdmean$t))) {
+    dee <- NA
+    # add line to show MSD with alpha = 1
+    p <-  p + geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
+  } else {
+    mod <- lm(mean ~ t, data = msdmean[1:4,])
+    # make a column containing model y points for each t
+    msdmean$pred <- (mod$coefficients[2] * msdmean$t) + mod$coefficients[1]
+    # calculate diffusion constant (D)
+    dee <- msdmean$pred[1] / (4 * msdmean$t[1])
+    # add line to show MSD with alpha = 1
+    p <-  p + geom_line(data = msdmean, aes(x = t, y = pred), colour = "red", linetype = 2) +
+      geom_text(aes(label = paste0("D = ",format(round(dee,3), nsmall = 3)), x = min(msdmean, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
+  }
+
 
   # for export we only want the summary data that is plotted i.e. cut off appropriately
   if(!is.na(maxX)) {

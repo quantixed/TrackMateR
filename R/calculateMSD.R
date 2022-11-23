@@ -83,6 +83,9 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
     # calculate squared displacement
     squaredDisplacement <- deltaXCoords**2 + deltaYCoords**2
     # we collect the MSD for each track (column)
+    if(length(dim(squaredDisplacement)) < 2) {
+      next
+    }
     eachSquaredDisplacement <- colMeans(squaredDisplacement, na.rm = TRUE)
     # summary statistics for each deltaT
     if(method == "ensemble") {
