@@ -131,6 +131,27 @@ readTrackMateXML<- function(XMLpath){
   daten$cumulative_distance <- cumdist
   daten$track_duration <- dur
 
+  # it is possible that xy coords lie outside the image(!)
+  # we can detect xy coords that are less than 0,0 and then use this information to offset *all* coords by this
+  # this is necessary because later code relies on the origin
+  minx <- min(daten$x)
+  miny <- min(daten$y)
+  if(minx < 0) {
+    daten$x <- daten$x - minx
+  }
+  if(miny < 0) {
+    daten$y <- daten$y - miny
+  }
+  # now we need to redefine the size of the "image" because xy coords may lie outside, or they may now lie outside after offsetting
+  maxx <- max(daten$x)
+  maxy <- max(daten$y)
+  if(maxx > calibrationDF[3,1]) {
+    calibrationDF[3,1] <- maxx
+  }
+  if(maxy > calibrationDF[4,1]) {
+    calibrationDF[4,1] <- maxy
+  }
+
   # daten is our dataframe of all data, calibrationDF is the calibration data
   dfList <- list(daten,calibrationDF)
 
