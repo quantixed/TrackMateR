@@ -4,15 +4,33 @@
 \alias{calculateJD}
 \title{Calculate Jump Distance (JD)}
 \usage{
-calculateJD(dataList, deltaT = 1)
+calculateJD(
+  dataList,
+  deltaT = 1,
+  nPop = 2,
+  mode = "ECDF",
+  init = NULL,
+  timeRes = 1,
+  breaks = 100
+)
 }
 \arguments{
 \item{dataList}{list of data frame (must include at a minimum - trace (track ID), x, y and t (in real coords)) and calibration}
 
 \item{deltaT}{integer to represent the multiple of frames that are to be analysed}
+
+\item{nPop}{integer (either 1,2 or 3) number of populations for the jump distance fitting}
+
+\item{mode}{string indicated ECDF (default) or hist (histogram)}
+
+\item{init}{initialisation parameters for the nls fit for example list(D2 = 200,  D1 = 0.1) or list(D2 = 0.01,  D1=0.1, D3=10, D4=100)}
+
+\item{timeRes}{time resolution per unit of jump. Frame interval is 0.5 s and jump interval is two steps, timeRes = 1.}
+
+\item{breaks}{number of bins for histogram. With ECDF breaks can be high e.g. 100, for mode = "hist" they should be low, perhaps 30.}
 }
 \value{
-a list of data frame of jump distances, NAs removed; and a numeric variable (jumptime)
+a list of data frame of jump distances, NAs removed; and a list of parameters called jumpParam (jumptime, deltaT, nPop)
 }
 \description{
 Calculation of the JD of multiple tracks.

@@ -27,6 +27,8 @@ navbar:
         href: articles/comparison.html
     - text: Reference
       href: reference/index.html
+    - text: Change log
+      href: news/index.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/quantixed/TrackMateR

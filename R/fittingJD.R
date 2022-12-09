@@ -12,33 +12,40 @@
 #' In the case of failure, try passing better guesses via `init`.
 #' To fit 3 populations, you must pass `nPop = 3` as an additional argument, you are advised to also pass guesses via `init`.
 #'
-#' @param df data frame with a column named jump of jump distances
-#' @param mode string indicated ECDF (default) or hist (histogram)
-#' @param nPop number of populations of diffusing species (1, 2 or 3)
-#' @param init initialisation parameters for the nls fit for example list(D2 = 200,  D1 = 0.1) or list(D2 = 0.01,  D1=0.1, D3=10, D4=100)
-#' @param units character vector to describe units (defaults are um, micrometres and  s, seconds)
-#' @param timeRes time resolution per unit of jump. Frame interval is 0.5 s and jump interval is two steps, timeRes = 1.
-#' @param breaks number of bins for histogram. With ECDF breaks can be high e.g. 100, for mode = "hist" they should be low, perhaps 30.
+#' @param jumpList list of a data frame (with a column named jump of jump distances), and a list of params
 #' @return ggplot
 #' @examples
 #' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #' tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 #' jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
-#' jdDF <- jdObj[[1]]
-#' fittingJD(df = jdDF, mode = "ECDF", nPop = 2, breaks = 100, timeRes = 0.06)
+#' fittingJD(jumpList = jdObj)
 #' @export
 
-fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","s"), timeRes = 1, breaks = 100) {
+fittingJD <- function(jumpList) {
   coef <- counts <- countsCum <- hist <- mid <- nls <- value <- variable <- NULL
+
+  if(inherits(jumpList, "list")) {
+    df <- jumpList[[1]]
+    params <- jumpList[[2]]
+  } else {
+    cat("Function requires a list of jump distance data and some parameters\n")
+    return(NULL)
+  }
+
+  nPop <- mode <- init <- units <- timeRes <- breaks <- NULL
+  nPop <- params$nPop
+  mode <- params$mode
+  init <- params$init
+  units <- params$units
+  timeRes <- params$timeRes
+  breaks <- params$breaks
+
   if(nPop < 1 | nPop > 3) {
     return(NULL)
   }
-  if(!inherits(df, "data.frame")) {
-    cat("Function requires a data frame.\n")
-    return(NULL)
-  }
-  if(missing(init)) {
+
+  if(is.null(init)) {
     if(mode == "ECDF") {
       guess <- ((mean(df$jump, na.rm = T) / timeRes) / 4) / breaks
       # if(nPop == 1) {init <- list(D1 = 0.05)}
@@ -81,17 +88,29 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
   if(nPop == 1) {
 
     if(mode == "ECDF") {
-      fitc <- nls(hdata$countsCum ~
+      fitc <- NULL
+      try(fitc <- nls(hdata$countsCum ~
                     1 - exp(-hdata$mid^2 / (4 * D1 * timeRes)),
                   data = hdata,
                   start = init)
+      );
+      if(is.null(fitc)) {
+        cat("Failed to fit jump distances with 1 population. Try using different parameters for `init` and/or `nPop`.\n")
+        return(p)
+      }
       y <- 1 - exp(-x^2 / (4 * coef(fitc)[1] * timeRes))
       fitStr <- paste0("D = ",format(round(coef(fitc)[1],4), nsmall = 4))
     } else {
-      fit <- nls(hdata$counts ~
+      fit <- NULL
+      try(fit <- nls(hdata$counts ~
                    D2 * hdata$mid/(2 * D1 * timeRes) * exp(-hdata$mid^2 / (4 * D1 * timeRes)),
                  data = hdata,
                  start = init)
+      );
+      if(is.null(fit)) {
+        cat("Failed to fit jump distances with 3 populations. Try using different parameters for `init` and/or `nPop`.\n")
+        return(p)
+      }
       y <-(coef(fit)[[1]]) * x / (2 * (coef(fit)[[2]]) * timeRes) * exp(-x^2 / (4 * (coef(fit)[[2]]) * timeRes))
       fitStr <- paste0("D = ",format(round(coef(fit)[2],4), nsmall = 4),"\n","A = ", format(round(coef(fit)[1],4), nsmall = 4))
     }
@@ -101,11 +120,6 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
   if(nPop == 2) {
 
     if(mode == "ECDF") {
-      # fitc2 <- nls(hdata$countsCum ~
-      #                (1 - D2 * exp(-hdata$mid^2 / (4 * D1 * timeRes)) -
-      #                   (1 - D2) * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
-      #             data = hdata,
-      #             start = init)
       fitc2 <- NULL
       try(fitc2 <- nls(hdata$countsCum ~
                          (1 - D2 * exp(-hdata$mid^2 / (4 * D1 * timeRes)) -
@@ -114,8 +128,8 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                        start = init)
       );
       if(is.null(fitc2)) {
-        cat("There was an error in fitting jump distance with 2 populations. Try again using different parameters for `init` and/or `nPop`.\n")
-        return(NULL)
+        cat("Failed to fit jump distances with 2 populations. Try using different parameters for `init` and/or `nPop`.\n")
+        return(p)
       }
       y1 <- coef(fitc2)[2] - (coef(fitc2)[2] * exp(-x^2 / (4 * coef(fitc2)[1] * timeRes)))
       y2 <- (1 - coef(fitc2)[2]) - (1 - coef(fitc2)[2]) * exp(-x^2 / (4 * coef(fitc2)[3] * timeRes))
@@ -124,11 +138,17 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                        "D2 = ",format(round(coef(fitc2)[3],4), nsmall = 4),"\n",
                        "A2 = ", format(round(1 - coef(fitc2)[2],4), nsmall = 4))
     } else {
-      fit2<- nls(hdata$counts ~
+      fit2 <- NULL
+      try(fit2 <- nls(hdata$counts ~
                    D3 * hdata$mid / (2 * D1 * timeRes) * exp(-hdata$mid^2 / (4 * D1 * timeRes)) +
                    D4 * hdata$mid / (2 * D2 * timeRes) * exp(-hdata$mid^2 / (4 * D2 * timeRes)),
                  data = hdata,
                  start = init)
+      );
+      if(is.null(fit2)) {
+        cat("Failed to fit jump distances with 2 populations. Try using different parameters for `init` and/or `nPop`.\n")
+        return(p)
+      }
       y1 <- (coef(fit2)[[4]]) * x / (2 * (coef(fit2)[[1]]) * timeRes) * exp(-x^2 / (4 * (coef(fit2)[[1]]) * timeRes))
       y2 <- (coef(fit2)[[3]]) * x / (2 * (coef(fit2)[[2]]) * timeRes) * exp(-x^2 / (4 * (coef(fit2)[[2]]) * timeRes))
       fitStr <- paste0("D1 = ",format(round(coef(fit2)[1],4), nsmall = 4),"\n",
@@ -143,12 +163,18 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
   if(nPop == 3) {
 
     if(mode == "ECDF") {
-      fitc3 <- nls(hdata$countsCum ~
+      fitc3 <- NULL
+      try(fitc3 <- nls(hdata$countsCum ~
                      (1 - D4 * exp(-hdata$mid^2 / (4 * D1 * timeRes)) -
                         (1-D4-D6) * exp(-hdata$mid^2 / (4 * D2 * timeRes)) -
                         D6 * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
                    data = hdata,
                    start = init)
+      );
+      if(is.null(fitc3)) {
+        cat("Failed to fit jump distances with 3 populations. Try using different parameters for `init` and/or `nPop`.\n")
+        return(p)
+      }
       d5 <- 1 - (coef(fitc3)[4] + coef(fitc3)[5])
       y1 <- coef(fitc3)[4] - coef(fitc3)[4] * exp(-x^2 / (4 * coef(fitc3)[1] * timeRes))
       y2 <- d5 - d5 * exp(-x^2 / (4 * coef(fitc3)[2] * timeRes))
@@ -160,12 +186,18 @@ fittingJD <- function(df, mode = "ECDF", nPop = 2, init = NULL, units = c("um","
                        "D3 = ",format(round(coef(fitc3)[3],4), nsmall = 4),"\n",
                        "A3 = ", format(round(coef(fitc3)[5],4), nsmall = 4),"\n")
     } else {
-      fit3 <- nls(hdata$counts ~
+      fit3 <- NULL
+      try(fit3 <- nls(hdata$counts ~
                     D4 * hdata$mid / (2 * D1 * timeRes) * exp(-hdata$mid^2 / (4 * D1 * timeRes)) +
                     D5 * hdata$mid / (2 * D2 * timeRes) * exp(-hdata$mid^2 / (4 * D2 * timeRes)) +
                     D6 * hdata$mid / (2 * D3 * timeRes) * exp(-hdata$mid^2 / (4 * D3 * timeRes)),
                   data = hdata,
                   start = init)
+      );
+      if(is.null(fit3)) {
+        cat("Failed to fit jump distances with 3 populations. Try using different parameters for `init` and/or `nPop`.\n")
+        return(p)
+      }
       y1 <- (coef(fit3)[[4]]) * x / (2 * (coef(fit3)[[1]]) * timeRes) * exp(-x^2 / (4 * (coef(fit3)[[1]]) * timeRes))
       y2 <- (coef(fit3)[[5]]) * x / (2 * (coef(fit3)[[2]]) * timeRes) * exp(-x^2 / (4 * (coef(fit3)[[2]]) * timeRes))
       y3 <- (coef(fit3)[[6]]) * x / (2 * (coef(fit3)[[3]]) * timeRes) * exp(-x^2 / (4 * (coef(fit3)[[3]]) * timeRes))

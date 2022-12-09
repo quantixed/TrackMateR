@@ -4,10 +4,12 @@
 \alias{reportDataset}
 \title{Report Dataset}
 \usage{
-reportDataset(tmList)
+reportDataset(tmList, ...)
 }
 \arguments{
 \item{tmList}{list of TrackMate data and calibration}
+
+\item{...}{pass additional parameters to modify the defaults (N, short, deltaT, mode, nPop, init, timeRes, breaks, radius)}
 }
 \value{
 patchwork ggplot

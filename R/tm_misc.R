@@ -28,3 +28,25 @@ setupOutputPath <- function(fpath) {
 mergeDataFramesForExport <- function(x, y) {
   merge(x, y, by = c("trace", "dataid"), all = TRUE)
 }
+
+#' Process additional parameters
+#'
+#' Ensure ellipsis parameters have the default values
+#' This function is used in two separate workflows, so a single function to edit makes sense.
+#'
+#' @param input list of ellipsis arguments
+#' @return list of arguments adjusted for defaults
+#' @keywords internal
+processEllipsis <- function(input) {
+  if (is.null(input$N)) input$N <- 3
+  if (is.null(input$short)) input$short <- 8
+  if (is.null(input$deltaT)) input$deltaT <- 1
+  if (is.null(input$mode)) input$mode <- "ECDF"
+  if (is.null(input$nPop)) input$nPop <- 2
+  #if (is.null(input$init)) input$init <- NULL
+  if (is.null(input$timeRes)) input$timeRes <- 1
+  if (is.null(input$breaks)) input$breaks <- 100
+  if (is.null(input$radius)) input$radius <- 1.5
+
+  return(input)
+}

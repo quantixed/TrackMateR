@@ -99,9 +99,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
   }
 
   # make a plot of jump distance distribution
-  jdDF <- jumpList[[1]]
-  jumptime <- jumpList[[2]]
-  p_jump <- fittingJD(df = jdDF, units = units, timeRes = jumptime, ...)
+  p_jump <- fittingJD(jumpList)
 
   # calculate neighbours within 1.5 units
   if(auto == TRUE & summary == FALSE) {

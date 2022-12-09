@@ -13,9 +13,11 @@
 #' The code will run if this is not the case, but beware that these discrepancies are not detected.
 #' For example, comparing two datasets in um/s with one in mm/min.
 #'
+#' @param ... pass additional parameters to modify the defaults (N, short, deltaT, mode, nPop, init, timeRes, breaks, radius)
+#'
 #' @return multiple pdf reports
 #' @export
-compareDatasets <- function() {
+compareDatasets <- function(...) {
 
   condition <- value <- dataid <- cumulative_distance <- track_duration <- NULL
 
@@ -26,6 +28,11 @@ compareDatasets <- function() {
   } else {
     datadir <- "Data"
   }
+
+  # ellipsis processing
+  l <- NULL
+  l <- list(...)
+  l <- processEllipsis(l)
 
   # loop through condition folders within data folder
   condFolderNames <- list.dirs(path = datadir, recursive = FALSE)
@@ -101,13 +108,13 @@ compareDatasets <- function() {
       alphaDF$dataid <- thisdataid
       # jump distance calc with deltaT of 1
       deltaT <- 1
-      jdObj <- calculateJD(dataList = tmObj, deltaT = deltaT)
+      jdObj <- calculateJD(dataList = tmObj, deltaT = l$deltaT, nPop = l$nPop, mode = l$mode, init = l$init, timeRes = l$timeRes, breaks = l$breaks)
       jdDF <- jdObj[[1]]
       jdDF$dataid <- thisdataid
       timeRes <- jdObj[[2]]
       jdObj <- list(jdDF,timeRes)
       # track density with a radius of 1.5 units
-      tdDF <- calculateTrackDensity(dataList = tmObj, radius = 1.5)
+      tdDF <- calculateTrackDensity(dataList = tmObj, radius = l$radius)
       tdDF$dataid <- thisdataid
       # fractal dimension
       fdDF <- calculateFD(dataList = tmObj)

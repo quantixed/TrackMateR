@@ -4,30 +4,10 @@
 \alias{fittingJD}
 \title{Fitting jump distance (JD) data}
 \usage{
-fittingJD(
-  df,
-  mode = "ECDF",
-  nPop = 2,
-  init = NULL,
-  units = c("um", "s"),
-  timeRes = 1,
-  breaks = 100
-)
+fittingJD(jumpList)
 }
 \arguments{
-\item{df}{data frame with a column named jump of jump distances}
-
-\item{mode}{string indicated ECDF (default) or hist (histogram)}
-
-\item{nPop}{number of populations of diffusing species (1, 2 or 3)}
-
-\item{init}{initialisation parameters for the nls fit for example list(D2 = 200,  D1 = 0.1) or list(D2 = 0.01,  D1=0.1, D3=10, D4=100)}
-
-\item{units}{character vector to describe units (defaults are um, micrometres and  s, seconds)}
-
-\item{timeRes}{time resolution per unit of jump. Frame interval is 0.5 s and jump interval is two steps, timeRes = 1.}
-
-\item{breaks}{number of bins for histogram. With ECDF breaks can be high e.g. 100, for mode = "hist" they should be low, perhaps 30.}
+\item{jumpList}{list of a data frame (with a column named jump of jump distances), and a list of params}
 }
 \value{
 ggplot
@@ -50,6 +30,5 @@ xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMate
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 tmObj <- correctTrackMateData(tmObj, xyscalar = 0.04)
 jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
-jdDF <- jdObj[[1]]
-fittingJD(df = jdDF, mode = "ECDF", nPop = 2, breaks = 100, timeRes = 0.06)
+fittingJD(jumpList = jdObj)
 }

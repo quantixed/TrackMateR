@@ -67,6 +67,7 @@ readTrackMateXML<- function(XMLpath){
       sapply(subdoc, xmlGetAttr, attrName[i])
     })
   }
+
   for (i in 2:length(attrName)){
     suppressWarnings(dtf[,i] <- as.numeric(as.character(dtf[,i])))
   }
@@ -146,10 +147,10 @@ readTrackMateXML<- function(XMLpath){
   maxx <- max(daten$x)
   maxy <- max(daten$y)
   if(maxx > calibrationDF[3,1]) {
-    calibrationDF[3,1] <- maxx
+    calibrationDF[3,1] <- ceiling(maxx)
   }
   if(maxy > calibrationDF[4,1]) {
-    calibrationDF[4,1] <- maxy
+    calibrationDF[4,1] <- ceiling(maxy)
   }
 
   # daten is our dataframe of all data, calibrationDF is the calibration data

@@ -4,7 +4,10 @@
 \alias{compareDatasets}
 \title{Compare datasets}
 \usage{
-compareDatasets()
+compareDatasets(...)
+}
+\arguments{
+\item{...}{pass additional parameters to modify the defaults (N, short, deltaT, mode, nPop, init, timeRes, breaks, radius)}
 }
 \value{
 multiple pdf reports

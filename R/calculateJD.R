@@ -7,7 +7,12 @@
 #'
 #' @param dataList list of data frame (must include at a minimum - trace (track ID), x, y and t (in real coords)) and calibration
 #' @param deltaT integer to represent the multiple of frames that are to be analysed
-#' @return a list of data frame of jump distances, NAs removed; and a numeric variable (jumptime)
+#' @param nPop integer (either 1,2 or 3) number of populations for the jump distance fitting
+#' @param mode string indicated ECDF (default) or hist (histogram)
+#' @param init initialisation parameters for the nls fit for example list(D2 = 200,  D1 = 0.1) or list(D2 = 0.01,  D1=0.1, D3=10, D4=100)
+#' @param timeRes time resolution per unit of jump. Frame interval is 0.5 s and jump interval is two steps, timeRes = 1.
+#' @param breaks number of bins for histogram. With ECDF breaks can be high e.g. 100, for mode = "hist" they should be low, perhaps 30.
+#' @return a list of data frame of jump distances, NAs removed; and a list of parameters called jumpParam (jumptime, deltaT, nPop)
 #' @examples
 #' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
@@ -15,7 +20,7 @@
 #' jdObj <- calculateJD(dataList = tmObj, deltaT = 2)
 #' @export
 
-calculateJD <- function(dataList, deltaT = 1) {
+calculateJD <- function(dataList, deltaT = 1, nPop = 2, mode = "ECDF", init = NULL, timeRes = 1, breaks = 100) {
   x <- y <- NULL
 
   if(inherits(dataList, "list")) {
@@ -75,10 +80,17 @@ calculateJD <- function(dataList, deltaT = 1) {
   jdVec <- jdVec[!is.na(jdVec)]
   # convert to dataframe with column called jump
   jdDF <- data.frame(jump = jdVec)
-  # record jumptime which is deltaT * time resoltuion
-  jumptime <- deltaT * calibration[2,1]
+  # record jumptime which is deltaT * time resoltuion, store all other params
+  jdParam <- list(jumptime = deltaT * calibration[2,1],
+                  deltaT = deltaT,
+                  nPop = nPop,
+                  mode = mode,
+                  init = init,
+                  units = calibration$unit[1:2],
+                  timeRes = timeRes,
+                  breaks = breaks)
   # make list of these two and return
-  jumpList <- list(jdDF, jumptime)
+  jumpList <- list(jdDF, jdParam)
 
   return(jumpList)
 }

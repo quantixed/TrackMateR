@@ -71,6 +71,15 @@ TrackMateR can generate several different types of plot individually using comma
 reportDataset(tmObj)
 ```
 
+In the next section you will see how to do more advanced analysis, and pick and choose what outputs you will make.
+However, it is possible to change the defaults of `reportDatasets()` to tune things a bit more while still making a nice report.
+For example, `reportDatasets(tmObj, radius = 100)` will use the defaults for everything except the radius for searching for neighbours in the track density analysis.
+Parameters that can be changed are:
+
+- N, short - from MSD analysis
+- deltaT, mode, nPop, init, timeRes, breaks - from jump distance calculation and fitting
+- radius - from track density analysis
+
 ## A more advanced example
 
 Perhaps the default options do not suit your needs.
@@ -105,7 +114,7 @@ makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdD
 titleStr = "Report", subStr = fileName, auto = FALSE)
 ```
 
-Note that `makeSummaryReport` can take additional arguments to give teh user some control over fitting to jump distance.
+Note that `makeSummaryReport` can take additional arguments to give the user some control over fitting to jump distance.
 For example, `nPop = 1` will fit one population instead of two (the dafault), and `init = list()` can be a list of guesses for the initial fit.
 
 This vignette described the analysis of a single dataset.

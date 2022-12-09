@@ -61,7 +61,15 @@ library(TrackMateR)
 compareDatasets()
 ```
 
-Currently, the outputs are generated using standard parameters equivalent to `reportDataset()` and there is no possibility to change these parameters.
+The outputs are generated using standard parameters equivalent to `reportDataset()`.
+However, it is possible to change the defaults by passing additional parameters.
+For example, `compareDatasets(radius = 100)` will use the defaults for everything except the radius for searching for neighbours in the track density analysis.
+Parameters that can be changed are:
+
+- N, short - from MSD analysis
+- deltaT, mode, nPop, init, timeRes, breaks - from jump distance calculation and fitting
+- radius - from track density analysis
+
 
 ## Outputs
 

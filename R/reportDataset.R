@@ -5,9 +5,10 @@
 #' a user can generate MSD, jump distance and track density objects from their imported TrackMate data, and make a report manually.
 #'
 #' @param tmList list of TrackMate data and calibration
+#' @param ... pass additional parameters to modify the defaults (N, short, deltaT, mode, nPop, init, timeRes, breaks, radius)
 #' @return patchwork ggplot
 #' @export
-reportDataset <- function(tmList) {
+reportDataset <- function(tmList, ...) {
 
   if(inherits(tmList, "list")) {
     tmDF <- tmList[[1]]
@@ -16,17 +17,22 @@ reportDataset <- function(tmList) {
     cat("Function requires a list of TrackMate data and calibration data\n")
     return(NULL)
   }
+
+  # ellipsis processing
+  l <- NULL
+  l <- list(...)
+  l <- processEllipsis(l)
+
   # take the units
   units <- calibrationDF$unit[1:2]
   # calculate MSD
-  msdObj <- calculateMSD(tmDF, N = 3, short = 8)
+  msdObj <- calculateMSD(tmDF, N = l$N, short = l$short)
   msdDF <- msdObj[[1]]
   alphaDF <- msdObj[[2]]
-  # jump distance calc with deltaT of 1
-  deltaT <- 1
-  jdObj <- calculateJD(dataList = tmList, deltaT = deltaT)
+  # jump distance calc
+  jdObj <- calculateJD(dataList = tmList, deltaT = l$deltaT, nPop = l$nPop)
   # track density with a radius of 1.5 units
-  tdDF <- calculateTrackDensity(dataList = tmList, radius = 1.5)
+  tdDF <- calculateTrackDensity(dataList = tmList, radius = l$radius)
   # fractal dimension
   fdDF <- calculateFD(dataList = tmList)
   # create the report for this dataset
