@@ -22,6 +22,9 @@
     <loc>https://quantixed.github.io/TrackMateR/index.html</loc>
   </url>
   <url>
+    <loc>https://quantixed.github.io/TrackMateR/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/calculateAlpha.html</loc>
   </url>
   <url>
@@ -101,6 +104,9 @@
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_width.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/processEllipsis.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.html</loc>

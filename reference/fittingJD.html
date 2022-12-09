@@ -27,7 +27,7 @@ To fit 3 populations, you must pass `nPop = 3` as an additional argument, you ar
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.3</span>
       </span>
     </div>
 
@@ -53,6 +53,9 @@ To fit 3 populations, you must pass `nPop = 3` as an additional argument, you ar
   </ul></li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Change log</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/quantixed/TrackMateR" class="external-link">
@@ -89,45 +92,13 @@ To fit 3 populations, you must pass `nPop = 3` as an additional argument, you ar
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fittingJD</span><span class="op">(</span></span>
-<span>  <span class="va">df</span>,</span>
-<span>  mode <span class="op">=</span> <span class="st">"ECDF"</span>,</span>
-<span>  nPop <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>  init <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"um"</span>, <span class="st">"s"</span><span class="op">)</span>,</span>
-<span>  timeRes <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  breaks <span class="op">=</span> <span class="fl">100</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fittingJD</span><span class="op">(</span><span class="va">jumpList</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>df</dt>
-<dd><p>data frame with a column named jump of jump distances</p></dd>
-
-
-<dt>mode</dt>
-<dd><p>string indicated ECDF (default) or hist (histogram)</p></dd>
-
-
-<dt>nPop</dt>
-<dd><p>number of populations of diffusing species (1, 2 or 3)</p></dd>
-
-
-<dt>init</dt>
-<dd><p>initialisation parameters for the nls fit for example list(D2 = 200,  D1 = 0.1) or list(D2 = 0.01,  D1=0.1, D3=10, D4=100)</p></dd>
-
-
-<dt>units</dt>
-<dd><p>character vector to describe units (defaults are um, micrometres and  s, seconds)</p></dd>
-
-
-<dt>timeRes</dt>
-<dd><p>time resolution per unit of jump. Frame interval is 0.5 s and jump interval is two steps, timeRes = 1.</p></dd>
-
-
-<dt>breaks</dt>
-<dd><p>number of bins for histogram. With ECDF breaks can be high e.g. 100, for mode = "hist" they should be low, perhaps 30.</p></dd>
+    <dl><dt>jumpList</dt>
+<dd><p>list of a data frame (with a column named jump of jump distances), and a list of params</p></dd>
 
 </dl></div>
     <div id="value">
@@ -149,8 +120,7 @@ To fit 3 populations, you must pass `nPop = 3` as an additional argument, you ar
 <span class="r-in"><span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="correctTrackMateData.html">correctTrackMateData</a></span><span class="op">(</span><span class="va">tmObj</span>, xyscalar <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correcting XY scale. </span>
 <span class="r-in"><span><span class="va">jdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateJD.html">calculateJD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, deltaT <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">jdDF</span> <span class="op">&lt;-</span> <span class="va">jdObj</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="fu">fittingJD</span><span class="op">(</span>df <span class="op">=</span> <span class="va">jdDF</span>, mode <span class="op">=</span> <span class="st">"ECDF"</span>, nPop <span class="op">=</span> <span class="fl">2</span>, breaks <span class="op">=</span> <span class="fl">100</span>, timeRes <span class="op">=</span> <span class="fl">0.06</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">fittingJD</span><span class="op">(</span>jumpList <span class="op">=</span> <span class="va">jdObj</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="fittingJD-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.3</span>
       </span>
     </div>
 
@@ -70,6 +70,9 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Change log</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -157,6 +160,19 @@ all automatically and create a report for you.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/reportDataset.html">reportDataset</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TrackMateR_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
+<p>In the next section you will see how to do more advanced analysis,
+and pick and choose what outputs you will make. However, it is possible
+to change the defaults of <code>reportDatasets()</code> to tune things a
+bit more while still making a nice report. For example,
+<code>reportDatasets(tmObj, radius = 100)</code> will use the defaults
+for everything except the radius for searching for neighbours in the
+track density analysis. Parameters that can be changed are:</p>
+<ul>
+<li>N, short - from MSD analysis</li>
+<li>deltaT, mode, nPop, init, timeRes, breaks - from jump distance
+calculation and fitting</li>
+<li>radius - from track density analysis</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="a-more-advanced-example">A more advanced example<a class="anchor" aria-label="anchor" href="#a-more-advanced-example"></a>
@@ -195,7 +211,7 @@ created.</p>
 <span>titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="TrackMateR_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p>Note that <code>makeSummaryReport</code> can take additional
-arguments to give teh user some control over fitting to jump distance.
+arguments to give the user some control over fitting to jump distance.
 For example, <code>nPop = 1</code> will fit one population instead of
 two (the dafault), and <code>init = list()</code> can be a list of
 guesses for the initial fit.</p>
