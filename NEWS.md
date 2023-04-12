@@ -1,5 +1,9 @@
 # TrackMateR
 
+# TrackMateR 0.3.4
+
+- Fixes for parallelisation. Windows users still do not benefit from parallel processing that Mac/Linux users enjoy.
+
 # TrackMateR 0.3.3
 
 - More flexibility to automated workflows by allowing parameters to be passed via ellipsis to `reportDataset()` and `compareDatasets()`

@@ -1,7 +1,7 @@
 Package: TrackMateR
 Type: Package
 Title: Working with TrackMate outputs in R
-Version: 0.3.3
+Version: 0.3.4
 Authors@R:
     person(given = "Stephen J",
            family = "Royle",
@@ -14,7 +14,7 @@ Description: TrackMate, a plugin for ImageJ/Fiji, is a popular single-particle t
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Depends: R (>= 2.10)
 VignetteBuilder:
   knitr,
@@ -26,6 +26,7 @@ Imports:
   ggplot2,
   ggforce,
   patchwork,
+  parallelly,
   reshape2,
   utils,
   XML,

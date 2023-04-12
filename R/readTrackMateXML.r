@@ -45,18 +45,21 @@ readTrackMateXML<- function(XMLpath){
   }
 
   # multicore processing
-  chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
-  if (nzchar(chk) && chk == "TRUE") {
-    # use 2 cores in CRAN/Travis/AppVeyor
-    numCores <- 2L
-  } else {
-    # use all cores in devtools::test()
-    numCores <- parallel::detectCores()
-  }
-  registerDoParallel(numCores)
+  numCores <- parallelly::availableCores()
 
+  if (.Platform[["OS.type"]] == "windows") {
+    ## PSOCK-based parallel processing
+    cl <- parallel::makeCluster(numCores)
+    on.exit(parallel::stopCluster(cl))
+    registerDoParallel(cl = cl)
+  } else {
+    ## Forked parallel processing
+    registerDoParallel(cores = numCores)
+  }
+
+  # perform parallel read
   # test if we are running on windows
-  if (.Platform$OS.type == "windows") {
+  if (.Platform[["OS.type"]] == "windows") {
     cat("Collecting spot data...\n")
     dtf <- as.data.frame(foreach(i = 1:length(attrName), .packages = c("foreach","XML"), .combine = cbind) %do% {
       sapply(subdoc, xmlGetAttr, attrName[i])

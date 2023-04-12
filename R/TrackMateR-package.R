@@ -4,7 +4,7 @@
 #' @importFrom ggforce geom_sina
 #' @importFrom graphics frame
 #' @importFrom graphics hist
-#' @importFrom parallel detectCores
+#' @importFrom parallelly availableCores
 #' @importFrom reshape2 melt
 #' @importFrom stats approx
 #' @importFrom stats quantile
@@ -30,5 +30,6 @@
 #' @import dplyr
 #' @import patchwork
 #' @import doParallel
+#' @import parallelly
 NULL
 #> NULL
