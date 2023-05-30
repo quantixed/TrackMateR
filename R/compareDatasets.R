@@ -138,7 +138,9 @@ compareDatasets <- function(...) {
 
       # create the report for this dataset
       fileName <- tools::file_path_sans_ext(basename(thisFilePath))
-      both <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, fddf = fdDF, titleStr = condFolderName, subStr = fileName, auto = TRUE, summary = FALSE)
+      both <- makeSummaryReport(tmList = tmObj, msdList = msdObj, jumpList = jdObj, tddf = tdDF, fddf = fdDF,
+                                titleStr = condFolderName, subStr = fileName, auto = TRUE, summary = FALSE,
+                                msdplot = l$msdplot)
       p <- both[[1]]
       destinationDir <- paste0("Output/Plots/", condFolderName)
       setupOutputPath(destinationDir)
@@ -161,7 +163,9 @@ compareDatasets <- function(...) {
     bigjdObj <- list(bigjd,timeRes)
     # now we have our combined dataset we can make a summary
     # note we use the timeRes of the final dataset; so it is suitable for only when all files have the same calibration
-    summaryObj <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, fddf = bigfd, titleStr = condFolderName, subStr = "Summary", auto = TRUE, summary = TRUE)
+    summaryObj <- makeSummaryReport(tmList = bigtmObj, msdList = bigmsdObj, jumpList = bigjdObj, tddf = bigtd, fddf = bigfd,
+                                    titleStr = condFolderName, subStr = "Summary", auto = TRUE, summary = TRUE,
+                                    msdplot = l$msdplot)
     p <- summaryObj[[1]]
     destinationDir <- paste0("Output/Plots/", condFolderName)
     filePath <- paste0(destinationDir, "/combined.pdf")
@@ -209,7 +213,7 @@ compareDatasets <- function(...) {
   write.csv(megatrace, paste0(destinationDir, "/allTraceData.csv"), row.names = FALSE)
 
   # generate the comparison plots and save
-  p <- makeComparison(df = megareport, msddf = megamsd, units = units)
+  p <- makeComparison(df = megareport, msddf = megamsd, units = units, msdplot = l$msdplot)
   destinationDir <- "Output/Plots/"
   filePath <- paste0(destinationDir, "/comparison.pdf")
   ggsave(filePath, plot = p, width = 19, height = 19, units = "cm")

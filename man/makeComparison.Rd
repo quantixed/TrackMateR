@@ -8,6 +8,7 @@ makeComparison(
   df,
   msddf,
   units = c("um", "s"),
+  msdplot = "linlin",
   titleStr = "Comparison",
   subStr = NULL
 )
@@ -18,6 +19,8 @@ makeComparison(
 \item{msddf}{data frame of msd averages per dataset}
 
 \item{units}{character vector of space and time units for axes}
+
+\item{msdplot}{keyword used to specify msdplot axes, either "loglog", "linlin" (default), "loglin" or "linlog"}
 
 \item{titleStr}{string used as the title for the report}
 

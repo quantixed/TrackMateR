@@ -4,10 +4,14 @@
 \alias{plot_tm_NMSD}
 \title{Plot several (n) MSD curves}
 \usage{
-plot_tm_NMSD(df, auto = FALSE)
+plot_tm_NMSD(df, xlog = FALSE, ylog = FALSE, auto = FALSE)
 }
 \arguments{
 \item{df}{dataframe of MSD summary data from multiple datasets (labelled by dataid)}
+
+\item{xlog}{boolean to request log10 x axis}
+
+\item{ylog}{boolean to request log10 y axis}
 
 \item{auto}{boolean to request plot only, TRUE gives plot and summary dataframe as a list}
 }

@@ -92,8 +92,8 @@ fittingJD <- function(jumpList) {
       try(fitc <- nls(hdata$countsCum ~
                     1 - exp(-hdata$mid^2 / (4 * D1 * timeRes)),
                   data = hdata,
-                  start = init)
-      );
+                  start = init),
+          silent = TRUE);
       if(is.null(fitc)) {
         cat("Failed to fit jump distances with 1 population. Try using different parameters for `init` and/or `nPop`.\n")
         return(p)
@@ -105,8 +105,8 @@ fittingJD <- function(jumpList) {
       try(fit <- nls(hdata$counts ~
                    D2 * hdata$mid/(2 * D1 * timeRes) * exp(-hdata$mid^2 / (4 * D1 * timeRes)),
                  data = hdata,
-                 start = init)
-      );
+                 start = init),
+          silent = TRUE);
       if(is.null(fit)) {
         cat("Failed to fit jump distances with 3 populations. Try using different parameters for `init` and/or `nPop`.\n")
         return(p)
@@ -125,8 +125,8 @@ fittingJD <- function(jumpList) {
                          (1 - D2 * exp(-hdata$mid^2 / (4 * D1 * timeRes)) -
                             (1 - D2) * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
                        data = hdata,
-                       start = init)
-      );
+                       start = init),
+          silent = TRUE);
       if(is.null(fitc2)) {
         cat("Failed to fit jump distances with 2 populations. Try using different parameters for `init` and/or `nPop`.\n")
         return(p)
@@ -143,8 +143,8 @@ fittingJD <- function(jumpList) {
                    D3 * hdata$mid / (2 * D1 * timeRes) * exp(-hdata$mid^2 / (4 * D1 * timeRes)) +
                    D4 * hdata$mid / (2 * D2 * timeRes) * exp(-hdata$mid^2 / (4 * D2 * timeRes)),
                  data = hdata,
-                 start = init)
-      );
+                 start = init),
+          silent = TRUE);
       if(is.null(fit2)) {
         cat("Failed to fit jump distances with 2 populations. Try using different parameters for `init` and/or `nPop`.\n")
         return(p)
@@ -169,8 +169,8 @@ fittingJD <- function(jumpList) {
                         (1-D4-D6) * exp(-hdata$mid^2 / (4 * D2 * timeRes)) -
                         D6 * exp(-hdata$mid^2 / (4 * D3 * timeRes))),
                    data = hdata,
-                   start = init)
-      );
+                   start = init),
+          silent = TRUE);
       if(is.null(fitc3)) {
         cat("Failed to fit jump distances with 3 populations. Try using different parameters for `init` and/or `nPop`.\n")
         return(p)
@@ -192,8 +192,8 @@ fittingJD <- function(jumpList) {
                     D5 * hdata$mid / (2 * D2 * timeRes) * exp(-hdata$mid^2 / (4 * D2 * timeRes)) +
                     D6 * hdata$mid / (2 * D3 * timeRes) * exp(-hdata$mid^2 / (4 * D3 * timeRes)),
                   data = hdata,
-                  start = init)
-      );
+                  start = init),
+          silent = TRUE);
       if(is.null(fit3)) {
         cat("Failed to fit jump distances with 3 populations. Try using different parameters for `init` and/or `nPop`.\n")
         return(p)

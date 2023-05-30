@@ -396,10 +396,12 @@ plot_tm_MSD <- function(df, units = c("um","s"), bars = FALSE, xlog = FALSE, ylo
 #' This function is used to compile multiple datasets from the same condition.
 #'
 #' @param df dataframe of MSD summary data from multiple datasets (labelled by dataid)
+#' @param xlog boolean to request log10 x axis
+#' @param ylog boolean to request log10 y axis
 #' @param auto boolean to request plot only, TRUE gives plot and summary dataframe as a list
 #' @return ggplot or list of ggplot and dataframe of summary data
 #' @export
-plot_tm_NMSD <- function(df, auto = FALSE) {
+plot_tm_NMSD <- function(df, xlog = FALSE, ylog = FALSE, auto = FALSE) {
   dataid <- pred <- value <- size <- NULL
   if(!inherits(df, "data.frame")) {
     return(NULL)
@@ -450,11 +452,19 @@ plot_tm_NMSD <- function(df, auto = FALSE) {
     geom_line(aes(group = dataid), colour = "blue", alpha = 0.5) +
     geom_ribbon(data = msdmean, aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.2) +
     geom_line(data = msdmean, aes(x = t, y = mean), size = 1) +
-    ylim(0,NA) +
-    xlim(0,maxX) +
     labs(x = "Time (s)", y = "MSD") +
     theme_classic() +
     theme(legend.position = "none")
+  if(xlog) {
+    p <- p + scale_x_log10()
+  } else {
+    p <- p + ylim(0,NA)
+  }
+  if(ylog) {
+    p <- p + scale_y_log10()
+  } else {
+    p <- p + xlim(0,maxX)
+  }
 
   # fit to first four data points
   if(all(is.na(msdmean$mean)) | all(is.na(msdmean$t))) {

@@ -6,22 +6,25 @@
 #' @param df data frame called megareport
 #' @param msddf data frame of msd averages per dataset
 #' @param units character vector of space and time units for axes
+#' @param msdplot keyword used to specify msdplot axes, either "loglog", "linlin" (default), "loglin" or "linlog"
 #' @param titleStr string used as the title for the report
 #' @param subStr string used as the subtitle for the report
 #' @return patchwork ggplot
 #' @export
-makeComparison <- function (df, msddf, units = c("um","s"), titleStr = "Comparison", subStr = NULL) {
+makeComparison <- function (df, msddf, units = c("um","s"), msdplot = "linlin", titleStr = "Comparison", subStr = NULL) {
   condition <- dee <- neighbours <- speed <- fd <- width <- NULL
 
   oldw <- getOption("warn")
   options(warn = -1)
+
+  symlim <- findLog2YAxisLimits(df$alpha)
 
   # plot alpha comparison
   p_alpha <- ggplot(data = df, aes(x = condition, y = alpha, colour = condition)) +
     geom_boxplot(colour = "grey", outlier.shape = NA) +
     geom_sina(alpha = 0.5, stroke = 0) +
     geom_hline(yintercept = 1, linetype = "dashed", colour = "grey") +
-    scale_y_continuous(limits = c(0.5,2), trans = "log2") +
+    scale_y_continuous(limits = symlim, trans = "log2") +
     guides(x =  guide_axis(angle = 90)) +
     labs(x = "", y = "Mean alpha") +
     theme_classic() +
@@ -80,10 +83,19 @@ makeComparison <- function (df, msddf, units = c("um","s"), titleStr = "Comparis
   # plot msd summary curves altogether
   p_msd <- ggplot(data = msddf, aes(x = t, y = mean, fill = condition)) +
     geom_ribbon(aes(ymin = mean - sd, ymax = mean + sd), alpha = 0.2) +
-    geom_line(aes(colour = condition), size = 1) +
-    ylim(0,NA) +
-    xlim(0,NA) +
-    labs(x = "Time (s)", y = "MSD") +
+    geom_line(aes(colour = condition), size = 1)
+  if(msdplot == "linlin") {
+    p_msd <- p_msd + ylim(0,NA) + xlim(0,NA)
+  } else if(msdplot == "loglin") {
+    p_msd <- p_msd + scale_y_log10() + xlim(0,NA)
+  } else if(msdplot == "linlog") {
+    p_msd <- p_msd + ylim(0,NA) + scale_x_log10()
+  } else if(msdplot == "loglog") {
+    p_msd <- p_msd + scale_y_log10() + scale_x_log10()
+  } else {
+    # no scaling applied if any other string is used
+  }
+  p_msd <- p_msd + labs(x = "Time (s)", y = "MSD") +
     theme_classic() +
     theme(legend.position = "none")
 

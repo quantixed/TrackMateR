@@ -37,6 +37,9 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
   x <- y <- displacement <- track_duration <- cumulative_distance <- speed <- dataid <- density <- NULL
   xstr <- ystr <- alphaValue <- NULL
 
+  l <- NULL
+  l <- list(...)
+
   # get ready for plotting
   df <- tmList[[1]]
   calibration <- tmList[[2]]
@@ -48,12 +51,23 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
 
   # make msd plot
   msddf <- msdList[[1]]
+  xmsd <- ymsd <- FALSE
+  msdplot <- l$msdplot
+  if(is.null(msdplot)) {
+    msdplot == "linlin"
+  } else if(msdplot == "loglog") {
+    xmsd <- ymsd <- TRUE
+  } else if(msdplot == "linlog") {
+    xmsd <- TRUE
+  } else if(msdplot == "loglin") {
+    ymsd <- TRUE
+  } else {}
   if(summary){
-    msdreturn <- plot_tm_NMSD(msddf, auto = TRUE)
+    msdreturn <- plot_tm_NMSD(msddf, xlog = xmsd, ylog = ymsd, auto = TRUE)
     p_msd <- msdreturn[[1]]
     msdSummary <- msdreturn[[2]]
   } else {
-    msdreturn <- plot_tm_MSD(msddf, units, auto = TRUE)
+    msdreturn <- plot_tm_MSD(msddf, units, xlog = xmsd, ylog = ymsd, auto = TRUE)
     p_msd <- msdreturn[[1]]
     dee <- msdreturn[[2]]
   }

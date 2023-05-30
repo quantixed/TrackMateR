@@ -1,0 +1,78 @@
+---
+title: "Recalibration of datasets"
+description: >
+  Learn how to get recalibrate datasets using TrackMateR.
+output:
+  rmarkdown::html_vignette:
+    fig_width: 8
+    fig_height: 8
+vignette: >
+  %\VignetteIndexEntry{Recalibration of datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+In the original example, we saw how to load one dataset and recalibrate.
+
+```{r basic-example, eval=FALSE}
+library(ggplot2)
+library(TrackMateR)
+# an example file is provided, otherwise use file.choose()
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
+# read the TrackMate XML file into R using
+tmObj <- readTrackMateXML(XMLpath = xmlPath)
+# Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04
+tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
+```
+
+For the example file, the spatial units are 1 pixel and not the real value which is 0.04 um per pixel.
+So to convert we can specify `xyscalar` to change 1 to 0.04 and specify `xyunit` to change from "pixel" to "um".
+If the file had 2 pixels as the spatial unit (for some reason), to convert to 0.04 um we would need to use `xyscalar = 0.02, xyunit = "um"`
+
+The units (`xyunit` and `tunit`) can be any arbitrary string.
+The use of "um" is preferred over "µm" because the mu character prints inconsistently in R graphics across platforms.
+
+If the time scaling of the file is 0.07 s and we would prefer ms as the unit,
+
+```{r eval=FALSE}
+tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um", tscalar = 1000, tunit = "ms")
+```
+
+this is because the file is loaded in and scaled at 1 s, so the conversion needs to be 1000 ms.
+If we wanted to switch to minutes, we would use `tscale = 1/60, tunit = "min"`.
+
+If the time scaling is incorrect, e.g. 1 frame, we would need to rescale using `tscale = 0.07, tunit = "s"`, `tscale = 70, tunit = "ms"`, or `tscale = 0.07/60, tunit = "min"`.
+
+
+## Recalibrating TrackMate files
+
+When using `compareDatasets()`, it is possible to recalibrate TrackMate XML files _en masse_ by using a CSV file in the condition subfolder containing the XML files, see `vignette("comparison")`.
+To recalibrate, a separate CSV file is needed for each condition.
+Any conditions that do not need recalibrating simply do not need a CSV file present.
+The CSV file can have any name but must follow this format.
+
+```{text}
+value,unit
+0.04,um
+0.07,s
+
+```
+
+Using this file, all XML files in the folder will be recalibrated if they are not already at 0.04 micron pixel size and 0.07 s per frame.
+Adjustments smaller than 2.5% are ignored.
+
+**Note that the calibration file should give the correct final scaling required for all files in the folder.**
+
+When the rescaling is done using a file like this, TrackMateR will work out the scalar for you.
+So the file needs to specify what final scaling is required.
+
+In the situation where you have datasets with differing (but correct) timescales and spatial units need to be corrected, use 0 for the value corresponding to time (time rescaling will be ignored) and spatial rescaling will go ahead.
+Similarly, if you have differening (but correct) spatial scaling between datasets you can rescale time only by using 0 for the spatial value.
+If you have datasets that need calibrating differently, you will need to group them into condition-level subfolders with a single csv file to specify the correct parameters.
+Alternatively, consider going back and retracking in TrackMate and specifying the correct parameters.
+
+### Limitations
+
+The recalibration is not smart, it doesn't recognise the units and calculate based off that.
+For example, it doesn't know that 1000 ms are 1 s.
+So if you use the recalibration file method, be aware of this limitation.

@@ -47,6 +47,21 @@ processEllipsis <- function(input) {
   if (is.null(input$timeRes)) input$timeRes <- 1
   if (is.null(input$breaks)) input$breaks <- 100
   if (is.null(input$radius)) input$radius <- 1.5
+  if (is.null(input$msdplot)) input$msdplot <- "linlin"
 
   return(input)
+}
+
+#' Find log2 y limits for symmetrical axis
+#'
+#' @param input vector of log2 values
+#' @return list two limits for y-axis
+#' @keywords internal
+findLog2YAxisLimits <- function(x) {
+  lo <- min(0.5, x, na.rm = TRUE)
+  hi <- max(2, x, na.rm = TRUE)
+  limit <- max(abs(floor(log2(lo))), ceiling(log2(hi)))
+  lims <- c(2^(-limit), 2^limit)
+
+  return(lims)
 }
