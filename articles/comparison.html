@@ -64,7 +64,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/TrackMateR.html">Getting Started</a>
+    </li>
+    <li>
       <a href="../articles/comparison.html">Comparison of multiple datasets</a>
+    </li>
+    <li>
+      <a href="../articles/recalibration.html">Recalibration of datasets</a>
     </li>
   </ul>
 </li>
@@ -240,9 +246,10 @@ under <code>Data</code> as described above. Now, run</p>
 the track density is quite sparse, so one option to try to alter first
 is <code>radius</code>,
 i.e. <code>compareDatasets(radius = 4)</code></p>
-<div class="section level3">
-<h3 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+</h2>
 <p>When using <code><a href="../reference/compareDatasets.html">compareDatasets()</a></code> it is assumed that the
 files and datasets have similar scaling. If files need recalibration,
 see <code>vignette("calibration")</code>. Be aware that if datasets with
@@ -265,7 +272,6 @@ OK</li>
 </ul>
 <p>Note that if either spatial or temporal scaling is incorrect, most of
 the plots will be garbage.</p>
-</div>
 </div>
   </div>
 
