@@ -117,7 +117,7 @@ compareDatasets()
 to see how the data can be processed.
 Using the default parameters, the track density is quite sparse, so one option to try to alter first is `radius`, i.e. `compareDatasets(radius = 4)`
 
-### Limitations
+## Limitations
 
 When using `compareDatasets()` it is assumed that the files and datasets have similar scaling.
 If files need recalibration, see `vignette("calibration")`.

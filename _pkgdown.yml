@@ -23,8 +23,12 @@ navbar:
       href: articles/TrackMateR.html
     - text: Guides
       menu:
+      - text: Getting Started
+        href: articles/TrackMateR.html
       - text: Comparison of multiple datasets
         href: articles/comparison.html
+      - text: Recalibration of datasets
+        href: articles/recalibration.html
     - text: Reference
       href: reference/index.html
     - text: Change log

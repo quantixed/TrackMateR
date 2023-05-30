@@ -71,7 +71,7 @@ Similarly, if you have differening (but correct) spatial scaling between dataset
 If you have datasets that need calibrating differently, you will need to group them into condition-level subfolders with a single csv file to specify the correct parameters.
 Alternatively, consider going back and retracking in TrackMate and specifying the correct parameters.
 
-### Limitations
+## Limitations
 
 The recalibration is not smart, it doesn't recognise the units and calculate based off that.
 For example, it doesn't know that 1000 ms are 1 s.
