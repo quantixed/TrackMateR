@@ -16,6 +16,9 @@
     <loc>https://quantixed.github.io/TrackMateR/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://quantixed.github.io/TrackMateR/articles/recalibration.html</loc>
+  </url>
+  <url>
     <loc>https://quantixed.github.io/TrackMateR/authors.html</loc>
   </url>
   <url>
@@ -44,6 +47,9 @@
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/correctTrackMateData.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/findLog2YAxisLimits.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/find_distances.html</loc>

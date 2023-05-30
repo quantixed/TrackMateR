@@ -18,7 +18,7 @@ This function is used to compile multiple datasets from the same condition."><me
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.5</span>
       </span>
     </div>
 
@@ -74,13 +74,21 @@ This function is used to compile multiple datasets from the same condition.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_tm_NMSD</span><span class="op">(</span><span class="va">df</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_tm_NMSD</span><span class="op">(</span><span class="va">df</span>, xlog <span class="op">=</span> <span class="cn">FALSE</span>, ylog <span class="op">=</span> <span class="cn">FALSE</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe of MSD summary data from multiple datasets (labelled by dataid)</p></dd>
+
+
+<dt>xlog</dt>
+<dd><p>boolean to request log10 x axis</p></dd>
+
+
+<dt>ylog</dt>
+<dd><p>boolean to request log10 y axis</p></dd>
 
 
 <dt>auto</dt>

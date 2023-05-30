@@ -18,7 +18,7 @@ Called from `compareDatasets()` this function generates plots using summary data
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.5</span>
       </span>
     </div>
 
@@ -78,6 +78,7 @@ Called from `compareDatasets()` this function generates plots using summary data
 <span>  <span class="va">df</span>,</span>
 <span>  <span class="va">msddf</span>,</span>
 <span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"um"</span>, <span class="st">"s"</span><span class="op">)</span>,</span>
+<span>  msdplot <span class="op">=</span> <span class="st">"linlin"</span>,</span>
 <span>  titleStr <span class="op">=</span> <span class="st">"Comparison"</span>,</span>
 <span>  subStr <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -95,6 +96,10 @@ Called from `compareDatasets()` this function generates plots using summary data
 
 <dt>units</dt>
 <dd><p>character vector of space and time units for axes</p></dd>
+
+
+<dt>msdplot</dt>
+<dd><p>keyword used to specify msdplot axes, either "loglog", "linlin" (default), "loglin" or "linlog"</p></dd>
 
 
 <dt>titleStr</dt>
