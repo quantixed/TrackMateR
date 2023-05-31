@@ -44,7 +44,7 @@ xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMate
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #> Units are:  1 pixel and 0.07002736 s 
 #> Spatial units are in pixels - consider transforming to real units
-#> Collecting spot data. Using 12 cores
+#> Collecting spot data. Using 20 cores
 #> Matching track data...
 #> Calculating distances...
 # Pixel size is actually 0.04 um and original data was 1 pixel, xyscalar = 0.04
@@ -60,13 +60,18 @@ TrackMateR can generate several different types of plot individually
 using commands or it can make them all automatically and create a report
 for you.
 
--   For details of how to make individual plots and/or tweak the default
-    parameters, see `vignette("TrackMateR")`
--   To see how to compare different datasets, see
-    `vignette("comparison")`
+- For details of how to make individual plots and/or tweak the default
+  parameters, see `vignette("TrackMateR")`
+- To see how to compare different datasets, see `vignette("comparison")`
+- In order to rescale or recalibrate TrackMate data, see
+  `vignette("calibration")`
 
 ## Credits
 
-TrackMateR builds on initial work by Julien Godet on
-[trackR](https://github.com/jgodet/trackR). Méghane Sittewelle provided
-example TrackMate data and helped with testing TrackMateR.
+- TrackMateR builds on initial work by Julien Godet on
+  [trackR](https://github.com/jgodet/trackR).
+- Méghane Sittewelle provided example TrackMate data and helped with
+  testing TrackMateR.
+- The Fiji plug-in
+  [TrackMate](https://github.com/trackmate-sc/TrackMate) is developed by
+  Jean-Yves Tinevez.

@@ -272,9 +272,13 @@ plot_tm_fd <- function(df, auto = FALSE) {
   median_fd <- median(df$fd, na.rm = TRUE)
   nBin <- max(floor(1 + log2(nrow(df))),30)
 
-  p <- ggplot(data = df, aes(x = fd)) +
-    geom_histogram(bins = nBin) +
-    geom_text(aes(label = paste0("median = ",format(round(median_fd,3), nsmall = 3)), x = max(fd, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+  p <- ggplot(data = df, aes(x = fd))
+  if(sd(df$fd) < 0.001) {
+    p <- p + geom_histogram(breaks = seq(mean(df$fd) - 1, mean(df$fd) + 1, length.out = 30))
+  } else {
+    p <- p + geom_histogram(bins = nBin)
+  }
+  p <- p + geom_text(aes(label = paste0("median = ",format(round(median_fd,3), nsmall = 3)), x = max(fd, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
     labs(x = "Fractal dimension", y = "Frequency") +
     theme_classic() +
     theme(legend.position = "none")

@@ -1,5 +1,10 @@
 # TrackMateR
 
+# TrackMateR 0.3.6
+
+- Ability to load a ground truth csv dataset
+- Compare multiple ground truth datasets
+
 # TrackMateR 0.3.5
 
 - More flexibility to automated workflows (axes on MSD plots can be configured)
