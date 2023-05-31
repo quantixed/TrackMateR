@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.6</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@
 <span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readTrackMateXML.html">readTrackMateXML</a></span><span class="op">(</span>XMLpath <span class="op">=</span> <span class="va">xmlPath</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Units are:  1 pixel and 0.07002736 s </span></span>
 <span><span class="co">#&gt; Spatial units are in pixels - consider transforming to real units</span></span>
-<span><span class="co">#&gt; Collecting spot data. Using 12 cores</span></span>
+<span><span class="co">#&gt; Collecting spot data. Using 20 cores</span></span>
 <span><span class="co">#&gt; Matching track data...</span></span>
 <span><span class="co">#&gt; Calculating distances...</span></span>
 <span><span class="co"># Pixel size is actually 0.04 um and original data was 1 pixel, xyscalar = 0.04</span></span>
@@ -145,12 +145,18 @@
 </li>
 <li>To see how to compare different datasets, see <code><a href="articles/comparison.html">vignette("comparison")</a></code>
 </li>
+<li>In order to rescale or recalibrate TrackMate data, see <code>vignette("calibration")</code>
+</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="credits">Credits<a class="anchor" aria-label="anchor" href="#credits"></a>
 </h2>
-<p>TrackMateR builds on initial work by Julien Godet on <a href="https://github.com/jgodet/trackR" class="external-link">trackR</a>. Méghane Sittewelle provided example TrackMate data and helped with testing TrackMateR.</p>
+<ul>
+<li>TrackMateR builds on initial work by Julien Godet on <a href="https://github.com/jgodet/trackR" class="external-link">trackR</a>.</li>
+<li>Méghane Sittewelle provided example TrackMate data and helped with testing TrackMateR.</li>
+<li>The Fiji plug-in <a href="https://github.com/trackmate-sc/TrackMate" class="external-link">TrackMate</a> is developed by Jean-Yves Tinevez.</li>
+</ul>
 </div>
 </div>
   </div>

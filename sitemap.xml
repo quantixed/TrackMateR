@@ -46,6 +46,9 @@
     <loc>https://quantixed.github.io/TrackMateR/reference/compareDatasets.html</loc>
   </url>
   <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/compareGTDatasets.html</loc>
+  </url>
+  <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/correctTrackMateData.html</loc>
   </url>
   <url>
@@ -113,6 +116,9 @@
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/processEllipsis.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/readGTFile.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.html</loc>
