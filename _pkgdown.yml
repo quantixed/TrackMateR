@@ -89,3 +89,11 @@ reference:
   - plot_tm_neighbours
   - plot_tm_speed
   - plot_tm_width
+- title: Analysis of non-TrackMate data
+  desc: >
+    TrackMateR can read and process csv files in a similar way to TrackMate XML outputs.
+    These are typically "ground truth" data sets that have been generated synthetically,
+    but could come from some other package.
+  contents:
+  - compareGTDatasets
+  - readGTFile
