@@ -1,5 +1,9 @@
 # TrackMateR
 
+# TrackMateR 0.3.7
+
+- Added estimator of diffusion co-efficient and histogram of D (per track)
+
 # TrackMateR 0.3.6
 
 - Ability to load a ground truth csv dataset

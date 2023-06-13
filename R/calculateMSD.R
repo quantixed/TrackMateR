@@ -12,7 +12,7 @@
 #' @param method string. Either "ensemble" or "timeaveraged" (default)
 #' @param N numeric variable for MSD. dt should be up to 1/N of number of data points (4 recommended)
 #' @param short numeric variable for the shortest number of points we will analyse. Note, this uses the number of frames from start, not number of points in track, i.e. a track with <short points and many gaps will remain
-#' @return list of two data frames
+#' @return list of three data frames
 #' @examples
 #' xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
 #' tmObj <- readTrackMateXML(XMLpath = xmlPath)
@@ -105,12 +105,17 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   # send msd curves for each track to compute the diffusive behaviour
   alphas <- calculateAlpha(trackmsd, tstep)
 
+  # send x y displacements (1 frame lag) to calculate CVE
+  deltaXCoords <- displacementXMat[2 : tListmax,] - displacementXMat[1 : (tListmax-1),]
+  deltaYCoords <- displacementYMat[2 : tListmax,] - displacementYMat[1 : (tListmax-1),]
+  cves <- calculateCVE(deltaXCoords, deltaYCoords, tstep)
+
   # format msd matrix into data frame
   msd <- as.data.frame(msd)
   msd$size <- c(1 : numberOfdeltaT)
   msd$t <- msd$size * tstep
 
-  msdList <- list(msd,alphas)
+  msdList <- list(msd,alphas,cves)
 
   return(msdList)
 }

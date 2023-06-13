@@ -174,6 +174,32 @@ plot_tm_alpha <- function(df, median_alpha = NULL, xstr = "alpha (log2)", ystr =
   return(p)
 }
 
+#' Make a histogram of D values
+#'
+#' @param df data frame of D values
+#' @param median_dee variable for adding label to plot
+#' @param xstr string to label x-axis
+#' @param ystr string to label y-axis
+#' @return ggplot
+#' @export
+plot_tm_dee <- function(df, median_dee = NULL, xstr = "D", ystr = "Frequency") {
+  if(!inherits(df, "data.frame")) {
+    return(NULL)
+  }
+  dee <- NULL
+
+  p <- ggplot(data = df, aes(x = dee)) +
+    geom_histogram(binwidth = 0.01)
+
+  if(!missing(median_dee)) {
+    p <- p + geom_text(aes(label = paste0("median = ",format(round(median_dee,3), nsmall = 3)), x = max(dee, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE)
+  }
+  p <- p + labs(x = xstr, y = ystr) +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  return(p)
+}
 
 #' Make a histogram of average speed
 #'
@@ -273,7 +299,7 @@ plot_tm_fd <- function(df, auto = FALSE) {
   nBin <- max(floor(1 + log2(nrow(df))),30)
 
   p <- ggplot(data = df, aes(x = fd))
-  if(sd(df$fd) < 0.001) {
+  if(sd(df$fd, na.rm = TRUE) < 0.001) {
     p <- p + geom_histogram(breaks = seq(mean(df$fd) - 1, mean(df$fd) + 1, length.out = 30))
   } else {
     p <- p + geom_histogram(bins = nBin)

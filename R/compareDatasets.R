@@ -103,9 +103,11 @@ compareDatasets <- function(...) {
       msdObj <- calculateMSD(tmDF, N = 3, short = 8)
       msdDF <- msdObj[[1]]
       alphaDF <- msdObj[[2]]
+      deeDF <- msdObj[[3]]
       # same here, combine msd summary and alpha summary
       msdDF$dataid <- thisdataid
       alphaDF$dataid <- thisdataid
+      deeDF$dataid <- thisdataid
       # jump distance calc with deltaT of 1
       deltaT <- 1
       jdObj <- calculateJD(dataList = tmObj, deltaT = l$deltaT, nPop = l$nPop, mode = l$mode, init = l$init, timeRes = l$timeRes, breaks = l$breaks)
@@ -124,6 +126,7 @@ compareDatasets <- function(...) {
         bigtm <- tmDF
         bigmsd <- msdDF
         bigalpha <- alphaDF
+        bigdee <- deeDF
         bigjd <- jdDF
         bigtd <- tdDF
         bigfd <- fdDF
@@ -131,6 +134,7 @@ compareDatasets <- function(...) {
         bigtm <- rbind(bigtm,tmDF)
         bigmsd <- rbind(bigmsd,msdDF)
         bigalpha <- rbind(bigalpha,alphaDF)
+        bigdee <- rbind(bigdee,deeDF)
         bigjd <- rbind(bigjd,jdDF)
         bigtd <- rbind(bigtd,tdDF)
         bigfd <- rbind(bigfd,fdDF)
@@ -159,7 +163,7 @@ compareDatasets <- function(...) {
       }
     }
     bigtmObj <- list(bigtm,calibrationDF)
-    bigmsdObj <- list(bigmsd,bigalpha)
+    bigmsdObj <- list(bigmsd,bigalpha,bigdee)
     bigjdObj <- list(bigjd,timeRes)
     # now we have our combined dataset we can make a summary
     # note we use the timeRes of the final dataset; so it is suitable for only when all files have the same calibration

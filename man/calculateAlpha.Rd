@@ -15,7 +15,9 @@ calculateAlpha(alphaMat, tstep)
 data frame
 }
 \description{
+Alpha is the MSD exponent.
 Normal diffusion is alpha = 1. Subdiffusion is alpha < 1 and superdiffusion is alpha > 1.
 Input is a data matrix of msd curves.
 Output is mean of log2(alpha), one value for each trace.
+D, calculated from a fit of the first four data points is also outputted.
 }

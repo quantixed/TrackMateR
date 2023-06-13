@@ -103,6 +103,20 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
 
   p_alpha <- plot_tm_alpha(df = alphas, median_alpha = median_alpha)
 
+  # find the median D value
+  median_dee <- median(alphas$dee, na.rm = TRUE)
+  labelstr <- substitute(paste("D (",mm^2,"/",nn,")"), list(mm = units[1], nn = units [2]))
+
+  # D distribution of traces
+  p_dee <- plot_tm_dee(df = alphas, median_dee = median_dee, xstr = labelstr)
+
+  # distribution of estimator of D
+  cves <- msdList[[3]]
+  cves <- na.omit(cves)
+  median_estdee <- median(cves$dee, na.rm = TRUE)
+  labelstr <- substitute(paste("Estimator D (",mm^2,"/",nn,")"), list(mm = units[1], nn = units [2]))
+  p_estdee <- plot_tm_dee(df = cves, median_dee = median_estdee, xstr = labelstr)
+
   # make a plot of average speed per track
   if(auto == TRUE & summary == FALSE) {
     speedObj <- plot_tm_speed(input = tmList, summary = summary, auto = auto)
@@ -143,7 +157,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
     1145
   "
   toprow <- p_allTracks + p_displacementOverTime + p_displacementHist + p_cumdistOverTime + p_speed + plot_layout(design = design)
-  bottomrow <- p_msd + p_alpha + p_jump + p_neighbours + p_fd + p_width + plot_layout(ncol = 3, nrow = 2)
+  bottomrow <- p_msd + p_dee + p_alpha + p_estdee + p_jump + p_neighbours + p_fd + p_width + plot_layout(ncol = 4, nrow = 2)
   r_report <- toprow / bottomrow
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
@@ -151,7 +165,7 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
     # make a multi-column object and pass directly back
     df_report <- data.frame(alpha = median_alpha,
                             speed = median_speed,
-                            dee = dee,
+                            dee = dee, # D that is passed here is the value from MSD fit of all data not median D from traces
                             displacement = median_disp,
                             neighbours = median_density,
                             fd = median_fd,

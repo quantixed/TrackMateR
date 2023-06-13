@@ -57,7 +57,7 @@ TrackMateR can generate several different types of plot individually using comma
 
 - For details of how to make individual plots and/or tweak the default parameters, see `vignette("TrackMateR")`
 - To see how to compare different datasets, see `vignette("comparison")`
-- In order to rescale or recalibrate TrackMate data, see `vignette("calibration")`
+- In order to rescale or recalibrate TrackMate data, see `vignette("recalibration")`
 
 ## Credits
 
