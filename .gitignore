@@ -38,3 +38,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 docs
+
+# Mac droppings
+.DS_Store

@@ -60,6 +60,7 @@ reference:
     and all of them must be called to make a report.
   contents:
   - calculateAlpha
+  - calculateCVE
   - calculateFD
   - calculateJD
   - calculateMSD
@@ -83,6 +84,7 @@ reference:
   - plot_tm_allTracks
   - plot_tm_alpha
   - plot_tm_cumdistOverTime
+  - plot_tm_dee
   - plot_tm_displacementHist
   - plot_tm_displacementOverTime
   - plot_tm_fd
