@@ -31,6 +31,9 @@
     <loc>https://quantixed.github.io/TrackMateR/reference/calculateAlpha.html</loc>
   </url>
   <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/calculateCVE.html</loc>
+  </url>
+  <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/calculateFD.html</loc>
   </url>
   <url>
@@ -95,6 +98,9 @@
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_cumdistOverTime.html</loc>
+  </url>
+  <url>
+    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_dee.html</loc>
   </url>
   <url>
     <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementHist.html</loc>
