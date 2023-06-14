@@ -64,7 +64,7 @@ for you.
   parameters, see `vignette("TrackMateR")`
 - To see how to compare different datasets, see `vignette("comparison")`
 - In order to rescale or recalibrate TrackMate data, see
-  `vignette("calibration")`
+  `vignette("recalibration")`
 
 ## Credits
 
@@ -75,3 +75,12 @@ for you.
 - The Fiji plug-in
   [TrackMate](https://github.com/trackmate-sc/TrackMate) is developed by
   Jean-Yves Tinevez.
+
+## Limitations, future development
+
+- TrackMateR is currently written for 2D data. 3D data is read but
+  analysis is currently on the first two dimensions.
+- Addition of a dry run option to quickly report what data would be
+  analysed by `compareDatasets()`.
+- Addition of number of tracks per frame and more advanced calculation
+  of the density of tracks.

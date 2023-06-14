@@ -6,12 +6,13 @@
 #'
 #' @param xMat matrix of x displacements, each col is a track, each row is time (will contain NAs)
 #' @param yMat matrix of y displacements, each col is a track, each row is time (will contain NAs)
+#' @param tlist list of trace names
 #' @param tstep variable. Time step in seconds
 #' @return data frame
 #' @export
 
 
-calculateCVE <- function(xMat, yMat, tstep) {
+calculateCVE <- function(xMat, yMat, tlist, tstep) {
   # check that data is at least four rows by two columns
   if(nrow(xMat) < 4 | ncol(xMat) < 2) {
     cveDF <- data.frame(trace = character("1"),
@@ -28,8 +29,9 @@ calculateCVE <- function(xMat, yMat, tstep) {
   estSigma2 <- rowMeans(cbind(estSigma2x, estSigma2y))
 
   # turn into data frame
-  cveDF <- data.frame(dee = estD,
-                      estsigma = sqrt(estSigma2))
+  cveDF <- data.frame(trace = tlist,
+                      dee = estD,
+                      estsigma = suppressWarnings(sqrt(estSigma2)))
 
   return(cveDF)
 }

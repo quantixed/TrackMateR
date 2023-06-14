@@ -68,9 +68,11 @@ compareGTDatasets <- function(path = NULL, xyscale = 0.04, xyunit = "um", tscale
       msdObj <- calculateMSD(tmDF, N = 3, short = 8)
       msdDF <- msdObj[[1]]
       alphaDF <- msdObj[[2]]
+      deeDF <- msdObj[[3]]
       # same here, combine msd summary and alpha summary
       msdDF$dataid <- thisdataid
       alphaDF$dataid <- thisdataid
+      deeDF$dataid <- thisdataid
       # jump distance calc with deltaT of 1
       deltaT <- 1
       jdObj <- calculateJD(dataList = tmObj, deltaT = l$deltaT, nPop = l$nPop, mode = l$mode, init = l$init, timeRes = l$timeRes, breaks = l$breaks)
@@ -88,6 +90,7 @@ compareGTDatasets <- function(path = NULL, xyscale = 0.04, xyunit = "um", tscale
       if(j == 1) {
         bigtm <- tmDF
         bigmsd <- msdDF
+        bigdee <- deeDF
         bigalpha <- alphaDF
         bigjd <- jdDF
         bigtd <- tdDF
@@ -95,6 +98,7 @@ compareGTDatasets <- function(path = NULL, xyscale = 0.04, xyunit = "um", tscale
       } else {
         bigtm <- rbind(bigtm,tmDF)
         bigmsd <- rbind(bigmsd,msdDF)
+        bigdee <- rbind(bigdee,deeDF)
         bigalpha <- rbind(bigalpha,alphaDF)
         bigjd <- rbind(bigjd,jdDF)
         bigtd <- rbind(bigtd,tdDF)
@@ -124,7 +128,7 @@ compareGTDatasets <- function(path = NULL, xyscale = 0.04, xyunit = "um", tscale
       }
     }
     bigtmObj <- list(bigtm,calibrationDF)
-    bigmsdObj <- list(bigmsd,bigalpha)
+    bigmsdObj <- list(bigmsd,bigalpha,bigdee)
     bigjdObj <- list(bigjd,timeRes)
     # now we have our combined dataset we can make a summary
     # note we use the timeRes of the final dataset; so it is suitable for only when all files have the same calibration
@@ -156,12 +160,14 @@ compareGTDatasets <- function(path = NULL, xyscale = 0.04, xyunit = "um", tscale
     if(i == 1 | !exists("megamsd")) {
       megamsd <- msdSummary
       megaalpha <- bigalpha
+      megadee <- bigdee
       megatd <- bigtd
       megaspeed <- bigspeed
       megafd <- bigfd
     } else {
       megamsd <- rbind(megamsd,msdSummary)
       megaalpha <- rbind(megaalpha,bigalpha)
+      megadee <- rbind(megadee,bigdee)
       megatd <- rbind(megatd,bigtd)
       megaspeed <- rbind(megaspeed,bigspeed)
       megafd <- rbind(megafd,bigfd)
@@ -173,8 +179,10 @@ compareGTDatasets <- function(path = NULL, xyscale = 0.04, xyunit = "um", tscale
   write.csv(megamsd, paste0(destinationDir, "/allMSDCurves.csv"), row.names = FALSE)
   write.csv(megareport, paste0(destinationDir, "/allComparison.csv"), row.names = FALSE)
 
-  # for alpha values, track density, speed by trace/dataid/condition we must combine into one
-  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megatd, megaspeed, megafd))
+  # for alpha values, estimator of D, track density, speed by trace/dataid/condition we must combine into one
+  # set the name of dee to estdee
+  names(megadee)[names(megadee) == "dee"] <- "estdee"
+  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megadee, megatd, megaspeed, megafd))
   write.csv(megatrace, paste0(destinationDir, "/allTraceData.csv"), row.names = FALSE)
 
   # generate the comparison plots and save

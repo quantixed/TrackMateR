@@ -195,12 +195,14 @@ compareDatasets <- function(...) {
     if(i == 1 | !exists("megamsd")) {
       megamsd <- msdSummary
       megaalpha <- bigalpha
+      megadee <- bigdee
       megatd <- bigtd
       megaspeed <- bigspeed
       megafd <- bigfd
     } else {
       megamsd <- rbind(megamsd,msdSummary)
       megaalpha <- rbind(megaalpha,bigalpha)
+      megadee <- rbind(megadee,bigdee)
       megatd <- rbind(megatd,bigtd)
       megaspeed <- rbind(megaspeed,bigspeed)
       megafd <- rbind(megafd,bigfd)
@@ -212,8 +214,10 @@ compareDatasets <- function(...) {
   write.csv(megamsd, paste0(destinationDir, "/allMSDCurves.csv"), row.names = FALSE)
   write.csv(megareport, paste0(destinationDir, "/allComparison.csv"), row.names = FALSE)
 
-  # for alpha values, track density, speed by trace/dataid/condition we must combine into one
-  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megatd, megaspeed, megafd))
+  # for alpha values, estimator of D, track density, speed by trace/dataid/condition we must combine into one
+  # set the name of dee to estdee
+  names(megadee)[names(megadee) == "dee"] <- "estdee"
+  megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megadee, megatd, megaspeed, megafd))
   write.csv(megatrace, paste0(destinationDir, "/allTraceData.csv"), row.names = FALSE)
 
   # generate the comparison plots and save

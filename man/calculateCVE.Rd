@@ -4,12 +4,14 @@
 \alias{calculateCVE}
 \title{Calculate CVE (covariance-based estimator)}
 \usage{
-calculateCVE(xMat, yMat, tstep)
+calculateCVE(xMat, yMat, tlist, tstep)
 }
 \arguments{
 \item{xMat}{matrix of x displacements, each col is a track, each row is time (will contain NAs)}
 
 \item{yMat}{matrix of y displacements, each col is a track, each row is time (will contain NAs)}
+
+\item{tlist}{list of trace names}
 
 \item{tstep}{variable. Time step in seconds}
 }

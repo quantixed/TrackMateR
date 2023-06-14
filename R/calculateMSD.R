@@ -108,7 +108,7 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   # send x y displacements (1 frame lag) to calculate CVE
   deltaXCoords <- displacementXMat[2 : tListmax,] - displacementXMat[1 : (tListmax-1),]
   deltaYCoords <- displacementYMat[2 : tListmax,] - displacementYMat[1 : (tListmax-1),]
-  cves <- calculateCVE(deltaXCoords, deltaYCoords, tstep)
+  cves <- calculateCVE(deltaXCoords, deltaYCoords, traceList, tstep)
 
   # format msd matrix into data frame
   msd <- as.data.frame(msd)
