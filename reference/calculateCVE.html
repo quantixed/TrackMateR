@@ -82,7 +82,7 @@ Output is estimator of D and sigma for each trace.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculateCVE</span><span class="op">(</span><span class="va">xMat</span>, <span class="va">yMat</span>, <span class="va">tstep</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculateCVE</span><span class="op">(</span><span class="va">xMat</span>, <span class="va">yMat</span>, <span class="va">tlist</span>, <span class="va">tstep</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -93,6 +93,10 @@ Output is estimator of D and sigma for each trace.</p>
 
 <dt>yMat</dt>
 <dd><p>matrix of y displacements, each col is a track, each row is time (will contain NAs)</p></dd>
+
+
+<dt>tlist</dt>
+<dd><p>list of trace names</p></dd>
 
 
 <dt>tstep</dt>
