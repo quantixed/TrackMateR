@@ -136,7 +136,7 @@ plot_tm_displacementHist <- function(input, summary = FALSE, xstr = NULL, ystr =
 
   p <- ggplot(data = df, aes(x = displacement)) +
     geom_histogram(bins = nBin) +
-    geom_text(aes(label = paste0("median = ",format(round(median_disp,3), nsmall = 3)), x = max(displacement, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    geom_text(aes(label = format(round(median_disp,3), nsmall = 3), x = max(displacement, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
     labs(x = xstr, y = ystr) +
     theme_classic() +
     theme(legend.position = "none")
@@ -165,7 +165,7 @@ plot_tm_alpha <- function(df, median_alpha = NULL, xstr = "alpha (log2)", ystr =
     geom_histogram(binwidth = 0.1)
 
   if(!missing(median_alpha)) {
-    p <- p + geom_text(aes(label = paste0("median = ",format(round(median_alpha,3), nsmall = 3)), x = min(alpha, na.rm = TRUE), y = Inf), size = 3, hjust = 0, vjust = 1, check_overlap = TRUE)
+    p <- p + geom_text(aes(label = format(round(median_alpha,3), nsmall = 3), x = max(alpha, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE)
   }
   p <- p + labs(x = xstr, y = ystr) +
     theme_classic() +
@@ -192,9 +192,10 @@ plot_tm_dee <- function(df, median_dee = NULL, xstr = "D", ystr = "Frequency") {
     geom_histogram(binwidth = 0.01)
 
   if(!missing(median_dee)) {
-    p <- p + geom_text(aes(label = paste0("median = ",format(round(median_dee,3), nsmall = 3)), x = max(dee, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE)
+    p <- p + geom_text(aes(label = format(round(median_dee,3), nsmall = 3), x = max(dee, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE)
   }
   p <- p + labs(x = xstr, y = ystr) +
+    lims(x = c(0,NA)) +
     theme_classic() +
     theme(legend.position = "none")
 
@@ -239,7 +240,7 @@ plot_tm_speed <- function(input, summary = FALSE, xstr = NULL, ystr = NULL, auto
 
   p <- ggplot(data = speedDF, aes(x = speed)) +
     geom_histogram(bins = nBin) +
-    geom_text(aes(label = paste0("median = ",format(round(median_speed,3), nsmall = 3)), x = max(speed, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    geom_text(aes(label = format(round(median_speed,3), nsmall = 3), x = max(speed, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
     labs(x = xstr, y = ystr) +
     theme_classic() +
     theme(legend.position = "none")
@@ -271,7 +272,7 @@ plot_tm_neighbours <- function(df, auto = FALSE) {
 
   p <- ggplot(data = df, aes(x = density)) +
     geom_histogram(bins = nBin) +
-    geom_text(aes(label = paste0("median = ",format(round(median_density,3), nsmall = 3)), x = max(density, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    geom_text(aes(label = format(round(median_density,3), nsmall = 3), x = max(density, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
     labs(x = "Track density", y = "Frequency") +
     theme_classic() +
     theme(legend.position = "none")
@@ -304,7 +305,7 @@ plot_tm_fd <- function(df, auto = FALSE) {
   } else {
     p <- p + geom_histogram(bins = nBin)
   }
-  p <- p + geom_text(aes(label = paste0("median = ",format(round(median_fd,3), nsmall = 3)), x = max(fd, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+  p <- p + geom_text(aes(label = format(round(median_fd,3), nsmall = 3), x = max(fd, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
     labs(x = "Fractal dimension", y = "Frequency") +
     theme_classic() +
     theme(legend.position = "none")
@@ -334,7 +335,7 @@ plot_tm_width <- function(df, units = c("um","s"), auto = FALSE) {
 
   p <- ggplot(data = df, aes(x = wide)) +
     geom_histogram(bins = nBin) +
-    geom_text(aes(label = paste0("median = ",format(round(median_width,3), nsmall = 3)), x = max(wide, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    geom_text(aes(label = format(round(median_width,3), nsmall = 3), x = max(wide, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
     labs(x = paste0("Maximum width (",units[1],")"), y = "Frequency") +
     theme_classic() +
     theme(legend.position = "none")
