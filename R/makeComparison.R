@@ -12,7 +12,7 @@
 #' @return patchwork ggplot
 #' @export
 makeComparison <- function (df, msddf, units = c("um","s"), msdplot = "linlin", titleStr = "Comparison", subStr = NULL) {
-  condition <- dee <- neighbours <- speed <- fd <- width <- NULL
+  condition <- dee <- neighbours <- speed <- fd <- width <- intensity <- duration <- NULL
 
   oldw <- getOption("warn")
   options(warn = -1)
@@ -37,6 +37,26 @@ makeComparison <- function (df, msddf, units = c("um","s"), msdplot = "linlin", 
     ylim(c(0,NA)) +
     guides(x =  guide_axis(angle = 90)) +
     labs(x = "", y = paste0("Mean speed (",units[1],"/",units[2],")")) +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  # plot intensity
+  p_intensity <- ggplot(data = df, aes(x = condition, y = intensity, colour = condition)) +
+    geom_boxplot(colour = "grey", outlier.shape = NA) +
+    geom_sina(alpha = 0.5, stroke = 0) +
+    ylim(c(0,NA)) +
+    guides(x =  guide_axis(angle = 90)) +
+    labs(x = "", y = "Median intensity (AU)") +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  # plot duration
+  p_duration <- ggplot(data = df, aes(x = condition, y = duration, colour = condition)) +
+    geom_boxplot(colour = "grey", outlier.shape = NA) +
+    geom_sina(alpha = 0.5, stroke = 0) +
+    ylim(c(0,NA)) +
+    guides(x =  guide_axis(angle = 90)) +
+    labs(x = "", y = paste0("Median duration (",units[2],")")) +
     theme_classic() +
     theme(legend.position = "none")
 
@@ -99,7 +119,7 @@ makeComparison <- function (df, msddf, units = c("um","s"), msdplot = "linlin", 
     theme_classic() +
     theme(legend.position = "none")
 
-  r_report <- (p_alpha + p_speed + p_dee + p_fd) / (p_width + p_density + p_msd)
+  r_report <- (p_alpha + p_speed + p_intensity + p_duration + p_dee + p_fd + p_width + p_density + p_msd) + plot_layout(ncol = 3, nrow = 3)
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
 
   options(warn = oldw)

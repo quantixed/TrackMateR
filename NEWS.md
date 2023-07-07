@@ -1,5 +1,9 @@
 # TrackMateR
 
+# TrackMateR 0.3.8
+
+- Added report of intensity and duration to workflow
+
 # TrackMateR 0.3.7
 
 - Added estimator of diffusion co-efficient and histogram of D (per track)

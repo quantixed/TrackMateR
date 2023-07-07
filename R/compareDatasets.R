@@ -19,7 +19,7 @@
 #' @export
 compareDatasets <- function(...) {
 
-  condition <- value <- dataid <- cumulative_distance <- track_duration <- NULL
+  condition <- value <- dataid <- cumulative_distance <- track_duration <- mean_intensity <- NULL
 
   if(!dir.exists("Data")) {
     # there is no cross-platform way to safely choose directory
@@ -91,6 +91,7 @@ compareDatasets <- function(...) {
           tmObj <- correctTrackMateData(dataList = tmObj, xyunit = calibDF[1,2], tunit = calibDF[2,2])
         }
       }
+      # we can filter here if required - for example only analyse tracks of certain length
       tmDF <- tmObj[[1]]
       calibrationDF <- tmObj[[2]]
       # take the units
@@ -182,14 +183,12 @@ compareDatasets <- function(...) {
     write.csv(bigmsd, paste0(destinationDir, "/allMSD.csv"), row.names = FALSE)
     write.csv(bigjd, paste0(destinationDir, "/allJD.csv"), row.names = FALSE)
     write.csv(bigfd, paste0(destinationDir, "/allFD.csv"), row.names = FALSE)
-    # mega data frame of msd averages per dataset; alpha values, track density, speed by trace/dataid/condition
+    # mega data frame of msd averages per dataset; alpha values, track density, speed/duration/distance, intensity by trace/dataid/condition
     msdSummary <- summaryObj[[2]]
     msdSummary$condition <- condFolderName
-    # bigalpha$condition <- condFolderName
-    # bigtd$condition <- condFolderName
     bigspeed <- bigtm %>%
       group_by(dataid, trace) %>%
-      summarise(cumdist = max(cumulative_distance), cumtime = max(track_duration))
+      summarise(cumdist = max(cumulative_distance), cumtime = max(track_duration), intensity = max(mean_intensity))
     bigspeed$speed <- bigspeed$cumdist / bigspeed$cumtime
     bigspeed$condition <- condFolderName
     if(i == 1 | !exists("megamsd")) {
@@ -214,7 +213,7 @@ compareDatasets <- function(...) {
   write.csv(megamsd, paste0(destinationDir, "/allMSDCurves.csv"), row.names = FALSE)
   write.csv(megareport, paste0(destinationDir, "/allComparison.csv"), row.names = FALSE)
 
-  # for alpha values, estimator of D, track density, speed by trace/dataid/condition we must combine into one
+  # for alpha values, estimator of D, track density, peed/duration/distance, intensity by trace/dataid/condition we must combine into one
   # set the name of dee to estdee
   names(megadee)[names(megadee) == "dee"] <- "estdee"
   megatrace <- Reduce(mergeDataFramesForExport, list(megaalpha, megadee, megatd, megaspeed, megafd))
@@ -224,5 +223,5 @@ compareDatasets <- function(...) {
   p <- makeComparison(df = megareport, msddf = megamsd, units = units, msdplot = l$msdplot)
   destinationDir <- "Output/Plots/"
   filePath <- paste0(destinationDir, "/comparison.pdf")
-  ggsave(filePath, plot = p, width = 19, height = 19, units = "cm")
+  ggsave(filePath, plot = p, width = 25, height = 19, units = "cm")
 }

@@ -87,7 +87,9 @@ reference:
   - plot_tm_dee
   - plot_tm_displacementHist
   - plot_tm_displacementOverTime
+  - plot_tm_durationHist
   - plot_tm_fd
+  - plot_tm_intensityHist
   - plot_tm_neighbours
   - plot_tm_speed
   - plot_tm_width

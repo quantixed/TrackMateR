@@ -90,6 +90,24 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
     p_displacementHist <- plot_tm_displacementHist(input = tmList, auto = FALSE)
   }
 
+  # ggplot histogram of intensities
+  if(auto == TRUE & summary == FALSE) {
+    intObj <- plot_tm_intensityHist(input = tmList, auto = auto)
+    p_intensityHist <- intObj[[1]]
+    median_int <- intObj[[2]]
+  } else {
+    p_intensityHist <- plot_tm_intensityHist(input = tmList, auto = FALSE)
+  }
+
+  # ggplot histogram of intensities
+  if(auto == TRUE & summary == FALSE) {
+    durObj <- plot_tm_durationHist(input = tmList, auto = auto)
+    p_durationHist <- durObj[[1]]
+    median_dur <- durObj[[2]]
+  } else {
+    p_durationHist <- plot_tm_durationHist(input = tmList, auto = FALSE)
+  }
+
   # alpha distribution of traces
   alphas <- msdList[[2]]
   alphas <- na.omit(alphas)
@@ -153,10 +171,13 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
 
   # make the report (patchwork of ggplots)
   design <- "
-    1123
-    1145
+    11236
+    11457
   "
-  toprow <- p_allTracks + p_displacementOverTime + p_displacementHist + p_cumdistOverTime + p_speed + plot_layout(design = design)
+  toprow <- p_allTracks +
+    p_displacementOverTime + p_displacementHist + p_durationHist +
+    p_cumdistOverTime + p_speed + p_intensityHist +
+    plot_layout(design = design)
   bottomrow <- p_msd + p_dee + p_alpha + p_estdee + p_jump + p_neighbours + p_fd + p_width + plot_layout(ncol = 4, nrow = 2)
   r_report <- toprow / bottomrow
   r_report <- r_report + plot_annotation(title = titleStr, subtitle = subStr)
@@ -165,6 +186,8 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
     # make a multi-column object and pass directly back
     df_report <- data.frame(alpha = median_alpha,
                             speed = median_speed,
+                            intensity = median_int,
+                            duration = median_dur,
                             dee = dee, # D that is passed here is the value from MSD fit of all data not median D from traces
                             displacement = median_disp,
                             neighbours = median_density,

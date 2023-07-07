@@ -149,6 +149,111 @@ plot_tm_displacementHist <- function(input, summary = FALSE, xstr = NULL, ystr =
   }
 }
 
+#' Make a histogram of intensities
+#'
+#' Function uses the maximum value of the mean_intensity column for all traces in supplied TrackMate data
+#'
+#' @param input either a data frame of TrackMate data or list of TrackMate data frame and calibration data frame
+#' @param summary boolean to specify if plot is of one dataset or several related datasets
+#' @param xstr string to label x-axis
+#' @param ystr string to label y-axis
+#' @param auto boolean to switch between returning a ggplot and a list of ggplot and variable
+#' @return ggplot or list of ggplot and variable
+#' @export
+plot_tm_intensityHist <- function(input, summary = FALSE, xstr = NULL, ystr = NULL, auto = FALSE) {
+  dataid <- trace <- mean_intensity <- intensity <- NULL
+
+  if(inherits(input, "list")) {
+    df <- input[[1]]
+    calibration <- input[[2]]
+    units <- calibration$unit[1:2]
+    xstr <- "Intensity (AU)"
+    ystr <- "Frequency"
+  } else {
+    df <- input
+  }
+
+  if(summary) {
+    intDF <- df %>%
+      group_by(dataid, trace) %>%
+      summarise(intensity = max(mean_intensity))
+  } else {
+    intDF <- df %>%
+      group_by(trace) %>%
+      summarise(intensity = max(mean_intensity))
+  }
+
+  median_int <- median(intDF$intensity, na.rm = TRUE)
+  nBin <- max(floor(1 + log2(nrow(intDF))),30)
+
+  p <- ggplot(data = intDF, aes(x = intensity)) +
+    geom_histogram(bins = nBin) +
+    geom_text(aes(label = format(round(median_int,3), nsmall = 3), x = max(intensity, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    lims(x = c(0,NA)) +
+    labs(x = xstr, y = ystr) +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  if(auto) {
+    returnList <- list(p, median_int)
+    return(returnList)
+  } else {
+    return(p)
+  }
+}
+
+
+#' Make a histogram of track durations
+#'
+#' @param input either a data frame of TrackMate data or list of TrackMate data frame and calibration data frame
+#' @param summary boolean to specify if plot is of one dataset or several related datasets
+#' @param xstr string to label x-axis
+#' @param ystr string to label y-axis
+#' @param auto boolean to switch between returning a ggplot and a list of ggplot and variable
+#' @return ggplot or list of ggplot and variable
+#' @export
+plot_tm_durationHist <- function(input, summary = FALSE, xstr = NULL, ystr = NULL, auto = FALSE) {
+  dataid <- trace <- mean_intensity <- instensity <- cumtime <- track_duration <- NULL
+
+  if(inherits(input, "list")) {
+    df <- input[[1]]
+    calibration <- input[[2]]
+    units <- calibration$unit[1:2]
+    xstr <- paste0("Duration (",units[2],")")
+    ystr <- "Frequency"
+  } else {
+    df <- input
+  }
+
+  if(summary) {
+    durDF <- df %>%
+      group_by(dataid, trace) %>%
+      summarise(cumtime = max(track_duration))
+  } else {
+    durDF <- df %>%
+      group_by(trace) %>%
+      summarise(cumtime = max(track_duration))
+  }
+
+  median_duration <- median(durDF$cumtime, na.rm = TRUE)
+  nBin <- max(floor(1 + log2(nrow(durDF))),30)
+
+  p <- ggplot(data = durDF, aes(x = cumtime)) +
+    geom_histogram(bins = nBin) +
+    geom_text(aes(label = format(round(median_duration,3), nsmall = 3), x = max(cumtime, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    lims(x = c(0,NA)) +
+    labs(x = xstr, y = ystr) +
+    theme_classic() +
+    theme(legend.position = "none")
+
+  if(auto) {
+    returnList <- list(p, median_duration)
+    return(returnList)
+  } else {
+    return(p)
+  }
+}
+
 #' Make a histogram of alpha values
 #'
 #' @param df data frame of alpha values
@@ -241,6 +346,7 @@ plot_tm_speed <- function(input, summary = FALSE, xstr = NULL, ystr = NULL, auto
   p <- ggplot(data = speedDF, aes(x = speed)) +
     geom_histogram(bins = nBin) +
     geom_text(aes(label = format(round(median_speed,3), nsmall = 3), x = max(speed, na.rm = TRUE), y = Inf), size = 3, hjust = 1, vjust = 1, check_overlap = TRUE) +
+    lims(x = c(0,NA)) +
     labs(x = xstr, y = ystr) +
     theme_classic() +
     theme(legend.position = "none")
