@@ -36,6 +36,23 @@ correctTrackMateData <- function(dataList, xyscalar = 1, tscalar = 1, xyunit = N
     df$y <- df$y * xyscalar
     df$displacement <- df$displacement * xyscalar
     df$cumulative_distance <- df$cumulative_distance * xyscalar
+    df$radius <- df$radius * xyscalar
+    # there are potentially other columns present that may need adjusting
+    if("area" %in% colnames(df))
+    {
+      df$area <- df$area * xyscalar^2
+    }
+    if("perimeter" %in% colnames(df))
+    {
+      df$perimeter <- df$perimeter * xyscalar
+    }
+    if("ellipse_x0" %in% colnames(df))
+    {
+      df$ellipse_x0 <- df$ellipse_x0 * xyscalar
+      df$ellipse_y0 <- df$ellipse_y0 * xyscalar
+      df$ellipse.major <- df$ellipse.major * xyscalar
+      df$ellipse.minor <- df$ellipse.minor * xyscalar
+    }
     # correct calibration data
     calib[1,1] <- calib[1,1] * xyscalar
     calib[3:4,1] <- calib[3:4,1] * xyscalar # border of image

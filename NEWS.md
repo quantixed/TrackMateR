@@ -1,5 +1,10 @@
 # TrackMateR
 
+# TrackMateR 0.3.9
+
+- Warning for TrackMate XML files that contain tracks with more than one point per frame
+- Added xy scaling for shape descriptors
+
 # TrackMateR 0.3.8
 
 - Added report of intensity and duration to workflow

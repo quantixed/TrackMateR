@@ -135,6 +135,15 @@ readTrackMateXML<- function(XMLpath){
   daten$cumulative_distance <- cumdist
   daten$track_duration <- dur
 
+  # users have reported tracks/traces with multiple spots per frame which cannot be processed
+  # possibly caused by track splitting or merging. Produce warning about this.
+  b <- daten %>% group_by(trace,frame) %>%
+    reframe(n = n())
+  # because it is not possible to have n = 0 in this column (as it is reframe) we can do
+  if(sum(b$n) > nrow(b)) {
+    cat("Warning: Detected multiple spots per frame for one or more tracks.\nTrackMateR will only process single tracks. Subsequent analysis will likely fail!\n")
+  }
+
   # it is possible that xy coords lie outside the image(!)
   # we can detect xy coords that are less than 0,0 and then use this information to offset *all* coords by this
   # this is necessary because later code relies on the origin
