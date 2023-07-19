@@ -50,8 +50,8 @@ correctTrackMateData <- function(dataList, xyscalar = 1, tscalar = 1, xyunit = N
     {
       df$ellipse_x0 <- df$ellipse_x0 * xyscalar
       df$ellipse_y0 <- df$ellipse_y0 * xyscalar
-      df$ellipse.major <- df$ellipse.major * xyscalar
-      df$ellipse.minor <- df$ellipse.minor * xyscalar
+      df$ellipse_major <- df$ellipse_major * xyscalar
+      df$ellipse_minor <- df$ellipse_minor * xyscalar
     }
     # correct calibration data
     calib[1,1] <- calib[1,1] * xyscalar
