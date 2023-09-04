@@ -16,14 +16,14 @@ calculateAlpha <- function(alphaMat,tstep) {
   # check that alphaMat is at least four rows by two columns
   if(nrow(alphaMat) < 4 | ncol(alphaMat) < 2) {
     alphaDF <- data.frame(trace = character("1"),
-                          alpha = numeric(1))
+                          alpha = numeric(1),
+                          dee = numeric(1))
     return(alphaDF)
   }
   # make time vector
   tee <- (1 : nrow(alphaMat)) * tstep
-  # make vectors for the results
-  alphaVec <- deeVec <- numeric(ncol(alphaMat))
-  alphaVec[] <- deeVec <- NA
+  # make empty vectors for the results
+  alphaVec <- deeVec <- rep(NA, ncol(alphaMat))
   # check that we have four contiguous points for each col
   check <- colSums(alphaMat[1:4,])
   for(i in 1 : ncol(alphaMat)) {
