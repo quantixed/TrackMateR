@@ -62,6 +62,7 @@ compareDatasets <- function(...) {
       calibrate <- TRUE
     }
     cat(paste0("\n","Processing ",condFolderName,"\n"))
+    bigtm <- bigmsd <- bigalpha <- bigdee <- bigjd <- bigtd <- bigfd <- data.frame()
     for(j in 1:length(allTrackMateFiles)) {
       fileName <- allTrackMateFiles[j]
       thisFilePath <- paste0(condFolderPath, "/", fileName)
@@ -94,55 +95,78 @@ compareDatasets <- function(...) {
       # we can filter here if required - for example only analyse tracks of certain length
       tmDF <- tmObj[[1]]
       calibrationDF <- tmObj[[2]]
+      # sanity check - probably not needed
+      if(is.null(tmDF)) {
+        cat(paste0("Skipping ",fileName," - no data found!\n"))
+        next
+      }
       # if the data is not rich enough for a summary we will skip it
-      if((calibrationDF[5,1] < 3 & calibrationDF[6,1] < 10)) {
+      if(calibrationDF[5,1] < 3 & calibrationDF[6,1] < 10) {
         cat(paste0("Skipping ",fileName," as it has less than 3 tracks and longest track has less than 10 frames\n"))
         next
       }
       # take the units
       units <- calibrationDF$unit[1:2]
-      # we need to combine data frames
+
+      ## we need to combine data frames
       # first add a column to id the data
       thisdataid <- paste0(condFolderName,"_",as.character(j))
       tmDF$dataid <- thisdataid
+
       # calculate MSD
       msdObj <- calculateMSD(tmDF, N = 3, short = 8)
       msdDF <- msdObj[[1]]
       alphaDF <- msdObj[[2]]
       deeDF <- msdObj[[3]]
-      # same here, combine msd summary and alpha summary
-      msdDF$dataid <- thisdataid
-      alphaDF$dataid <- thisdataid
-      deeDF$dataid <- thisdataid
+      if(!is.null(msdDF) | !is.null(alphaDF) | !is.null(deeDF)) {
+        # we need to add the dataid to the summary
+        msdDF$dataid <- thisdataid
+        alphaDF$dataid <- thisdataid
+        deeDF$dataid <- thisdataid
+      }
+
       # jump distance calc with deltaT of 1
       deltaT <- 1
       jdObj <- calculateJD(dataList = tmObj, deltaT = l$deltaT, nPop = l$nPop, mode = l$mode, init = l$init, timeRes = l$timeRes, breaks = l$breaks)
       jdDF <- jdObj[[1]]
-      jdDF$dataid <- thisdataid
-      timeRes <- jdObj[[2]]
-      jdObj <- list(jdDF,timeRes)
+      if(is.null(jdDF)) {
+        jdObj <- NULL
+      } else {
+        jdDF$dataid <- thisdataid
+        timeRes <- jdObj[[2]]
+        jdObj <- list(jdDF,timeRes)
+      }
       # track density with a radius of 1.5 units
       tdDF <- calculateTrackDensity(dataList = tmObj, radius = l$radius)
-      tdDF$dataid <- thisdataid
+      if(!is.null(tdDF)) {
+        tdDF$dataid <- thisdataid
+      }
       # fractal dimension
       fdDF <- calculateFD(dataList = tmObj)
-      fdDF$dataid <- thisdataid
-      # now if it's the first one make the big dataframe, otherwise add df to bigdf
-      if(j == 1) {
-        bigtm <- tmDF
-        bigmsd <- msdDF
-        bigalpha <- alphaDF
-        bigdee <- deeDF
-        bigjd <- jdDF
-        bigtd <- tdDF
-        bigfd <- fdDF
-      } else {
+      if(!is.null(fdDF)) {
+        fdDF$dataid <- thisdataid
+      }
+
+      # add to the big dataframes
+      if(!is.null(tmDF)) {
         bigtm <- rbind(bigtm,tmDF)
+      }
+      if(!is.null(msdDF)) {
         bigmsd <- rbind(bigmsd,msdDF)
+      }
+      if(!is.null(alphaDF)) {
         bigalpha <- rbind(bigalpha,alphaDF)
+      }
+      if(!is.null(deeDF)) {
         bigdee <- rbind(bigdee,deeDF)
+      }
+      if(!is.null(jdDF)) {
         bigjd <- rbind(bigjd,jdDF)
+      }
+      if(!is.null(tdDF)) {
         bigtd <- rbind(bigtd,tdDF)
+      }
+      if(!is.null(fdDF)) {
         bigfd <- rbind(bigfd,fdDF)
       }
 

@@ -75,8 +75,8 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   # dt should be up to 1/4 of number of data points (default)
   numberOfdeltaT = floor(tListmax2/N)
   if(numberOfdeltaT == 0) {
-    cat("The number of frames is too short to calculate MSD. Using N = 1.\n")
-    numberOfdeltaT = floor(tListmax2)
+    cat("The number of frames is too few to calculate MSD.\n")
+    return(NULL)
   }
   # make matrix to store the averaged msd summary
   msd <- matrix(data = NA, nrow = numberOfdeltaT, ncol = 5 )

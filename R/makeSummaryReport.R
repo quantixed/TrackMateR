@@ -169,6 +169,37 @@ makeSummaryReport <- function(tmList, msdList, jumpList, tddf, fddf, titleStr = 
     p_width <- plot_tm_width(df = fddf, units = units, auto = FALSE)
   }
 
+  # substitute blank elements if any df was null
+  if(is.null(p_msd)) {
+    p_msd <- plot_spacer()
+    dee <- NA
+  }
+  if(is.null(p_dee)) {
+    p_dee <- plot_spacer()
+  }
+  if(is.null(p_alpha)) {
+    p_alpha <- plot_spacer()
+    median_alpha <- NA
+  }
+  if(is.null(p_estdee)) {
+    p_estdee <- plot_spacer()
+  }
+  if(is.null(p_jump)) {
+    p_jump <- plot_spacer()
+  }
+  if(is.null(p_neighbours)) {
+    p_neighbours <- plot_spacer()
+    median_density <- NA
+  }
+  if(is.null(p_fd)) {
+    p_fd <- plot_spacer()
+    median_fd <- NA
+  }
+  if(is.null(p_width)) {
+    p_width <- plot_spacer()
+    median_width <- NA
+  }
+
   # make the report (patchwork of ggplots)
   design <- "
     11236
