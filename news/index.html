@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.10</span>
       </span>
     </div>
 
@@ -72,6 +72,11 @@
       <small>Source: <a href="https://github.com/quantixed/TrackMateR/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.10" id="trackmater-0310">TrackMateR 0.3.10<a class="anchor" aria-label="anchor" href="#trackmater-0310"></a></h2>
+<ul><li>Fixed an issue where sparse TrackMate XML files caused <code><a href="../reference/compareDatasets.html">compareDatasets()</a></code> to fail</li>
+<li>These files are skipped and a warning is issued. They can be loaded and analyzed manually if desired (limit is more than 3 tracks with at least one with 10 frames)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.9" id="trackmater-039">TrackMateR 0.3.9<a class="anchor" aria-label="anchor" href="#trackmater-039"></a></h2>
 <ul><li>Warning for TrackMate XML files that contain tracks with more than one point per frame</li>

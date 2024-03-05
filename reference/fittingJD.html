@@ -27,7 +27,7 @@ To fit 3 populations, you must pass `nPop = 3` as an additional argument, you ar
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TrackMateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.10</span>
       </span>
     </div>
 
@@ -120,13 +120,17 @@ To fit 3 populations, you must pass `nPop = 3` as an additional argument, you ar
 <span class="r-in"><span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="readTrackMateXML.html">readTrackMateXML</a></span><span class="op">(</span>XMLpath <span class="op">=</span> <span class="va">xmlPath</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Units are:  1 pixel and 0.07002736 s </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Spatial units are in pixels - consider transforming to real units</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Collecting spot data. Using 2 cores</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Collecting spot data. Using 4 cores</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Matching track data...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calculating distances...</span>
 <span class="r-in"><span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="correctTrackMateData.html">correctTrackMateData</a></span><span class="op">(</span><span class="va">tmObj</span>, xyscalar <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correcting XY scale. </span>
 <span class="r-in"><span><span class="va">jdObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculateJD.html">calculateJD</a></span><span class="op">(</span>dataList <span class="op">=</span> <span class="va">tmObj</span>, deltaT <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">fittingJD</span><span class="op">(</span>jumpList <span class="op">=</span> <span class="va">jdObj</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>All aesthetics have length 1, but the data has 79 rows.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Did you mean to use `annotate()`?</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>All aesthetics have length 1, but the data has 79 rows.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Did you mean to use `annotate()`?</span>
 <span class="r-plt img"><img src="fittingJD-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
