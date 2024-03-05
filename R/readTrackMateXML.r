@@ -29,10 +29,10 @@ readTrackMateXML<- function(XMLpath){
   # what are the units?
   attrList <- c("spatialunits","timeunits")
   unitVec <- sapply(attrList, function(x) xpathSApply(e, "//Model", xmlGetAttr, x))
-  unitVec <- c(unitVec,"widthpixels","heightpixels")
+  unitVec <- c(unitVec,"widthpixels","heightpixels","ntraces","maxframes")
   attrList <- c("pixelwidth","timeinterval","width","height")
   valueVec <- sapply(attrList, function(x) xpathSApply(e, "//ImageData", xmlGetAttr, x))
-  calibrationDF <- data.frame(value = as.numeric(valueVec),
+  calibrationDF <- data.frame(value = c(as.numeric(valueVec),0,0),
                               unit = unitVec)
   # convert the width and height of the image from pixels (0-based so minus 1 from wdth/height) to whatever units the TrackMate file uses
   calibrationDF[3:4,1] <- (calibrationDF[3:4,1] - 1) * calibrationDF[1,1]
@@ -164,6 +164,9 @@ readTrackMateXML<- function(XMLpath){
   if(maxy > calibrationDF[4,1]) {
     calibrationDF[4,1] <- ceiling(maxy)
   }
+  # we need to know how many traces we have and how many frames is the longest one for later
+  calibrationDF[5,1] <- length(unique(daten$trace))
+  calibrationDF[6,1] <- max(daten$track_duration) / calibrationDF[2,1]
 
   # daten is our dataframe of all data, calibrationDF is the calibration data
   dfList <- list(daten,calibrationDF)

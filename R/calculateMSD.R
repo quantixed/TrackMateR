@@ -43,8 +43,14 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   }
   # filter out short traces
   if(short > 0) {
-    traceList <- subset(traceList,unlist(lapply(tList, max)) >= short)
-    tList <- subset(tList,unlist(lapply(tList, max)) >= short)
+    traceList_temp <- subset(traceList,unlist(lapply(tList, max)) >= short)
+    tList_temp <- subset(tList,unlist(lapply(tList, max)) >= short)
+    if(length(traceList_temp) == 0) {
+      cat("No traces are long enough to calculate MSD. Reverting to short = 0.\n")
+    } else {
+      traceList <- traceList_temp
+      tList <- tList_temp
+    }
   }
   # find the maximum frame offset of all traces
   tListmax <- max(unlist(lapply(tList, max)))
@@ -68,6 +74,10 @@ calculateMSD <- function(df, method = "timeaveraged", N = 4, short = 0) {
   tListmax2 <- quantile(unlist(lapply(tList, max)), probs=.9)
   # dt should be up to 1/4 of number of data points (default)
   numberOfdeltaT = floor(tListmax2/N)
+  if(numberOfdeltaT == 0) {
+    cat("The number of frames is too short to calculate MSD. Using N = 1.\n")
+    numberOfdeltaT = floor(tListmax2)
+  }
   # make matrix to store the averaged msd summary
   msd <- matrix(data = NA, nrow = numberOfdeltaT, ncol = 5 )
   colnames(msd) <- c("mean", "sd", "n", "size", "t")

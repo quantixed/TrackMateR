@@ -94,6 +94,11 @@ compareDatasets <- function(...) {
       # we can filter here if required - for example only analyse tracks of certain length
       tmDF <- tmObj[[1]]
       calibrationDF <- tmObj[[2]]
+      # if the data is not rich enough for a summary we will skip it
+      if((calibrationDF[5,1] < 3 & calibrationDF[6,1] < 10)) {
+        cat(paste0("Skipping ",fileName," as it has less than 3 tracks and longest track has less than 10 frames\n"))
+        next
+      }
       # take the units
       units <- calibrationDF$unit[1:2]
       # we need to combine data frames

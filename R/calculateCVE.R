@@ -13,10 +13,21 @@
 
 
 calculateCVE <- function(xMat, yMat, tlist, tstep) {
+  # setup NULL return
+  cveDF <- data.frame(trace = character("1"),
+                      dee = numeric(1),
+                      estsigma = numeric(1))
+  # check that data is not NULL
+  if(is.null(xMat) | is.null(yMat) | is.null(tlist) | is.null(tstep)) {
+    return(cveDF)
+  } else {
+    # check that length of nrow(xMat) > 0 is TRUE
+    if(!isTRUE(nrow(xMat) > 0)) {
+      return(cveDF)
+    }
+  }
   # check that data is at least four rows by two columns
   if(nrow(xMat) < 4 | ncol(xMat) < 2) {
-    cveDF <- data.frame(trace = character("1"),
-                          cve = numeric(1))
     return(cveDF)
   }
   # calculation of the estimators of D and sigma^2

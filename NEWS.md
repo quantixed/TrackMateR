@@ -1,5 +1,10 @@
 # TrackMateR
 
+# TrackMateR 0.3.10
+
+- Fixed an issue where sparse TrackMate XML files caused `compareDatasets()` to fail
+- These files are skipped and a warning is issued. They can be loaded and analyzed manually if desired (limit is more than 3 tracks with at least one with 10 frames)
+
 # TrackMateR 0.3.9
 
 - Warning for TrackMate XML files that contain tracks with more than one point per frame

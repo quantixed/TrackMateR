@@ -56,9 +56,17 @@ plot_tm_displacementOverTime <- function(input, summary = FALSE, xstr = NULL, ys
 
   p <- ggplot(data = df, aes(x = t, y = displacement))
   if(summary) {
-    p <- p + geom_path(aes(y = rollmean(displacement, 20, na.pad = TRUE), group = interaction(dataid, trace), alpha = 0.01))
+    if(nrow(df) < 50) {
+      p <- p + geom_path(aes(group = interaction(dataid, trace), alpha = 0.01))
+    } else {
+      p <- p + geom_path(aes(y = rollmean(displacement, 20, na.pad = TRUE), group = interaction(dataid, trace), alpha = 0.01))
+    }
   } else {
-    p <- p + geom_path(aes(y = rollmean(displacement, 20, na.pad = TRUE), group = trace, alpha = 0.1))
+    if(nrow(df) < 50) {
+      p <- p + geom_path(aes(group = trace, alpha = 0.1))
+    } else {
+      p <- p + geom_path(aes(y = rollmean(displacement, 20, na.pad = TRUE), group = trace, alpha = 0.1))
+    }
   }
 
   p <- p + geom_smooth(method = "gam", formula = (y ~ s(x, bs = 'cs'))) +
