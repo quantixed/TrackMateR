@@ -558,8 +558,8 @@ plot_tm_NMSD <- function(df, xlog = FALSE, ylog = FALSE, auto = FALSE) {
   # find the parameters for interpolation
   t1 <- df %>%
     subset(size == 1)
-  minT <- min(t1$t)
-  maxT <- max(df$t)
+  minT <- min(t1$t, na.rm = TRUE)
+  maxT <- max(df$t, na.rm = TRUE)
   steps <- ceiling(maxT / minT)
 
   # need to work per dataset
