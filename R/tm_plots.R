@@ -565,16 +565,18 @@ plot_tm_NMSD <- function(df, xlog = FALSE, ylog = FALSE, auto = FALSE) {
   # need to work per dataset
   datasets <- unique(df$dataid)
 
+  alldf <-  data.frame()
   for (i in datasets) {
     temp <- df %>%
       subset(dataid == i)
+
+    if((nrow(temp) - sum(is.na(temp$t)) < 3) | (nrow(temp) - sum(is.na(temp$value)) < 3)) {
+      next
+    }
+
     newdf <- data.frame(approx(x = temp$t, y = temp$value, xout = seq(from = minT, to = steps * minT, by = minT)))
     newdf$dataid <- i
-    if(i == datasets[1]) {
-      alldf <- newdf
-    } else {
-      alldf <- rbind(alldf,newdf)
-    }
+    alldf <- rbind(alldf,newdf)
   }
   # rename header
   names(alldf) <- c("t", "value", "dataid")
