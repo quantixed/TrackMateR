@@ -7,7 +7,7 @@
 findLog2YAxisLimits(x)
 }
 \arguments{
-\item{input}{vector of log2 values}
+\item{x}{vector of log2 values}
 }
 \value{
 list two limits for y-axis

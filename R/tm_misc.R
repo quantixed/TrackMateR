@@ -54,7 +54,7 @@ processEllipsis <- function(input) {
 
 #' Find log2 y limits for symmetrical axis
 #'
-#' @param input vector of log2 values
+#' @param x vector of log2 values
 #' @return list two limits for y-axis
 #' @keywords internal
 findLog2YAxisLimits <- function(x) {
