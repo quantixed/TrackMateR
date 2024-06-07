@@ -20,7 +20,8 @@ readTrackMateXML<- function(XMLpath){
   e <- xmlParse(XMLpath)
   track <- getNodeSet(e, "//Track")
   if(length(track) == 0) {
-    stop("File is not a TrackMate XML file")
+    cat("No tracks found in XML file\n")
+    return(NULL)
   }
   filtered <- getNodeSet(e, "//TrackID")
   subdoc <- getNodeSet(e,"//AllSpots//SpotsInFrame//Spot")

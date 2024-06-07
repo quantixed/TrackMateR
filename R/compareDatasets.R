@@ -68,6 +68,10 @@ compareDatasets <- function(...) {
       thisFilePath <- paste0(condFolderPath, "/", fileName)
       # read dataset
       tmObj <- readTrackMateXML(XMLpath = thisFilePath)
+      if(is.null(tmObj)) {
+        cat(paste0("Skipping ",fileName," - no data found!\n"))
+        next
+      }
       # scale dataset if required
       if(calibrate) {
         calibrationDF <- tmObj[[2]]
