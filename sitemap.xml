@@ -1,144 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/articles/TrackMateR.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/articles/comparison.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/articles/recalibration.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/calculateAlpha.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/calculateCVE.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/calculateFD.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/calculateJD.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/calculateMSD.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/calculateTrackDensity.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/compareDatasets.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/compareGTDatasets.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/correctTrackMateData.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/findLog2YAxisLimits.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/find_distances.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/find_td_A1.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/find_td_A2.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/find_td_area.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/fittingJD.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/makeComparison.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/makeSummaryReport.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/mergeDataFramesForExport.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_MSD.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_NMSD.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_allTracks.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_alpha.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_cumdistOverTime.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_dee.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementHist.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementOverTime.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_durationHist.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_fd.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_intensityHist.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_neighbours.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_speed.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_width.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/processEllipsis.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/readGTFile.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/reportDataset.html</loc>
-  </url>
-  <url>
-    <loc>https://quantixed.github.io/TrackMateR/reference/setupOutputPath.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://quantixed.github.io/TrackMateR/404.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/LICENSE-text.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/articles/TrackMateR.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/articles/comparison.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/articles/index.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/articles/recalibration.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/authors.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/index.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/news/index.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/calculateAlpha.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/calculateCVE.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/calculateFD.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/calculateJD.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/calculateMSD.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/calculateTrackDensity.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/compareDatasets.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/compareGTDatasets.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/correctTrackMateData.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/findLog2YAxisLimits.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/find_distances.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/find_td_A1.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/find_td_A2.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/find_td_area.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/fittingJD.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/index.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/makeComparison.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/makeSummaryReport.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/mergeDataFramesForExport.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_MSD.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_NMSD.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_allTracks.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_alpha.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_cumdistOverTime.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_dee.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementHist.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementOverTime.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_durationHist.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_fd.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_intensityHist.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_neighbours.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_speed.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/plot_tm_width.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/processEllipsis.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/readGTFile.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/reportDataset.html</loc></url>
+<url><loc>https://quantixed.github.io/TrackMateR/reference/setupOutputPath.html</loc></url>
 </urlset>
+
