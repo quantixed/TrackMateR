@@ -1,5 +1,9 @@
 # TrackMateR
 
+# TrackMateR 0.3.11
+
+- Better handling of more than one channel in TrackMate XML files
+
 # TrackMateR 0.3.10
 
 - Fixed an issue where sparse TrackMate XML files caused `compareDatasets()` to fail

@@ -44,6 +44,10 @@ readTrackMateXML<- function(XMLpath){
   if(unitVec[1] == "pixel") {
     cat("Spatial units are in pixels - consider transforming to real units\n")
   }
+  # which channel is being tracked?
+  targetVec <-  xpathSApply(e, "//DetectorSettings", xmlGetAttr, "TARGET_CHANNEL")
+  calibrationDF[7,1] <- as.numeric(targetVec)
+  calibrationDF[7,2] <- "channel"
 
   # multicore processing
   numCores <- parallelly::availableCores()
@@ -78,7 +82,7 @@ readTrackMateXML<- function(XMLpath){
   # more R-like headers
   headerNames <- tolower(attrName)
   # remove _CH1 or whatever from headers
-  headerNames <- gsub("\\wCH\\d$","",headerNames,ignore.case = T)
+  # headerNames <- gsub("\\wCH\\d$","",headerNames,ignore.case = T)
   # change x y z t
   headerNames <- gsub("^position\\w","",headerNames,ignore.case = T)
   names(dtf) <- headerNames

@@ -7,8 +7,8 @@
 plot_tm_intensityHist(
   input,
   summary = FALSE,
-  xstr = NULL,
-  ystr = NULL,
+  xstr = "Intensity (AU)",
+  ystr = "Frequency",
   auto = FALSE
 )
 }

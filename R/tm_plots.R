@@ -168,27 +168,38 @@ plot_tm_displacementHist <- function(input, summary = FALSE, xstr = NULL, ystr =
 #' @param auto boolean to switch between returning a ggplot and a list of ggplot and variable
 #' @return ggplot or list of ggplot and variable
 #' @export
-plot_tm_intensityHist <- function(input, summary = FALSE, xstr = NULL, ystr = NULL, auto = FALSE) {
+plot_tm_intensityHist <- function(input, summary = FALSE, xstr = "Intensity (AU)", ystr = "Frequency", auto = FALSE) {
   dataid <- trace <- mean_intensity <- intensity <- NULL
 
   if(inherits(input, "list")) {
     df <- input[[1]]
     calibration <- input[[2]]
     units <- calibration$unit[1:2]
-    xstr <- "Intensity (AU)"
-    ystr <- "Frequency"
+    # get the channel from calibration dataframe by using the value in column 1 where in column 2 it has the value "channel"
+    ch <- calibration$value[calibration$unit == "channel"]
   } else {
     df <- input
+  }
+
+  # the column containing mean_intensity may not be present in the data frame
+  # if it is present we will use that column, if not we will use paste0("mean_intensity_ch",ch)
+  # and if that doesn't exist we will use "mean_intensity_ch1"
+  if("mean_intensity" %in% colnames(df)) {
+    mean_intensity_col <- "mean_intensity"
+  } else if(paste0("mean_intensity_ch", ch) %in% colnames(df)) {
+    mean_intensity_col <- paste0("mean_intensity_ch", ch)
+  } else {
+    mean_intensity_col <- "mean_intensity_ch1"
   }
 
   if(summary) {
     intDF <- df %>%
       group_by(dataid, trace) %>%
-      summarise(intensity = max(mean_intensity))
+      summarise(intensity = max(!!sym(mean_intensity_col), na.rm = TRUE))
   } else {
     intDF <- df %>%
       group_by(trace) %>%
-      summarise(intensity = max(mean_intensity))
+      summarise(intensity = max(!!sym(mean_intensity_col), na.rm = TRUE))
   }
 
   median_int <- median(intDF$intensity, na.rm = TRUE)
