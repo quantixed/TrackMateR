@@ -149,7 +149,7 @@ skip this step but if you need to recalibrate it:</p>
 <p>With this done, we can have a look at the data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TrackMateR_files/figure-html/unnamed-chunk-3-1.png" width="384"></p>
+<p><img src="TrackMateR_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="384"></p>
 <p>So, after reading in the TrackMate file with
 <code><a href="../reference/readTrackMateXML.html">readTrackMateXML()</a></code> we have an object which we can visualise
 using <code><a href="../reference/plot_tm_allTracks.html">plot_tm_allTracks()</a></code>.</p>
@@ -158,7 +158,7 @@ using commands like <code><a href="../reference/plot_tm_allTracks.html">plot_tm_
 all automatically and create a report for you.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/reportDataset.html">reportDataset</a></span><span class="op">(</span><span class="va">tmObj</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TrackMateR_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
+<p><img src="TrackMateR_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="768"></p>
 <p>In the next section you will see how to do more advanced analysis,
 and pick and choose what outputs you will make. However, it is possible
 to change the defaults of <code>reportDatasets()</code> to tune things a
@@ -208,7 +208,7 @@ created.</p>
 <span><span class="co"># we can send all these things to makeSummaryReport() to get a nice report of our dataset</span></span>
 <span><span class="fu"><a href="../reference/makeSummaryReport.html">makeSummaryReport</a></span><span class="op">(</span>tmList <span class="op">=</span> <span class="va">tmObj</span>, msdList <span class="op">=</span> <span class="va">msdObj</span>, jumpList <span class="op">=</span> <span class="va">jdObj</span>, tddf <span class="op">=</span> <span class="va">tdDF</span>, fddf <span class="op">=</span> <span class="va">fdDF</span>,</span>
 <span>titleStr <span class="op">=</span> <span class="st">"Report"</span>, subStr <span class="op">=</span> <span class="va">fileName</span>, auto <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TrackMateR_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
+<p><img src="TrackMateR_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="768"></p>
 <p>Note that <code>makeSummaryReport</code> can take additional
 arguments to give the user some control over fitting to jump distance.
 For example, <code>nPop = 1</code> will fit one population instead of
@@ -235,7 +235,7 @@ analysis of more than one dataset, see
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

@@ -116,6 +116,7 @@
 <p>A basic example is to load one TrackMate XML file, calibrate it (if needed) and analyse it.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.5.2</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://quantixed.github.io/TrackMateR/">TrackMateR</a></span><span class="op">)</span></span>
 <span><span class="co"># an example file is provided, otherwise use file.choose()</span></span>
 <span><span class="va">xmlPath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ExampleTrackMateData.xml"</span>, package<span class="op">=</span><span class="st">"TrackMateR"</span><span class="op">)</span></span>
@@ -123,7 +124,6 @@
 <span><span class="va">tmObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/readTrackMateXML.html">readTrackMateXML</a></span><span class="op">(</span>XMLpath <span class="op">=</span> <span class="va">xmlPath</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Units are:  1 pixel and 0.07002736 s </span></span>
 <span><span class="co">#&gt; Spatial units are in pixels - consider transforming to real units</span></span>
-<span><span class="co">#&gt; Collecting spot data. Using 20 cores</span></span>
 <span><span class="co">#&gt; Matching track data...</span></span>
 <span><span class="co">#&gt; Calculating distances...</span></span>
 <span><span class="co"># Pixel size is actually 0.04 um and original data was 1 pixel, xyscalar = 0.04</span></span>
@@ -214,7 +214,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
