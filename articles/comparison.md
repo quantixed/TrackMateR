@@ -1,0 +1,185 @@
+# Comparison of multiple datasets
+
+In the first vignette
+[`vignette("TrackMateR")`](https://quantixed.github.io/TrackMateR/articles/TrackMateR.md)
+we saw how to analyse one TrackMate XML file. This is one *dataset*, the
+result of a TrackMate tracking session on a single movie. A more likely
+scenario is that you have several datasets, from different conditions.
+
+In this scenario we would like to see:
+
+- a report for each dataset
+- a compiled report for all datasets in that condition
+- a comparison between conditions of key parameters
+
+## Organising your data
+
+**Recommended** Start a new RStudio session in a new directory using
+Create Project. We find it useful to follow [this
+convention](https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner's-guide/)
+for RStudio projects. This
+[gist](https://gist.github.com/quantixed/42625f988a7b5da25b7e333c4a660b97)
+can be run in the console to quickly set up the folder structure for
+your new project. Now place your data in the folder called `Data/` in
+your project directory.
+
+**Required** Place all your TrackMate XML files into subfolders
+according to condition. For example you might have:
+
+- Data/
+  - Control/
+    - cell1.xml
+    - cell2.xml
+  - Drug/
+    - cell1.xml
+    - cell2.xml
+    - cell3.xml
+
+Only one level of folders is allowed.
+
+## Analysing multiple datasets
+
+Once the data is in place, a single command will generate a series of
+reports, summaries and a comparison
+
+``` r
+library(TrackMateR)
+compareDatasets()
+```
+
+If your TrackMate XML files are in a different location, you can specify
+the path to the data folder, e.g.
+
+``` r
+compareDatasets(datadir = "path/to/your/Data/folder")
+```
+
+The outputs are generated using standard parameters equivalent to
+[`reportDataset()`](https://quantixed.github.io/TrackMateR/reference/reportDataset.md).
+However, it is possible to change the defaults by passing additional
+parameters. For example, `compareDatasets(radius = 100)` will use the
+defaults for everything except the radius for searching for neighbours
+in the track density analysis (this example will use a value of 100
+units for the radius). Parameters that can be changed are:
+
+- N, short - from MSD analysis
+- deltaT, mode, nPop, init, timeRes, breaks - from jump distance
+  calculation and fitting
+- radius - from track density analysis
+- msdplot - change the MSD plots from linear-linear (default) to
+  e.g. log-log. Options: loglog, loglin, linlog, linlin.
+
+## Outputs
+
+In the example above, the code will produce the following in a directory
+called `Output/` (within your working directory)
+
+- Plots/
+  - comparison.pdf
+  - Control/
+    - combined.pdf
+    - report_1.pdf
+    - report_2.pdf
+  - Drug/
+    - combined.pdf
+    - report_1.pdf
+    - report_2.pdf
+    - report_3.pdf
+
+That is, the individual reports are saved with a new name (regardless of
+the original XML filename), all datasets are combined (per condition) in
+`combined.pdf` and a comparison of a summary of all conditions is saved
+in the top level folder (`comparison.pdf`).
+
+As well as graphical outputs,
+[`compareDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareDatasets.md)
+saves several csv files of data (to `Outputs/Data/`). In each condition
+folder, the data frames are collated and saved. This includes: TrackMate
+data, MSD, jump distance and fractal dimension data. There is also a csv
+file of the data frame used to plot the average msd for this condition.
+
+Above the condition folders, three csv files are saved. A collation of
+the msd summary data `allMSCurves.csv` for all conditions; summary data
+per dataset `allComparison.csv` which is the data frame used for making
+the comparison plots; and `allTraceData.csv` which is a data frame of
+properties per trace per dataset for all conditions.
+
+The idea with these files is that a user can load them back into R and
+process the data in new ways and go beyond TrackMateR. An advanced user
+can make their own data frames by running TrackMateR functions. A good
+place to start is to peruse the code for
+[`compareDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareDatasets.md)
+and modify from there.
+
+## No data? No problem!
+
+If you don’t have your own datasets, or if you’d like to download some
+data to process and understand how comparison between datasets work in
+TrackMateR, there are some test datasets available
+[here](https://doi.org/10.5281/zenodo.7985498). There is raw data,
+TrackMate XML files and example TrackMateR outputs for movies with
+particles undergoing 6 different kinds of motion. To try it out,
+download the files and place the contents of `TrackMateOutput` folder
+into you RStudio project folder under `Data` as described above. Now,
+run
+
+``` r
+library(TrackMateR)
+compareDatasets()
+```
+
+to see how the data can be processed. Using the default parameters, the
+track density is quite sparse, so one option to try to alter first is
+`radius`, i.e. `compareDatasets(radius = 4)`.
+
+The test datasets are generated by tracking synthetic data. Since the
+movies are synthetic, we have ground truth data for the exact position
+and identities of the tracks. The ground truth datasets are useful for
+verifying TrackMate outputs, benchmarking TrackMate performance and so
+on. To load a single ground truth data set, use
+`readGTFile("path/to/file")` and then recalibrate as you would for a
+TrackMate file (the ground truth data is in pixels and frames). Or you
+can compare many ground truth csv files using
+`compareGTDatasets("path/to/Data")` and specifying the rescaling
+arguments.
+
+Finally, to generate your own “ground truth” data without using the code
+[here](https://doi.org/10.5281/zenodo.7985498), all that is required is
+a csv file specifying the tracks with columns TrackID,x,y,frame.
+
+## Limitations
+
+When using
+[`compareDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareDatasets.md)
+it is assumed that the files and datasets have similar scaling. If files
+need recalibration, see `vignette("calibration")`. Be aware that if
+datasets with varying calibration are used, some plots generated by
+[`compareDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareDatasets.md)
+will be misleading. If the scaling is different between conditions:
+
+- if the scaling is correct and consistent - all plots are OK
+- if the time scaling is correct but inconsistent within a condition
+  - jump distance plot - in `combined.pdf` will be meaningless,
+    individual plots are OK
+  - MSD plot - combined average may look odd since different durations
+    may be used. This is also an issue if movies have different lengths
+    or if tracking is poor in some movies.
+- if the spatial scaling is correct but inconsistent - all plots are OK
+
+Note that if either spatial or temporal scaling is incorrect, most of
+the plots will be garbage.
+
+*If you are experiencing problems with recalibrating data, the best
+course of action is to ensure that the scaling of the original movies is
+correct and retrack them using TrackMate*
+
+## Quick extraction of data from muliple nested datasets
+
+If you simply want to extract data from multiple TrackMate XML files
+organised into condition subfolders, but do not need the full analysis
+and comparison, you can use
+[`compareDatasetValues()`](https://quantixed.github.io/TrackMateR/reference/compareDatasetValues.md).
+This function will extract the data frames from each XML file,
+recalibrate if necessary, and save the data as a compiled dataframe (as
+a csv file) for each condition. Additionally, a per track and per movie
+summary is saved for all of the data.

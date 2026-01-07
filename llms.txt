@@ -1,0 +1,203 @@
+# TrackMateR
+
+Analysis of TrackMate XML outputs in R.
+
+[TrackMate](https://imagej.net/plugins/trackmate/) is a single-particle
+tracking plugin for ImageJ/Fiji. The standard output from a tracking
+session is in TrackMate XML format.
+
+The goal of this R package is to import all of the data associated with
+the final filtered tracks in TrackMate for further analysis and
+visualization in R.
+
+## Installation
+
+Once you have installed [R](https://cran.rstudio.com) and [RStudio
+Desktop](https://www.rstudio.com/products/rstudio/download/), you can
+install TrackMateR using devtools
+
+``` r
+# install.packages("devtools")
+devtools::install_github("quantixed/TrackMateR")
+```
+
+## An Example
+
+A basic example is to load one TrackMate XML file, calibrate it (if
+needed) and analyse it.
+
+``` r
+library(ggplot2)
+#> Warning: package 'ggplot2' was built under R version 4.5.2
+library(TrackMateR)
+# an example file is provided, otherwise use file.choose()
+xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
+# read the TrackMate XML file into R using
+tmObj <- readTrackMateXML(XMLpath = xmlPath)
+#> Units are:  1 pixel and 0.07002736 s 
+#> Spatial units are in pixels - consider transforming to real units
+#> Matching track data...
+#> Calculating distances...
+# Pixel size is actually 0.04 um and original data was 1 pixel, xyscalar = 0.04
+tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
+#> Correcting XY scale.
+# generate a report
+reportDataset(tmObj)
+```
+
+![](reference/figures/README-example-1.png)
+
+TrackMateR can generate several different types of plot individually
+using commands or it can make them all automatically and create a report
+for you.
+
+- For details of how to make individual plots and/or tweak the default
+  parameters, see
+  [`vignette("TrackMateR")`](https://quantixed.github.io/TrackMateR/articles/TrackMateR.md)
+- To see how to compare different datasets, see
+  [`vignette("comparison")`](https://quantixed.github.io/TrackMateR/articles/comparison.md)
+- In order to rescale or recalibrate TrackMate data, see
+  [`vignette("recalibration")`](https://quantixed.github.io/TrackMateR/articles/recalibration.md)
+
+## Credits
+
+- TrackMateR builds on initial work by Julien Godet on
+  [trackR](https://github.com/jgodet/trackR).
+- Méghane Sittewelle provided example TrackMate data and helped with
+  testing TrackMateR.
+- The Fiji plug-in
+  [TrackMate](https://github.com/trackmate-sc/TrackMate) is developed by
+  Jean-Yves Tinevez.
+
+## Limitations, future development
+
+- TrackMateR is currently written for 2D data. 3D data is read but
+  analysis is currently on the first two dimensions.
+- Addition of a dry run option to quickly report what data would be
+  analysed by
+  [`compareDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareDatasets.md).
+- Addition of number of tracks per frame and more advanced calculation
+  of the density of tracks.
+
+# Package index
+
+## Loading and correcting TrackMate data
+
+To start, TrackMate XML data needs to be read into R. It may need
+recalibrating if the data were captured with incorrect parameters.
+
+- [`readTrackMateXML()`](https://quantixed.github.io/TrackMateR/reference/readTrackMateXML.md)
+  : Read TrackMate XML output files.
+- [`correctTrackMateData()`](https://quantixed.github.io/TrackMateR/reference/correctTrackMateData.md)
+  : Correct distance and time of imported TrackMate data.
+
+## Automated reports
+
+TrackMateR can be used manually to have fine control over your analysis,
+however if you just want to analyse your data with default parameters,
+these two functions will process one dataset, or many
+
+- [`reportDataset()`](https://quantixed.github.io/TrackMateR/reference/reportDataset.md)
+  : Report Dataset
+- [`compareDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareDatasets.md)
+  : Compare datasets
+- [`compareDatasetValues()`](https://quantixed.github.io/TrackMateR/reference/compareDatasetValues.md)
+  : Compare dataset values
+
+## Analysing track dynamics
+
+To analyse track dynamics, there are several functions to calculate
+them. These functions are called (with set parameters) in the automated
+workflows and all of them must be called to make a report.
+
+- [`calculateAlpha()`](https://quantixed.github.io/TrackMateR/reference/calculateAlpha.md)
+  : Calculate alpha (relationship between MSD and normal diffusion)
+- [`calculateCVE()`](https://quantixed.github.io/TrackMateR/reference/calculateCVE.md)
+  : Calculate CVE (covariance-based estimator)
+- [`calculateFD()`](https://quantixed.github.io/TrackMateR/reference/calculateFD.md)
+  : Calculate fractal dimension (FD)
+- [`calculateJD()`](https://quantixed.github.io/TrackMateR/reference/calculateJD.md)
+  : Calculate Jump Distance (JD)
+- [`calculateMSD()`](https://quantixed.github.io/TrackMateR/reference/calculateMSD.md)
+  : Calculate Mean Squared Displacement (MSD)
+- [`calculateTrackDensity()`](https://quantixed.github.io/TrackMateR/reference/calculateTrackDensity.md)
+  : Calculate density of tracks
+- [`fittingJD()`](https://quantixed.github.io/TrackMateR/reference/fittingJD.md)
+  : Fitting jump distance (JD) data
+
+## Generating reports and summaries
+
+Reports and summaries are collections of plots. They can be generated
+automatically using the automated workflows, or they can be made
+manually after fine-tuning the analysis of track dynamics.
+
+- [`makeSummaryReport()`](https://quantixed.github.io/TrackMateR/reference/makeSummaryReport.md)
+  : Make Summary Report
+- [`makeComparison()`](https://quantixed.github.io/TrackMateR/reference/makeComparison.md)
+  : Make Comparison Plots
+
+## Plotting functions
+
+The autoimated workflows and the reports that can be generated with
+TrackMateR use several different plotting functions.
+
+- [`plot_tm_MSD()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_MSD.md)
+  : Make a plot of MSD data
+- [`plot_tm_NMSD()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_NMSD.md)
+  : Plot several (n) MSD curves
+- [`plot_tm_allTracks()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_allTracks.md)
+  : Make a plot of all tracks
+- [`plot_tm_alpha()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_alpha.md)
+  : Make a histogram of alpha values
+- [`plot_tm_cumdistOverTime()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_cumdistOverTime.md)
+  : Make a plot of cumulative distance over time
+- [`plot_tm_dee()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_dee.md)
+  : Make a histogram of D values
+- [`plot_tm_displacementHist()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementHist.md)
+  : Make a histogram of displacements
+- [`plot_tm_displacementOverTime()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_displacementOverTime.md)
+  : Make a plot of displacement over time
+- [`plot_tm_durationHist()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_durationHist.md)
+  : Make a histogram of track durations
+- [`plot_tm_fd()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_fd.md)
+  : Make a histogram of fractal dimension
+- [`plot_tm_intensityHist()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_intensityHist.md)
+  : Make a histogram of intensities
+- [`plot_tm_neighbours()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_neighbours.md)
+  : Make a histogram of track density (number of neighbours)
+- [`plot_tm_speed()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_speed.md)
+  : Make a histogram of average speed
+- [`plot_tm_width()`](https://quantixed.github.io/TrackMateR/reference/plot_tm_width.md)
+  : Make a histogram of the largest point-to-point distance in each
+  track
+
+## Analysis of non-TrackMate data
+
+TrackMateR can read and process csv files in a similar way to TrackMate
+XML outputs. These are typically “ground truth” data sets that have been
+generated synthetically, but could come from some other package.
+
+- [`compareGTDatasets()`](https://quantixed.github.io/TrackMateR/reference/compareGTDatasets.md)
+  : Compare ground truth datasets
+- [`readGTFile()`](https://quantixed.github.io/TrackMateR/reference/readGTFile.md)
+  : Read a ground truth csv file
+
+# Articles
+
+### All vignettes
+
+- [Comparison of multiple
+  datasets](https://quantixed.github.io/TrackMateR/articles/comparison.md):
+
+  Learn how to get compare multiple datasets and conditions using
+  TrackMateR.
+
+- [Recalibration of
+  datasets](https://quantixed.github.io/TrackMateR/articles/recalibration.md):
+
+  Learn how to get recalibrate datasets using TrackMateR.
+
+- [Getting
+  Started](https://quantixed.github.io/TrackMateR/articles/TrackMateR.md):
+
+  Learn how to get started with the basics of TrackMateR.
