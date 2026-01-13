@@ -6,8 +6,20 @@ average all squared displacements from all tracks time-averaged = find
 MSD for each track and then generate the average MSD from these curves
 The MSD curves will be identical if all tracks are the same length, and
 diverge if not. Standard deviation will be large for ensemble and
-smaller for time-averaged data. Input is a data frame of tracks imported
-using readTrackMateXML()
+smaller for time-averaged data.
+
+Input is a data frame of tracks imported using readTrackMateXML() The
+output is a list of four data frames:
+
+1\) summary of MSD data (mean, sd, n, size, t for each time lag)
+
+2\) alpha values for each track (track ID, alpha, r2, n)
+
+3\) CVE values for each track (track ID, CVE, mean step length, sd step
+length)
+
+4\) long format data frame of MSD curves for each track (track ID, time
+lag, msd)
 
 ## Usage
 
@@ -39,12 +51,13 @@ calculateMSD(df, method = "timeaveraged", N = 4, short = 0)
 
 ## Value
 
-list of three data frames
+list of four data frames
 
 ## Examples
 
 ``` r
-xmlPath <- system.file("extdata", "ExampleTrackMateData.xml", package="TrackMateR")
+xmlPath <- system.file("extdata",
+  "ExampleTrackMateData.xml", package="TrackMateR")
 tmObj <- readTrackMateXML(XMLpath = xmlPath)
 #> Units are:  1 pixel and 0.07002736 s 
 #> Spatial units are in pixels - consider transforming to real units

@@ -3,6 +3,8 @@
 ## TrackMateR 0.3.14
 
 - Improved speed in readTrackMateXML().
+- [`calculateMSD()`](https://quantixed.github.io/TrackMateR/reference/calculateMSD.md)
+  now returns a data frame with MSD for each trace.
 
 ## TrackMateR 0.3.13
 
