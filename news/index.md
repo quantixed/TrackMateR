@@ -1,10 +1,14 @@
 # Changelog
 
+## TrackMateR 0.3.14
+
+- Improved speed in readTrackMateXML().
+
 ## TrackMateR 0.3.13
 
 - Added
   [`compareDatasetValues()`](https://quantixed.github.io/TrackMateR/reference/compareDatasetValues.md)
-  to simply extract data from multiple datasets
+  to simply extract data from multiple datasets.
 
 ## TrackMateR 0.3.12
 
