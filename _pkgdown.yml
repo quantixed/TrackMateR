@@ -40,16 +40,16 @@ navbar:
 reference:
 - title: Loading and correcting TrackMate data
   desc: >
-    To start, TrackMate XML data needs to be read into R. It may need recalibrating
-    if the data were captured with incorrect parameters.
+    To start, TrackMate XML data needs to be read into R. It may need
+    recalibrating if the data were captured with incorrect parameters.
   contents:
   - readTrackMateXML
   - correctTrackMateData
 - title: Automated reports
   desc: >
-    TrackMateR can be used manually to have fine control over your analysis, however
-    if you just want to analyse your data with default parameters, these two functions will
-    process one dataset, or many
+    TrackMateR can be used manually to have fine control over your analysis,
+    however if you just want to analyse your data with default parameters,
+    these two functions will process one dataset, or many
   contents:
   - reportDataset
   - compareDatasets
@@ -69,16 +69,16 @@ reference:
   - fittingJD
 - title: Generating reports and summaries
   desc: >
-    Reports and summaries are collections of plots. They can be generated automatically
-    using the automated workflows, or they can be made manually after fine-tuning the analysis
-    of track dynamics.
+    Reports and summaries are collections of plots. They can be generated
+    automatically using the automated workflows, or they can be made manually
+    after fine-tuning the analysis of track dynamics.
   contents:
   - makeSummaryReport
   - makeComparison
 - title: Plotting functions
   desc: >
-    The autoimated workflows and the reports that can be generated with TrackMateR
-    use several different plotting functions.
+    The autoimated workflows and the reports that can be generated with
+    TrackMateR use several different plotting functions.
   contents:
   - plot_tm_MSD
   - plot_tm_NMSD
@@ -96,14 +96,16 @@ reference:
   - plot_tm_width
 - title: Analysis of non-TrackMate data
   desc: >
-    TrackMateR can read and process csv files in a similar way to TrackMate XML outputs.
-    These are typically "ground truth" data sets that have been generated synthetically,
-    but could come from some other package.
+    TrackMateR can read and process csv files in a similar way to TrackMate XML
+    outputs.
+    These are typically "ground truth" data sets that have been generated
+    synthetically, but could come from some other package.
   contents:
   - compareGTDatasets
   - readGTFile
 - title: Converting TrackMate data
   desc: >
-    TrackMateR can convert an XML to another format so that you can easily use the data in other software, or share it with collaborators who don't use R.
+    TrackMateR can convert an XML to another format so that you can easily use
+    the data in other software, or share it with collaborators who don't use R.
   contents:
-  - convertTrackmateXML2CSV
+  - convertTrackMateXML2CSV
