@@ -108,4 +108,4 @@ reference:
     TrackMateR can convert an XML to another format so that you can easily use
     the data in other software, or share it with collaborators who don't use R.
   contents:
-  - convertTrackMateXML2CSV
+  - convert_trackmate_xml_to_csv
