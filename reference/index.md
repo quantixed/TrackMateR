@@ -100,3 +100,12 @@ generated synthetically, but could come from some other package.
   : Compare ground truth datasets
 - [`readGTFile()`](https://quantixed.github.io/TrackMateR/reference/readGTFile.md)
   : Read a ground truth csv file
+
+## Converting TrackMate data
+
+TrackMateR can convert an XML to another format so that you can easily
+use the data in other software, or share it with collaborators who don’t
+use R.
+
+- [`convert_trackmate_xml_to_csv()`](https://quantixed.github.io/TrackMateR/reference/convert_trackmate_xml_to_csv.md)
+  : Convert TrackMate XML file to CSV format
