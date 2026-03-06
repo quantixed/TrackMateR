@@ -1,5 +1,8 @@
 # TrackMateR
 
+# TrackMateR 0.3.15
+- Added `convertTrackMateXML2CSV()` to convert TrackMate XML fles to csv.
+
 # TrackMateR 0.3.14
 
 - Improved speed in readTrackMateXML().

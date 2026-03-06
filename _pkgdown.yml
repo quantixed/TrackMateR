@@ -103,3 +103,9 @@ reference:
   contents:
   - compareGTDatasets
   - readGTFile
+- title: Converting TrackMate data
+  desc: >
+    TrackMateR can convert an XML to another format so that you can easily use
+    the data in other software, or share it with collaborators who don't use R.
+  contents:
+  - convert_trackmate_xml_to_csv
