@@ -1,7 +1,7 @@
 Package: TrackMateR
 Type: Package
 Title: Working with TrackMate outputs in R
-Version: 0.3.15
+Version: 0.4.0
 Authors@R:
     person(given = "Stephen J",
            family = "Royle",
@@ -30,6 +30,8 @@ Imports:
   xml2,
   zoo
 Suggests:
-  knitr,
-  rmarkdown
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
 URL: https://quantixed.github.io/TrackMateR/
+Config/testthat/edition: 3
