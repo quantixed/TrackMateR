@@ -1,5 +1,10 @@
 # Changelog
 
+## TrackMateR 0.4.0
+
+- Testing framework added. Bumping to 0.4.0 to reflect this major
+  change.
+
 ## TrackMateR 0.3.15
 
 - Added `convertTrackMateXML2CSV()` to convert TrackMate XML fles to
