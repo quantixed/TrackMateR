@@ -17,6 +17,7 @@ Desktop](https://www.rstudio.com/products/rstudio/download/), you can
 install TrackMateR using devtools
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("quantixed/TrackMateR")
 ```
@@ -27,6 +28,7 @@ A basic example is to load one TrackMate XML file, calibrate it (if
 needed) and analyse it.
 
 ``` r
+
 library(ggplot2)
 #> Warning: package 'ggplot2' was built under R version 4.5.2
 library(TrackMateR)

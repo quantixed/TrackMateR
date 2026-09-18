@@ -43,6 +43,7 @@ Once the data is in place, a single command will generate a series of
 reports, summaries and a comparison
 
 ``` r
+
 library(TrackMateR)
 compareDatasets()
 ```
@@ -51,6 +52,7 @@ If your TrackMate XML files are in a different location, you can specify
 the path to the data folder, e.g.
 
 ``` r
+
 compareDatasets(datadir = "path/to/your/Data/folder")
 ```
 
@@ -124,6 +126,7 @@ into you RStudio project folder under `Data` as described above. Now,
 run
 
 ``` r
+
 library(TrackMateR)
 compareDatasets()
 ```

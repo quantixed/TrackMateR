@@ -17,6 +17,7 @@ Desktop](https://www.rstudio.com/products/rstudio/download/), you can
 install TrackMateR using devtools
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("quantixed/TrackMateR")
 ```
@@ -28,6 +29,7 @@ would typically be a tracking session associated with a single movie
 (referred to here as a single dataset).
 
 ``` r
+
 library(ggplot2)
 library(TrackMateR)
 # an example file is provided, otherwise use file.choose()
@@ -46,6 +48,7 @@ scaled as pixels. If your TrackMate data is correctly calibrated you can
 skip this step but if you need to recalibrate it:
 
 ``` r
+
 # Pixel size is 0.04 um and original data was 1 pixel, xyscalar = 0.04
 tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
 #> Correcting XY scale.
@@ -54,6 +57,7 @@ tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um")
 With this done, we can have a look at the data.
 
 ``` r
+
 plot_tm_allTracks(tmObj)
 ```
 
@@ -70,6 +74,7 @@ using commands like
 or it can make them all automatically and create a report for you.
 
 ``` r
+
 reportDataset(tmObj)
 ```
 
@@ -109,6 +114,7 @@ Finally, these items can be fed into
 as shown below, and the report is created.
 
 ``` r
+
 # we can get a data frame of the correct TrackMate data 
 tmDF <- tmObj[[1]]
 # and a data frame of calibration information

@@ -3,6 +3,7 @@
 In the original example, we saw how to load one dataset and recalibrate.
 
 ``` r
+
 library(ggplot2)
 library(TrackMateR)
 # an example file is provided, otherwise use file.choose()
@@ -28,6 +29,7 @@ If the time scaling of the file is 0.07 s and we would prefer ms as the
 unit,
 
 ``` r
+
 tmObj <- correctTrackMateData(dataList = tmObj, xyscalar = 0.04, xyunit = "um", tscalar = 1000, tunit = "ms")
 ```
 
