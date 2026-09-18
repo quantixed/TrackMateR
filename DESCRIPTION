@@ -14,7 +14,6 @@ Description: TrackMate, a plugin for ImageJ/Fiji, is a popular single-particle t
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.3
 Depends: R (>= 2.10)
 Config/rcmdcheck/ignore-inconsequential-notes: true
 VignetteBuilder:
@@ -35,3 +34,4 @@ Suggests:
     testthat (>= 3.0.0)
 URL: https://quantixed.github.io/TrackMateR/
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0
